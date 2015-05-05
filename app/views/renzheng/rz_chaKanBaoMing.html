@@ -1,0 +1,68 @@
+<h4>查看报名</h4>
+<div class="form-horizontal dagangInput p10">
+  <div class="form-group">
+    <label class="col-md-2 control-label">
+      机构选择
+    </label>
+    <div class="col-md-4">
+      <select class="form-control" ng-options="jg.JIGOU_ID as jg.JIGOUMINGCHENG for jg in jigou_list"
+              ng-model="bmckSelectJgId" ng-change="chaXunBaoMing(bmckSelectJgId)">
+        <option value="">请选择</option>
+      </select>
+    </div>
+  </div>
+  <div class="form-group" ng-show="baoMingArrs">
+    <table class="table table-bordered baoMingTable">
+      <tr>
+        <th>考试名称</th>
+        <th>考试时长(分钟)</th>
+        <th>报名截止时间</th>
+        <th>操作</th>
+      </tr>
+      <tr ng-repeat="ks in baoMingArrs">
+        <td ng-bind="ks.KAOSHIMINGCHENG"></td>
+        <td ng-bind="ks.KAOSHISHICHANG"></td>
+        <td ng-bind="ks.BAOMINGJIEZHISHIJIAN | myLocalDateWithWeek"></td>
+        <td>
+          <a href="javascript:void(0)" ng-click="qryKaoShengByBaoMing(ks.BAOMING_ID)">查看考生</a>
+        </td>
+      </tr>
+    </table>
+  </div>
+  <div class="form-group" ng-show="studentArrs">
+    <ul class="nav nav-tabs mt15 baoMingChaKanChangCi">
+      <li class="active">
+        <a href="javascript:void(0)" ng-click="distBaoMingKaoSheng('All', 0)">全部考生</a>
+      </li>
+      <li>
+        <a href="javascript:void(0)" ng-click="distBaoMingKaoSheng('NotApply', 1)">未报名</a>
+      </li>
+      <li ng-repeat="bmsj in baoMingShiJianArrs">
+        <a href="javascript:void(0)" ng-click="distBaoMingKaoSheng(bmsj, $index+2)">{{'场次' + cnNumArr[$index]}}</a>
+      </li>
+    </ul>
+    <div class="ptb5 mt5" ng-show="whichChangCiSelect">
+      考试时间：<span ng-bind="whichChangCiSelect"></span>
+      <a href="javascript:void(0)" ng-click="exportKsInfo()" class="ml15 pull-right">导出考生</a>
+      <a href="javascript:void(0)" ng-click="endBaoMing()" class="pull-right">结束报名</a>
+    </div>
+    <table class="table table-bordered baoMingTable mt5">
+      <tr>
+        <th>学号</th>
+        <th>姓名</th>
+        <th>考点</th>
+        <th>开考时间</th>
+        <th>课序号</th>
+        <th>座位号</th>
+      </tr>
+      <tr ng-repeat="stu in studentArrs">
+        <td ng-bind="stu.XUEHAO"></td>
+        <td ng-bind="stu.XINGMING"></td>
+        <td ng-bind="stu.KAODIANMINGCHENG"></td>
+        <td ng-bind="stu.KAISHISHIJIAN | myLocalDateWithWeek"></td>
+        <td ng-bind="stu.KEXUHAO"></td>
+        <td ng-bind="stu.ZUOWEIHAO"></td>
+      </tr>
+    </table>
+  </div>
+</div>

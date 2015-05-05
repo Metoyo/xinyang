@@ -1,0 +1,103 @@
+<h4>报名设定</h4>
+<div class="form-horizontal dagangInput p10">
+  <div class="form-group">
+    <label class="col-md-2 control-label">
+      机构选择
+    </label>
+    <div class="col-md-4">
+      <select class="form-control" ng-options="jg.JIGOU_ID as jg.JIGOUMINGCHENG for jg in jigou_list"
+              ng-model="baoMing.baomingxinxi.jigou_id" ng-change="getKeMuList(baoMing.baomingxinxi.jigou_id)">
+        <option value="">请选择</option>
+      </select>
+    </div>
+    <label class="col-md-2 control-label">
+      科目选择
+    </label>
+    <div class="col-md-4">
+      <select class="form-control" ng-options="km.LINGYU_ID as km.LINGYUMINGCHENG for km in kemu_list"
+              ng-model="baoMing.baomingxinxi.kemu_id" ng-change="getKaoChangList(baoMing.baomingxinxi.kemu_id)">
+        <option value="">请选择</option>
+      </select>
+    </div>
+  </div>
+  <div class="form-group">
+    <label class="col-md-2 control-label">
+      考试名称
+    </label>
+    <div class="col-md-10">
+      <input type="text" class="form-control" ng-model="baoMing.baomingxinxi.kaoshimingcheng"/>
+    </div>
+  </div>
+  <div class="form-group">
+    <label class="col-md-2 control-label">
+      考试场次
+    </label>
+    <div class="col-md-4">
+      <input type="text" class="form-control" ng-model="baoMingChangCi" ng-change="distChangCi(baoMingChangCi)"/>
+    </div>
+    <label class="col-md-2 control-label">
+      考试时长
+    </label>
+    <div class="col-md-4">
+      <input type="text" class="form-control" ng-model="baoMing.baomingxinxi.kaoshishichang"/>
+    </div>
+  </div>
+  <div class="form-group">
+    <label class="col-md-2 control-label">
+      报名截止时间
+    </label>
+    <div class="col-md-10">
+      <input type="text" class="form-control datePickerJz" ng-model="baoMing.baomingxinxi.baomingjiezhishijian"/>
+    </div>
+  </div>
+  <div class="form-group" ng-repeat="kccc in bmkssjArr track by $index">
+    <label class="col-md-2 control-label">
+      场次{{cnNumArr[$index]}}
+    </label>
+    <div class="col-md-10">
+      <span class="col-md-5 p0">
+        <input type="text" class="form-control changCiStart datePicker"
+               ng-click="getChangCiInx($index)">
+      </span>
+      <span class="col-md-2 text-center mt5">
+        ——
+      </span>
+      <span class="col-md-5 p0">
+        <input type="text" class="form-control changCiEnd" disabled>
+      </span>
+    </div>
+  </div>
+  <div class="form-group">
+    <label class="col-md-2 control-label">
+      考点
+    </label>
+    <div class="col-md-10 kaoChang">
+      <label class="checkbox-inline" ng-repeat="kc in kaoChangList">
+        <input type="checkbox" class="{{'kcZw' + kc.KID}}" ng-click="selectKaoChang(kc)">
+        {{kc.KMINGCHENG}}(座位:{{kc.KAOWEISHULIANG}})
+      </label>
+    </div>
+  </div>
+  <div class="form-group ptb5">
+    <label class="col-md-2 control-label">
+      导入名单
+    </label>
+    <div class="col-md-10">
+      <div class="form-group">
+        <form id="importStudentForm">
+          <em>
+            Excel格式文件
+          </em>
+          <input type="file" file-upload multiple class="pull-left addFileBtn mt5"/>
+          <!--<button ng-click="addMyFile()" class="btn btn-default pull-left">添加文件</button>-->
+        </form>
+        <!--<button type="button" class="btn btn-primary" ng-click="uploadXlsFile()">-->
+          <!--确认上传-->
+        <!--</button>-->
+      </div>
+    </div>
+  </div>
+  <div class="form-group text-right">
+    <button type="button" class="btn btn-primary" ng-click="saveBaoMingInfo()">保存报名信息</button>
+  </div>
+</div>

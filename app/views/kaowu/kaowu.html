@@ -1,0 +1,39 @@
+<div class="innerWrap innerWrapperSubDs kaowuWrapper">
+  <div class="loading-box text-center" ng-show="loadingImgShow">
+    <img src="/images/loading.gif" alt="" width="64" height="64"/>
+    <p>
+      数据保存中……
+    </p>
+  </div>
+  <div class="subDashboard">
+    <div class="plr10">
+      <h2 class="sdb-title">科目名称</h2>
+      <p ng-bind="session.defaultLyName" class="sdb-cont cYell"></p>
+    </div>
+    <!--<div class="plr10">-->
+      <!--<h2 class="sdb-title">题库默认大纲</h2>-->
+      <!--<p ng-bind="dgList[0].ZHISHIDAGANGMINGCHENG" class="sdb-cont-dg cYell"></p>-->
+    <!--</div>-->
+  </div>
+  <div class="content">
+    <div class="sub-nav fixed-top" ng-init="tabActive = 'ksgl'">
+      <ul class="nav nav-tabs">
+        <li ng-class="{active: tabActive == 'kcgl' }">
+          <a href="javascript:void(0)" ng-click="tabActive = 'kcgl';showKaoChangList()">
+            考场管理
+          </a>
+        </li>
+        <li ng-class="{active: tabActive == 'ksgl'}">
+          <a href="javascript:void(0)" ng-click="tabActive = 'ksgl';showKaoShiList('all')">
+            考试管理
+          </a>
+        </li>
+      </ul>
+    </div>
+    <!-- 考务的容器 开始-->
+    <div class="tab-content" ng-init="txTpl = 'views/kaowu/kaoShiList.html'" ng-include="txTpl">
+
+    </div>
+  </div>
+  <!-- 考务的容器 结束-->
+</div>

@@ -1,0 +1,41 @@
+<!doctype html>
+<html class="no-js" ng-app>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title></title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width">
+    <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+    <!-- build:css(.) styles/vendor.css -->
+    <!-- bower:css -->
+    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" />
+    <!-- endbower -->
+    <!-- endbuild -->
+    <!-- build:css(.tmp) styles/main.css -->
+    <link rel="stylesheet" href="styles/main.css">
+    <!-- endbuild -->
+  </head>
+  <body ng-app="xinyangApp">
+    <!-- Add your site or application content here -->
+    <div class="container">
+      <!--<div class="header">-->
+        <!--<ul class="nav nav-pills pull-right">-->
+          <!--<li class="active"><a ng-href="#/">Home</a></li>-->
+          <!--<li><a ng-href="#/about">About</a></li>-->
+          <!--<li><a ng-href="#/">Contact</a></li>-->
+        <!--</ul>-->
+        <!--<h3 class="text-muted">xinyang</h3>-->
+      <!--</div>-->
+      <div ng-view></div>
+    </div>
+    <!-- build:js(.) scripts/oldieshim.js -->
+    <!--[if lt IE 9]>
+    <!--<script src="bower_components/es5-shim/es5-shim.js"></script>-->
+    <!--<script src="bower_components/json3/lib/json3.js"></script>-->
+    <!--<![endif]&ndash;&gt;-->
+    <!-- endbuild -->
+
+    <script src="bower_components/requirejs/require.js" data-main="scripts/main.js"></script>
+  </body>
+</html>

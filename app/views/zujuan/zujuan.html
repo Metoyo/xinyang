@@ -1,0 +1,164 @@
+<div class="innerWrap innerWrapperSubDs zujuanWrapper" ng-class="{paper_hand_form: paper_hand_form,
+rule_make_paper: ruleMakePaperClass}">
+  <div class="subDashboard">
+    <div class="plr10">
+      <h2 class="sdb-title">科目名称</h2>
+      <p ng-bind="session.defaultLyName" class="sdb-cont cYell"></p>
+    </div>
+    <div class="plr10">
+      <h2 class="sdb-title">题库默认大纲</h2>
+      <p ng-bind="dgList[0].ZHISHIDAGANGMINGCHENG" class="sdb-cont-dg cYell"></p>
+    </div>
+    <div class="plr10">
+      <div class="selectedItems clearfix" ng-show="showBackToPaperListBtn">
+        <h3 class="clearfix">
+          <span class="pull-left">已选试题({{totalSelectedItmes ? totalSelectedItmes : 0}})</span>
+          <a href="javascript:void(0)" class="pull-right">全部清空</a>
+        </h3>
+        <table class="table-bordered tixingTalbe">
+          <tr>
+            <th>题型</th>
+            <th>数量</th>
+            <th>占比</th>
+            <th>分数</th>
+            <th></th>
+          </tr>
+          <tr ng-repeat="kmtx in kmtxList">
+            <td class="text-left">{{kmtx.TIXINGMINGCHENG}}</td>
+            <td>{{kmtx.itemsNum}}</td>
+            <td>{{kmtx.txPercentNum == 'NaN%' ? '0%' : kmtx.txPercentNum }}</td>
+            <td>{{kmtx.datiScore}}</td>
+            <td class="deleteBtn">
+              <a href="javascript:void(0)" ng-click="deleteDaTiArr(kmtx.TIXING_ID)">
+                <span class="glyphicon glyphicon-trash"></span>
+              </a>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="selectedItems clearfix" ng-show="showBackToPaperListBtn">
+        <table class="table-bordered nanduTable">
+          <tr>
+            <th>难度</th>
+            <th>数量</th>
+            <th>占比</th>
+            <th>分数</th>
+          </tr>
+          <tr ng-repeat="ndtd in nanduTempData">
+            <td class="text-left">{{ndtd.nanduName}}</td>
+            <td>{{ndtd.nanduCount.length}}</td>
+            <td>{{ndtd.ndPercentNum == 'NaN%' ? '0%' : ndtd.ndPercentNum}}</td>
+            <td></td>
+          </tr>
+        </table>
+      </div>
+      <div class="paper-list-btn clearfix text-center">
+        <button type="button" class="btn btn-primary" ng-show="showBackToPaperListBtn"
+                ng-click="showZuJuan()">返回组卷首页
+        </button>
+      </div>
+      <div class="sj-preview-btns">
+        <button type="button" class="btn btn-primary" ng-click="shijuanPreview()" ng-show="shijuanyulanBtn">
+          试卷预览
+        </button>
+        <button type="button" class="btn btn-primary" ng-hide="showBackToPaperListBtn"
+                ng-click="showZuJuanPage()">
+          添加新试卷
+        </button>
+        <!--<button type="button" class="btn btn-primary" ng-click="showTestList()" ng-show="addMoreTiMuBtn && !shijuanyulanBtn">-->
+        <!--添加试题-->
+        <!--</button>-->
+        <button type="button" class="btn btn-primary" ng-click="showTestList()" ng-show="sjPreview">
+          添加试题
+        </button>
+      </div>
+      <div class="right-pop-fixed" ng-show="zuJuanParam.xuanTiError.length">
+        <h2 class="title">
+          <span class="glyphicon glyphicon-remove" ng-click="closeRuleZuJuanTiMuNumErr()"></span>
+        </h2>
+        <div class="p10">
+          <p ng-repeat="xtErr in zuJuanParam.xuanTiError">
+            难度为 <span ng-bind="xtErr.errNanDu" class="clRed"></span>
+            的<span ng-bind="xtErr.errTxName" class="clRed"></span>有
+            <span ng-bind="xtErr.lessenVal" class="clRed"></span> 道题未选出。
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="content">
+    <div class="contentInner">
+      <!--组卷筛选条件。 开始-->
+      <div id="dagangListWrap" class="subDashboard zj-dbd">
+        <div class="pointTree">
+          <ul class="list-unstyled levelOne" id="daGangList">
+            <li ng-repeat="zsd in kowledgeList" repeat-done>
+              <div class="foldBtn pull-left unfoldBtn {{'node' + zsd.JIEDIAN_ID}}" ng-show="zsd.ZIJIEDIAN.length"
+                   ng-click="toggleChildNode(zsd.JIEDIAN_ID)"></div>
+              <div class="checkbox">
+                <label>
+                  <input type="checkbox" name="point" value="{{zsd.ZHISHIDIAN_ID}}"
+                         class="{{'select' + zsd.JIEDIAN_ID}}"
+                         ng-click="toggleSelection(zsd.JIEDIAN_ID)"
+                         data-zsdName="{{zsd.ZHISHIDIANMINGCHENG}}"/>
+                  {{zsd.ZHISHIDIANMINGCHENG}}
+                </label>
+              </div>
+              <ul class="list-unstyled levelTwo">
+                <li ng-repeat="nd2 in zsd.ZIJIEDIAN">
+                  <div class="foldBtn pull-left unfoldBtn {{'node' + nd2.JIEDIAN_ID}}" ng-show="nd2.ZIJIEDIAN.length"
+                       ng-click="toggleChildNode(nd2.JIEDIAN_ID)"></div>
+                  <div class="checkbox">
+                    <label>
+                      <input type="checkbox" name="point" value="{{nd2.ZHISHIDIAN_ID}}"
+                             class="{{'select' + nd2.JIEDIAN_ID}}"
+                             ng-click="toggleSelection(nd2.JIEDIAN_ID)"
+                             data-zsdName="{{nd2.ZHISHIDIANMINGCHENG}}"/>
+                      {{nd2.ZHISHIDIANMINGCHENG}}
+                    </label>
+                  </div>
+                  <ul class="list-unstyled levelThree">
+                    <li ng-repeat="nd3 in nd2.ZIJIEDIAN">
+                      <div class="foldBtn pull-left  {{'node' + nd3.JIEDIAN_ID}}" ng-show="nd3.ZIJIEDIAN.length"
+                           ng-click="toggleChildNode(nd3.JIEDIAN_ID)"></div>
+                      <div class="checkbox">
+                        <label>
+                          <input type="checkbox" name="point"
+                                 value="{{nd3.ZHISHIDIAN_ID}}"
+                                 class="{{'select' + nd3.JIEDIAN_ID}}"
+                                 ng-click="toggleSelection(nd3.JIEDIAN_ID)"
+                                 data-zsdName="{{nd3.ZHISHIDIANMINGCHENG}}"/>
+                          {{nd3.ZHISHIDIANMINGCHENG}}
+                        </label>
+                      </div>
+                      <ul class="list-unstyled levelFour">
+                        <li ng-repeat="nd4 in nd3.ZIJIEDIAN">
+                          <div class="checkbox">
+                            <label>
+                              <input type="checkbox" name="point"
+                                     value="{{nd4.ZHISHIDIAN_ID}}"
+                                     class="{{'select' + nd4.JIEDIAN_ID}}"
+                                     ng-click="toggleSelection(nd4.JIEDIAN_ID)"
+                                     data-zsdName="{{nd4.ZHISHIDIANMINGCHENG}}"/>
+                              {{nd4.ZHISHIDIANMINGCHENG}}
+                            </label>
+                          </div>
+                        </li>
+                      </ul>
+                    </li>
+                  </ul>
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+        <div id="dragBtn" class="dragBtn">
+        </div>
+      </div>
+      <!--组卷筛选条件。 结束-->
+      <div class="contentWraps" ng-init="txTpl = 'views/zujuan/zj_home.html'" ng-include="txTpl">
+
+      </div>
+    </div>
+  </div>
+</div>
