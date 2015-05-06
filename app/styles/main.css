@@ -2241,6 +2241,10 @@ label.checkbox {
 
 .studentWrapper .baoMingTable th, .studentWrapper .baoMingTable td {
   text-align: center; }
+.studentWrapper .fixed-top {
+  left: 80px; }
+.studentWrapper .tab-content {
+  padding: 60px 15px 15px 15px; }
 
 .markItUp * {
   margin: 0px;

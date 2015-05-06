@@ -9,7 +9,40 @@ define(['angular'], function (angular) {
    * Service in the xinyangApp.
    */
   angular.module('xinyangApp.services.UrlRedirect', [])
-	.service('UrlRedirect', function () {
-	// AngularJS will instantiate a singleton by calling "new" on this function
-	});
+	.service('UrlRedirect', ['$rootScope', '$location', '$q',
+      function ($rootScope, $location, $q) {
+        function checkIfUrlApplied(currentPath, nextPath) {
+          var deferred = $q.defer();
+          // async call, resolved after ajax request completes
+          if(currentPath === nextPath) {
+            deferred.resolve();
+          } else {
+            if(!$rootScope.$$phase) { // 触发浏览器重定向路由
+              $location.path(nextPath); // 重定向至登陆界面
+              $rootScope.$apply();
+              deferred.resolve();
+            } else {
+              deferred.reject();
+            }
+          }
+          return deferred.promise;
+        }
+
+        function redirectUrl(currentPath, nextPath) {
+          var checkUrlAppliedPromise = checkIfUrlApplied(currentPath, nextPath);
+          checkUrlAppliedPromise.then(function() { /* success callback*/},
+            function() { // error callback
+              setTimeout(function() {
+                redirectUrl(currentPath, nextPath);
+              }, 20);
+            });
+        }
+
+        // Public API here
+        return {
+          goTo: function (currentPath, nextPath) {
+            return redirectUrl(currentPath, nextPath);
+          }
+        };
+	}]);
 });

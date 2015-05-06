@@ -18,22 +18,16 @@
   </head>
   <body ng-app="xinyangApp">
     <!-- Add your site or application content here -->
-    <div class="container">
-      <!--<div class="header">-->
-        <!--<ul class="nav nav-pills pull-right">-->
-          <!--<li class="active"><a ng-href="#/">Home</a></li>-->
-          <!--<li><a ng-href="#/about">About</a></li>-->
-          <!--<li><a ng-href="#/">Contact</a></li>-->
-        <!--</ul>-->
-        <!--<h3 class="text-muted">xinyang</h3>-->
-      <!--</div>-->
-      <div ng-view></div>
+    <div class="dashboard" ng-class="{dashboard_shown_show: !isRenZheng}" ng-include="'views/partials/nav.html'"></div>
+    <!-- Add your site or application content here -->
+    <div class="container" ng-class="{main: !isRenZheng}" ng-view>
     </div>
+    <div class="popInfoWrap" ng-include="'views/partials/info.html'"></div>
     <!-- build:js(.) scripts/oldieshim.js -->
     <!--[if lt IE 9]>
-    <!--<script src="bower_components/es5-shim/es5-shim.js"></script>-->
-    <!--<script src="bower_components/json3/lib/json3.js"></script>-->
-    <!--<![endif]&ndash;&gt;-->
+    <script src="bower_components/es5-shim/es5-shim.js"></script>
+    <script src="bower_components/json3/lib/json3.js"></script>
+    <![endif]-->
     <!-- endbuild -->
 
     <script src="bower_components/requirejs/require.js" data-main="scripts/main.js"></script>

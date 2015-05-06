@@ -1,81 +1,20 @@
 <div class="studentWrapper">
-  <div class="tab-content wp80 mt50 ml50">
-    <div class="row">
-      <table class="table table-bordered baoMingTable">
-        <tr>
-          <th>考试名称</th>
-          <th>考试时长(分钟)</th>
-          <th>报名截止时间</th>
-          <th>操作</th>
-        </tr>
-        <tr ng-repeat="ks in kaoShiArrs">
-          <td ng-bind="ks.KAOSHIMINGCHENG"></td>
-          <td ng-bind="ks.KAOSHISHICHANG"></td>
-          <td ng-bind="ks.BAOMINGJIEZHISHIJIAN | myLocalDateWithWeek"></td>
-          <td>
-            <a href="javascript:void(0)" ng-if="ks.BAOMINGKAODIAN_ID!=null && ks.BAOMINGKAOSHISHIJIAN_ID!=null"
-                 ng-click="qryKaoShiDetail(ks)">详情</a>
-            <span ng-if="ks.BAOMINGKAODIAN_ID==null || ks.BAOMINGKAOSHISHIJIAN_ID==null">
-              <a href="javascript:void(0)" ng-click="chaXunBaoMing(ks)" ng-if="ks.hasEndBaoMing==false">报名</a>
-              <span ng-if="ks.hasEndBaoMing==true">
-              报名已截止
-              </span>
-            </span>
-          </td>
-        </tr>
-      </table>
-    </div>
-    <div class="row" ng-show="kaoShiDetail">
-      <div ng-repeat="dt in kaoShiDetail">
-        <p>考试名称：{{dt.ksName}}</p>
-        <p>考试时间：{{dt.ksShijian}}</p>
-        <p>考场：{{dt.KAODIANMINGCHENG}}</p>
-        <!--<p>座位号：{{dt.ZUOWEIHAO}}</p>-->
-      </div>
-    </div>
-    <div class="row" ng-hide="stuParams.hasBaoMing">
-      <table class="table table-bordered jg-table">
-        <tr>
-          <th class="text-center">时间</th>
-          <th class="text-center" colspan="{{bmKaoChang[0].ksKc.length}}">
-            考场
-          </th>
-        </tr>
-        <tr ng-repeat="bm in bmKaoChang">
-          <td ng-bind="bm.ksShiJian">
-          </td>
-          <td ng-repeat="kd in bm.ksKc">
-            <input type="radio" name="kaoDian" ng-click="getSelectKd(kd)" ng-show="kd.syKaoWei">
-            <span ng-bind="kd.KAODIANMINGCHENG"></span>
-            <span>(考位:{{kd.KAOWEI}})</span>
-            <span>(剩余:{{kd.syKaoWei}})</span>
-          </td>
-        </tr>
-      </table>
-      <button type="button" class="btn btn-success pull-right" ng-click="saveStudentSelcet()">
-        保存选择
-      </button>
-    </div>
+  <div class="sub-nav fixed-top">
+    <ul class="nav nav-tabs">
+      <li ng-class="{active: stuParams.stuTabActive == 'practice'}">
+        <a href="javascript:void(0)" ng-click="stuTabSlide('practice')">练习</a>
+      </li>
+      <li ng-class="{active: stuParams.stuTabActive == 'exam'}">
+        <a href="javascript:void(0)" ng-click="stuTabSlide('exam')">考试</a>
+      </li>
+      <li ng-class="{active: stuParams.stuTabActive == 'score'}">
+        <a href="javascript:void(0)" ng-click="stuTabSlide('score')">成绩</a>
+      </li>
+      <li class="pull-right">
+        <a href="javascript:void(0)">修改密码</a>
+      </li>
+    </ul>
   </div>
-</div>
-<div class="popup-wrap saveStuSelectInfo" ng-show="showStuSelectInfo">
-  <div class="popup-wrap-inner">
-    <div class="pwi-header plr10">
-      <p class="title text-center">确认信息</p>
-    </div>
-    <div class="pwi-body plr10">
-      <p class="mt15">考试名称：{{confirmInfo.kaoshiName}}</p>
-      <p>时间：{{confirmInfo.shijian}}</p>
-      <p>考场：{{confirmInfo.kaochang}}</p>
-      <p>时间和考场选择后无法修改，是否确定？</p>
-    </div>
-    <div class="pwi-footer plr10 text-center">
-      <button type="button" class="btn btn-primary mt5" ng-click="saveStudentSelectFun()">
-        确定
-      </button>
-      <button type="button" class="btn btn-danger mt5 ml15" ng-click="colseSaveBaoMingSelect()">
-        取消
-      </button>
-    </div>
+  <div class="tab-content" ng-include="stuTpl">
   </div>
 </div>

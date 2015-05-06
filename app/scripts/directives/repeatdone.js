@@ -9,11 +9,11 @@ define(['angular'], function (angular) {
    */
   angular.module('xinyangApp.directives.RepeatDone', [])
     .directive('repeatDone', function () {
-      return {
-        template: '<div></div>',
-        restrict: 'E',
-        link: function postLink(scope, element, attrs) {
-          element.text('this is the repeatDone directive');
+      return function(scope, element, attrs) {
+        if (scope.$last){
+          setTimeout(function(){
+            scope.$emit('onRepeatLast', element, attrs);
+          }, 1);
         }
       };
     });

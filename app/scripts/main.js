@@ -3,11 +3,9 @@ require.config({
   paths: {
     angular: '../../bower_components/angular/angular',
     'angular-cookies': '../../bower_components/angular-cookies/angular-cookies',
-    //'angular-mocks': '../../bower_components/angular-mocks/angular-mocks',
     'angular-resource': '../../bower_components/angular-resource/angular-resource',
     'angular-route': '../../bower_components/angular-route/angular-route',
     'angular-sanitize': '../../bower_components/angular-sanitize/angular-sanitize',
-    //'angular-scenario': '../../bower_components/angular-scenario/angular-scenario',
     bootstrap: '../../bower_components/bootstrap/dist/js/bootstrap',
     jquery: '../../bower_components/jquery/jquery.min',
     underscore: '../../bower_components/underscore/underscore',
@@ -16,7 +14,9 @@ require.config({
     setJs: '../../bower_components/markitup/set.min',
     mathjax: '../../bower_components/markitup/MathJax.js?config=TeX-AMS_HTML-full',
     datepicker: '../../bower_components/intimidatetime/intimidatetime',
-    lazy: '../../bower_components/lazy/lazy.min'
+    lazy: '../../bower_components/lazy/lazy',
+    'angular-mocks': '../../bower_components/angular-mocks/angular-mocks',
+    'angular-scenario': '../../bower_components/angular-scenario/angular-scenario'
   },
   shim: {
     angular: {
@@ -34,12 +34,6 @@ require.config({
     'angular-resource': [
       'angular'
     ],
-    //'angular-mocks': {
-    //  deps: [
-    //    'angular'
-    //  ],
-    //  exports: 'angular.mock'
-    //},
     jquery: {
       exports: 'jquery'
     },

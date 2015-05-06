@@ -1,12 +1,32 @@
 /*jshint unused: vars */
-define(['angular', 'controllers/main', 'controllers/login', 'controllers/dagang', 'controllers/kaowu', 'controllers/lingyu',
-  'controllers/mingti', 'controllers/nav', 'controllers/register', 'controllers/renzheng', 'controllers/student',
-  'controllers/tongji', 'controllers/user', 'controllers/zujuan', 'directives/bnslideshow', 'directives/fileupload',
-  'directives/hoverslide', 'directives/nandustar', 'directives/passwordverify', 'directives/repeatdone', 'filters/examstatus',
-  'filters/mylocaldate', 'filters/mylocaldatewithweek', 'filters/outtigan', 'services/dataservice', 'services/urlredirect']/*deps*/,
-  function (angular, MainCtrl, AboutCtrl, LoginCtrl, DagangCtrl, KaowuCtrl, LingyuCtrl, MingtiCtrl, NavCtrl, RegisterCtrl,
-            RenzhengCtrl, StudentCtrl, TongjiCtrl, UserCtrl, ZujuanCtrl, BnSlideShowDirective, FileUploadDirective,
-            HoverSlideDirective, NanDuStarDirective, PasswordVerifyDirective, RepeatDoneDirective, ExamStatusFilter,
+define(['angular',
+    'config',
+    'controllers/dagang',
+    'controllers/kaowu',
+    'controllers/lingyu',
+    'controllers/mingti',
+    'controllers/nav',
+    'controllers/register',
+    'controllers/renzheng',
+    'controllers/student',
+    'controllers/tongji',
+    'controllers/user',
+    'controllers/zujuan',
+    'directives/bnslideshow',
+    'directives/fileupload',
+    'directives/hoverslide',
+    'directives/nandustar',
+    'directives/passwordverify',
+    'directives/repeatdone',
+    'filters/examstatus',
+    'filters/mylocaldate',
+    'filters/mylocaldatewithweek',
+    'filters/outtigan',
+    'services/dataservice',
+    'services/urlredirect']/*deps*/,
+  function (angular, config, DagangCtrl, KaowuCtrl, LingyuCtrl, MingtiCtrl, NavCtrl, RegisterCtrl, RenzhengCtrl, StudentCtrl,
+            TongjiCtrl, UserCtrl, ZujuanCtrl, BnSlideShowDirective, FileUploadDirective, HoverSlideDirective,
+            NanDuStarDirective, PasswordVerifyDirective, RepeatDoneDirective, ExamStatusFilter,
             MyLocalDateFilter, MyLocalDateWithWeekFilter, OutTiGanFilter, DataServiceService, UrlRedirectService)/*invoke*/ {
   'use strict';
 
@@ -19,7 +39,7 @@ define(['angular', 'controllers/main', 'controllers/login', 'controllers/dagang'
    * Main module of the application.
    */
   return angular
-    .module('xinyangApp', ['xinyangApp.controllers.MainCtrl',
+    .module('xinyangApp', [
 'xinyangApp.controllers.DagangCtrl',
 'xinyangApp.controllers.KaowuCtrl',
 'xinyangApp.controllers.LingyuCtrl',
@@ -59,8 +79,8 @@ define(['angular', 'controllers/main', 'controllers/login', 'controllers/dagang'
       }
       $routeProvider.otherwise({redirectTo: '/renzheng'});
     }])
-    .run(['$rootScope', '$location', '$route', 'urlRedirect', '$cookieStore',
-      function($rootScope, $location, $route, urlRedirect, $cookieStore){
+    .run(['$rootScope', '$location', '$route', 'UrlRedirect', '$cookieStore',
+      function($rootScope, $location, $route, UrlRedirect, $cookieStore){
         /**
          * 确保所有需要登陆才可以访问的链接进行用户登陆信息验证，如果没有登陆的话，则导向登陆界面
          */
@@ -141,7 +161,7 @@ define(['angular', 'controllers/main', 'controllers/login', 'controllers/dagang'
               if(nextRoute && nextRoute.requireLogin && !($rootScope.session && $rootScope.session.info)) {
                 event.preventDefault(); // 取消访问下一个路由地址
                 currentPath = $location.$$path;
-                urlRedirect.goTo(currentPath, '/renzheng');
+                UrlRedirect.goTo(currentPath, '/renzheng');
               }
             }
           }

@@ -1,4 +1,4 @@
-define(['angular'], function (angular) {
+define(['angular', 'jquery'], function (angular, $) {
   'use strict';
 
   /**
@@ -8,12 +8,28 @@ define(['angular'], function (angular) {
    * # hoverSlide
    */
   angular.module('xinyangApp.directives.HoverSlide', [])
-    .directive('hoverSlide', function () {
+    .directive('hoverSlide', function ($timeout) {
       return {
-        template: '<div></div>',
-        restrict: 'E',
+        restrict: 'A',
         link: function postLink(scope, element, attrs) {
-          element.text('this is the hoverSlide directive');
+          var slideTarget = '.' + attrs.hoverSlideTarget,
+            slideGetval = '.' + attrs.hoverSlideGetval,
+            slideSetval = '.' + attrs.hoverSlideSetval,
+            timeOut;
+          element.hover(
+            function () {
+              var  cont = element.find(slideGetval).val();
+              timeOut = $timeout(function(){
+                $(slideSetval).html(cont);
+                $(slideTarget).show();
+              }, 500);
+            },
+            function () {
+              $timeout.cancel(timeOut);
+              $(slideTarget).hide();
+              $(slideSetval).html('');
+            }
+          );
         }
       };
     });
