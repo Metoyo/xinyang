@@ -174,7 +174,7 @@ define(['angular', 'config', 'underscore'],
                       //cookies代码
                       userCookie = {
                         UID: $rootScope.session.info.UID,
-                        YONGHUMING: $rootScope.session.info.YONGHUMING,
+                        XINGMING: $rootScope.session.info.XINGMING,
                         defaultLyId: session.defaultLyId,
                         defaultLyName: session.defaultLyName,
                         quanxianStr: session.quanxianStr,
@@ -206,7 +206,7 @@ define(['angular', 'config', 'underscore'],
                       //cookies代码
                       userCookie = {
                         UID: $rootScope.session.info.UID,
-                        YONGHUMING: $rootScope.session.info.YONGHUMING,
+                        XINGMING: $rootScope.session.info.XINGMING,
                         defaultLyId: session.defaultLyId,
                         defaultLyName: session.defaultLyName,
                         quanxianStr: session.quanxianStr,

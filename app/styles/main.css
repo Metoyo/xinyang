@@ -168,6 +168,9 @@ body {
 .bdb {
   border-bottom: 1px solid #cfcfcf; }
 
+.bdbd {
+  border-bottom: 1px dashed #cfcfcf; }
+
 .bd0 {
   border: 0; }
 
@@ -548,6 +551,9 @@ a.add-btn:hover span {
 
 .tongji .nav-icon {
   background-position: left -240px; }
+
+.guanli .nav-icon {
+  background-position: left -280px; }
 
 .dropdownToggle:hover {
   text-decoration: none; }
@@ -1478,8 +1484,6 @@ label.checkbox {
 
 .dagangWrapper {
   /*main styles end*/ }
-  .dagangWrapper .content {
-    padding-top: 50px; }
   .dagangWrapper .itemTitle {
     font-size: 120%;
     font-weight: 600;
@@ -1500,31 +1504,6 @@ label.checkbox {
     .dagangWrapper .list-sheet a:hover {
       text-decoration: none;
       background-color: #f3f3f3; }
-  .dagangWrapper .publicKnowledgeWrap {
-    position: fixed;
-    right: 20px;
-    top: 60px;
-    bottom: 0;
-    width: 250px;
-    padding-bottom: 90px; }
-    .dagangWrapper .publicKnowledgeWrap .innerBox {
-      border: 1px solid #cfcfcf;
-      height: 100%;
-      overflow-y: auto;
-      background-color: #fff;
-      padding: 10px; }
-      .dagangWrapper .publicKnowledgeWrap .innerBox p {
-        cursor: pointer; }
-    .dagangWrapper .publicKnowledgeWrap .title {
-      padding: 10px 0; }
-      .dagangWrapper .publicKnowledgeWrap .title .pull-left {
-        width: 90px; }
-      .dagangWrapper .publicKnowledgeWrap .title .pull-right {
-        width: 155px; }
-        .dagangWrapper .publicKnowledgeWrap .title .pull-right span {
-          margin-right: 10px; }
-        .dagangWrapper .publicKnowledgeWrap .title .pull-right input {
-          margin-right: 5px; }
   .dagangWrapper .dg-list-box {
     width: 50%;
     margin: 15px 0 20px 15px; }
@@ -3939,19 +3918,3 @@ label.checkbox {
       bottom: 10px; }
       #mediaPlugin .mediaPluginInner .closeBtn a {
         color: red; }
-
-/* angular animation */
-.animate-show {
-  line-height: 20px;
-  opacity: 1; }
-
-.animate-show.ng-hide-add.ng-hide-add-active,
-.animate-show.ng-hide-remove.ng-hide-remove-active {
-  transition: all linear 5s;
-  -webkit-transition: all linear 5s;
-  -moz-transition: all linear 5s;
-  -o-transition: all linear 5s; }
-
-.animate-show.ng-hide {
-  line-height: 0;
-  opacity: 0; }

@@ -90,6 +90,11 @@ define( "config", [], function () {
         templateUrl: '../views/student/student.html',
         controller: 'StudentCtrl',
         requireLogin: true
+      },
+      '/guanli': {
+        templateUrl: '../views/guanli/guanli.html',
+        controller: 'GuanLiCtrl',
+        requireLogin: true
       }
     },
     quanxianObj: [ //得到角色是数组
@@ -122,6 +127,12 @@ define( "config", [], function () {
         targetUrl: '/tongji',
         navName : 'tongji',
         hanName: '统计'
+      },
+      {
+        qxArr: ['2006', '2007','2010', '2011', '2012', '2013','2017', '2020', '2021', '2022', '2023', '2030', '2031', '2032','2033', '2034', '4001', '4002'],
+        targetUrl: '/guanli',
+        navName : 'guanli',
+        hanName: '管理'
       },
       {
         qxArr: [],

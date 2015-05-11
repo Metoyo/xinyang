@@ -23,11 +23,11 @@ define(['angular',
     'filters/mylocaldatewithweek',
     'filters/outtigan',
     'services/dataservice',
-    'services/urlredirect']/*deps*/,
+    'services/urlredirect', 'controllers/guanli']/*deps*/,
   function (angular, config, DagangCtrl, KaowuCtrl, LingyuCtrl, MingtiCtrl, NavCtrl, RegisterCtrl, RenzhengCtrl, StudentCtrl,
             TongjiCtrl, UserCtrl, ZujuanCtrl, BnSlideShowDirective, FileUploadDirective, HoverSlideDirective,
             NanDuStarDirective, PasswordVerifyDirective, RepeatDoneDirective, ExamStatusFilter,
-            MyLocalDateFilter, MyLocalDateWithWeekFilter, OutTiGanFilter, DataServiceService, UrlRedirectService)/*invoke*/ {
+            MyLocalDateFilter, MyLocalDateWithWeekFilter, OutTiGanFilter, DataServiceService, UrlRedirectService, GuanLiCtrl)/*invoke*/ {
   'use strict';
 
   /**
@@ -63,6 +63,7 @@ define(['angular',
 'xinyangApp.filters.OutTiGan',
 'xinyangApp.services.DataService',
 'xinyangApp.services.UrlRedirect',
+'xinyangApp.controllers.GuanLiCtrl',
 /*angJSDeps*/
     'ngCookies',
     'ngResource',
@@ -119,9 +120,9 @@ define(['angular',
             $rootScope.session.defaultLyName = loggedInfo.defaultLyName;
             $rootScope.session.quanxianStr = loggedInfo.quanxianStr;
             $rootScope.session.info.UID = loggedInfo.UID;
-            $rootScope.session.info.YONGHUMING = loggedInfo.YONGHUMING;
+            $rootScope.session.info.XINGMING = loggedInfo.XINGMING;
             $rootScope.session.userInfo.UID = loggedInfo.UID;
-            $rootScope.session.userInfo.YONGHUMING = loggedInfo.YONGHUMING;
+            $rootScope.session.userInfo.XINGMING = loggedInfo.XINGMING;
             $rootScope.session.userInfo.JIGOU = loggedInfo.JIGOU;
             $rootScope.session.userInfo.JUESE = loggedInfo.JUESE;
             $rootScope.session.userInfo.xuehao = loggedInfo.xuehao;

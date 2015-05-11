@@ -38,10 +38,6 @@
         <td ng-init="showMoreShiJuan=false">
           <span ng-if="tjKaoShiPublicData.leixing == 1">此处考试为随机试卷</span>
           <span ng-if="tjKaoShiPublicData.leixing == 0" ng-bind="tjKaoShiPublicData.shijuan[0].SHIJUAN_MINGCHENG"></span>
-          <!--<label class="checkbox-inline" ng-if="">-->
-            <!--<input type="checkbox" value="sj.SHIJUAN_ID" ng-if="tjKaoShiPublicData.sjNum > 1">-->
-            <!--{{tjKaoShiPublicData.shijuan[0].SHIJUAN_MINGCHENG}}-->
-          <!--</label>-->
           <a href="javascript:void(0)" class="pull-right" ng-show="tjKaoShiPublicData.sjNum > 1"
              ng-click="showMoreShiJuan=true">
             <span class="glyphicon glyphicon-plus-sign"></span>
@@ -121,11 +117,11 @@
         <div class="student-list">
           <table class="tj-table tj-table-detail">
             <tr>
-              <th ng-click="ksSortDataFun('stuId')">学号</th>
+              <th ng-click="ksSortDataFun('stuId')">身份证</th>
               <th ng-click="ksSortDataFun('name')">姓名</th>
-              <th ng-click="ksSortDataFun('class')">班级</th>
-              <th ng-click="ksSortDataFun('kexuhao')">课序号</th>
+              <th ng-click="ksSortDataFun('class')">部门</th>
               <th ng-click="ksSortDataFun('score')">成绩</th>
+              <th>操作</th>
             </tr>
             <tr ng-repeat="ksd in studentData">
               <td ng-bind="ksd.YONGHUHAO">
@@ -135,9 +131,10 @@
               </td>
               <td ng-bind="ksd.BANJI">
               </td>
-              <td ng-bind="ksd.KEXUHAO">
-              </td>
               <td ng-bind="ksd.ZUIHOU_PINGFEN">
+              </td>
+              <td>
+                <a href="javascript:void(0)">改分</a>
               </td>
             </tr>
           </table>
@@ -191,45 +188,6 @@
         </div>
       </div>
     </div>
-    <!--div class="tj-ks-box wp48 ml15">
-      <h4 class="title">
-        <span>知识点统计<em>(得分率倒序)</em></span>
-        <span class="explain pl40">
-          <span class="all ml15 plr10"> </span>  全部 <span class="bj ml15 plr10"> </span>  本班
-        </span>
-      </h4>
-      <div class="chart">
-        <ul class="list-unstyled zsd-list">
-          <li class="row">
-            <div class="col-sm-3">
-              知识点名称
-            </div>
-            <div class="col-sm-3">
-              题目数量
-            </div>
-            <div class="col-sm-6">
-              得分率
-            </div>
-          </li>
-          <li class="row" ng-repeat="zsd in tjZsdDataDu">
-            <div class="col-sm-3" ng-bind="zsd.zsd_name">
-            </div>
-            <div class="col-sm-3">
-              <p ng-bind="zsd.zsd_timu_num + '次'"></p>
-              <p ng-bind="zsd.zsd_timu_num_bj  + '次'" ng-show="zsd.zsd_timu_num_bj"></p>
-            </div>
-            <div class="col-sm-6">
-              <p class="pull-left">
-                <span class="zsd-all" ng-bind="zsd.zsd_dfl_all + '%'" style="width: {{zsd.zsd_dfl_all + '%'}}"></span>
-              </p>
-              <p class="pull-left" ng-show="zsd.zsd_dfl_bj">
-                <span class="zsd-bj" ng-bind="zsd.zsd_dfl_bj + '%'" style="width: {{zsd.zsd_dfl_bj + '%'}}"></span>
-              </p>
-            </div>
-          </li>
-        </ul>
-      </div>
-    </div-->
   </div>
 </div>
 <!--考试选择-->

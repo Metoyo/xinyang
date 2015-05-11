@@ -47,7 +47,7 @@ define(['angular', 'config', 'underscore'], function (angular, config, _) {
             $scope.stuTpl = 'views/student/score.html'
           }
         };
-        $scope.stuTabSlide('practice');
+        $scope.stuTabSlide('score');
 
     }]);
 });
