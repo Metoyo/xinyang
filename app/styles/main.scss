@@ -235,6 +235,9 @@ body {
 a.add-btn:hover span {
   color: #00CC33;
 }
+.dpb{
+  display: block;
+}
 .form-header {
   margin-bottom: 0;
   .form-th {
@@ -597,7 +600,7 @@ a.add-btn:hover span {
   width: 40px;
   margin-left: 20px;
   display: block;
-  background: url('../images/mingti/icon/dsIcons.png') no-repeat left 0;
+  background: url('../images/dsIcons.png') no-repeat left 0;
 }
 .nav-name {
   color: #aaa;
@@ -660,13 +663,13 @@ a.add-btn:hover span {
   &:hover {
     text-decoration: none;
     color: #262626;
-    background: url('../images/mingti/icon/icon-right.png') no-repeat 10px 12px;
+    background: url('../images/icon-right.png') no-repeat 10px 12px;
   }
 }
 .select:focus {
   text-decoration: none;
   color: #262626;
-  background: url('../images/mingti/icon/icon-right.png') no-repeat 10px 12px;
+  background: url('../images/icon-right.png') no-repeat 10px 12px;
 }
 .userInfo {
   a {
@@ -852,7 +855,7 @@ a.add-btn:hover span {
       left: 0;
       top: 5px;
       cursor: pointer;
-      background: url('../images/mingti/icon/tree_icon.png') no-repeat 0 0;
+      background: url('../images/tree_icon.png') no-repeat 0 0;
     }
     .unfoldBtn {
       background-position: 0 bottom;
@@ -942,7 +945,7 @@ a.add-btn:hover span {
         width: 42px;
         height: 10px;
         margin-top: 10px;
-        background: url("../images/mingti/icon/levelstar.png") no-repeat 0 0;
+        background: url("../images/levelstar.png") no-repeat 0 0;
       }
       .level-star-2{
         background-position: 0 -10px;
@@ -1160,16 +1163,16 @@ label.checkbox{
     border: 0;
     margin: 1px 0 0 0;
     padding-top: 20px;
-    background: url('../images/mingti/icon/sline.jpg') repeat-y 15px 0;
+    background: url('../images/sline.jpg') repeat-y 15px 0;
   }
   .dgLevel_1:last-child,
   .dgLevel_2:last-child,
   .dgLevel_3:last-child,
   .dgLevel_4:last-child{
-    background: white url('../images/mingti/icon/sline.jpg') no-repeat 15px -2px;
+    background: white url('../images/sline.jpg') no-repeat 15px -2px;
   }
   .lastChild {
-    background: white url('../images/mingti/icon/sline.jpg') no-repeat 15px -2px;
+    background: white url('../images/sline.jpg') no-repeat 15px -2px;
   }
   .dagangBox {
     margin-left: 15px;
@@ -1179,7 +1182,7 @@ label.checkbox{
   .media-object {
     width: 40px;
     height: 34px;
-    background: url('../images/mingti/icon/hline.jpg') no-repeat right 17px;
+    background: url('../images/hline.jpg') no-repeat right 17px;
   }
   .media-heading {
     height: 34px;
@@ -1188,7 +1191,7 @@ label.checkbox{
   }
   .media-body {
     padding: 0;
-    background: url('../images/mingti/icon/sline.jpg') repeat-y 15px 0;
+    background: url('../images/sline.jpg') repeat-y 15px 0;
   }
   .media > .pull-left {
     margin-right: 0;
@@ -1936,7 +1939,7 @@ label.checkbox{
   .nandu-star-box{
     width: 250px;
     height: 32px;
-    background-image: url('../images/mingti/icon/nadustar.png');
+    background-image: url('../images/nadustar.png');
     background-position: 0 0;
     a{
       width: 50px;

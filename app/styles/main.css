@@ -232,6 +232,9 @@ body {
 a.add-btn:hover span {
   color: #00CC33; }
 
+.dpb {
+  display: block; }
+
 .form-header {
   margin-bottom: 0; }
   .form-header .form-th {
@@ -526,7 +529,7 @@ a.add-btn:hover span {
   width: 40px;
   margin-left: 20px;
   display: block;
-  background: url("../images/mingti/icon/dsIcons.png") no-repeat left 0; }
+  background: url("../images/dsIcons.png") no-repeat left 0; }
 
 .nav-name {
   color: #aaa;
@@ -583,12 +586,12 @@ a.add-btn:hover span {
   .menuitem:hover {
     text-decoration: none;
     color: #262626;
-    background: url("../images/mingti/icon/icon-right.png") no-repeat 10px 12px; }
+    background: url("../images/icon-right.png") no-repeat 10px 12px; }
 
 .select:focus {
   text-decoration: none;
   color: #262626;
-  background: url("../images/mingti/icon/icon-right.png") no-repeat 10px 12px; }
+  background: url("../images/icon-right.png") no-repeat 10px 12px; }
 
 .userInfo a {
   text-decoration: none;
@@ -741,7 +744,7 @@ a.add-btn:hover span {
       left: 0;
       top: 5px;
       cursor: pointer;
-      background: url("../images/mingti/icon/tree_icon.png") no-repeat 0 0; }
+      background: url("../images/tree_icon.png") no-repeat 0 0; }
     .innerWrapperSubDs .pointTree .unfoldBtn {
       background-position: 0 bottom; }
   .innerWrapperSubDs .contentWraps {
@@ -806,7 +809,7 @@ a.add-btn:hover span {
       width: 42px;
       height: 10px;
       margin-top: 10px;
-      background: url("../images/mingti/icon/levelstar.png") no-repeat 0 0; }
+      background: url("../images/levelstar.png") no-repeat 0 0; }
     .testList .item-sub-title .level-num .level-star-2 {
       background-position: 0 -10px; }
     .testList .item-sub-title .level-num .level-star-3 {
@@ -980,14 +983,14 @@ label.checkbox {
     border: 0;
     margin: 1px 0 0 0;
     padding-top: 20px;
-    background: url("../images/mingti/icon/sline.jpg") repeat-y 15px 0; }
+    background: url("../images/sline.jpg") repeat-y 15px 0; }
   .dagangInput .dgLevel_1:last-child,
   .dagangInput .dgLevel_2:last-child,
   .dagangInput .dgLevel_3:last-child,
   .dagangInput .dgLevel_4:last-child {
-    background: white url("../images/mingti/icon/sline.jpg") no-repeat 15px -2px; }
+    background: white url("../images/sline.jpg") no-repeat 15px -2px; }
   .dagangInput .lastChild {
-    background: white url("../images/mingti/icon/sline.jpg") no-repeat 15px -2px; }
+    background: white url("../images/sline.jpg") no-repeat 15px -2px; }
   .dagangInput .dagangBox {
     margin-left: 15px;
     margin-top: 10px;
@@ -995,14 +998,14 @@ label.checkbox {
   .dagangInput .media-object {
     width: 40px;
     height: 34px;
-    background: url("../images/mingti/icon/hline.jpg") no-repeat right 17px; }
+    background: url("../images/hline.jpg") no-repeat right 17px; }
   .dagangInput .media-heading {
     height: 34px;
     margin: 0;
     position: relative; }
   .dagangInput .media-body {
     padding: 0;
-    background: url("../images/mingti/icon/sline.jpg") repeat-y 15px 0; }
+    background: url("../images/sline.jpg") repeat-y 15px 0; }
   .dagangInput .media > .pull-left {
     margin-right: 0; }
   .dagangInput .kaoChang .col-md-5 {
@@ -1581,7 +1584,7 @@ label.checkbox {
   .mingtiWrapper .nandu-star-box {
     width: 250px;
     height: 32px;
-    background-image: url("../images/mingti/icon/nadustar.png");
+    background-image: url("../images/nadustar.png");
     background-position: 0 0; }
     .mingtiWrapper .nandu-star-box a {
       width: 50px;

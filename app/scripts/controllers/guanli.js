@@ -9,8 +9,8 @@ define(['angular', 'config', 'jquery'], function (angular, config, $) {
    * Controller of the xinyangApp
    */
   angular.module('xinyangApp.controllers.GuanLiCtrl', [])
-    .controller('GuanLiCtrl', ['$rootScope', '$scope',
-      function ($rootScope, $scope) {
+    .controller('GuanLiCtrl', ['$rootScope', '$scope', 'DataService',
+      function ($rootScope, $scope, DataService) {
         /**
          * 定义变量
          */
@@ -28,10 +28,16 @@ define(['angular', 'config', 'jquery'], function (angular, config, $) {
         $scope.guanliParams = { //学生controller参数
           tabActive: '',
           yuanGongIn: false,
-          addYuanGong: false
+          addYuanGong: false,
+          addNewKxh: '', //添加课序号
+          modifyKxh: '',  //修改课序号
+          singleWorkName: '', //添加单个员工姓名
+          singleWorkID: '' //添加单个员工身份证
         };
         $scope.showKeXuHaoManage = false;
         $scope.kxhInputShow = false;
+        $scope.kxhEditBoxShow = ''; //弹出层显示那一部分内容
+        $scope.kxhSelectData = ''; //课序号管理，存放需要传入的数据
 
         /**
          * 考生内容切换
@@ -40,15 +46,19 @@ define(['angular', 'config', 'jquery'], function (angular, config, $) {
           $scope.guanliParams.tabActive = '';
           if (tab == 'people') {
             $scope.guanliParams.tabActive = 'people';
-            $scope.guanLiTpl = 'views/guanli/renyuan.html'
+            $scope.guanLiTpl = 'views/guanli/renyuan.html';
           }
           if (tab == 'kexuhao') {
             $scope.guanliParams.tabActive = 'kexuhao';
-            $scope.guanLiTpl = 'views/guanli/kexuhao.html'
+            $scope.guanLiTpl = 'views/guanli/kexuhao.html';
+            $scope.keXuHaoData = [
+              {kxhId: 1000, kxhName: '课序号一'},
+              {kxhId: 1001, kxhName: '课序号二'}
+            ];
           }
           if (tab == 'bumen') {
             $scope.guanliParams.tabActive = 'bumen';
-            $scope.guanLiTpl = 'views/guanli/bumen.html'
+            $scope.guanLiTpl = 'views/guanli/bumen.html';
           }
         };
         $scope.guanLiTabSlide('kexuhao');
@@ -87,56 +97,65 @@ define(['angular', 'config', 'jquery'], function (angular, config, $) {
         };
 
         /**
-         * 新增课序号
+         * 显示弹出层
          */
-        $scope.addNewKeXuHao = function(){
+        $scope.showKeXuHaoPop = function(item, data){
           $scope.showKeXuHaoManage = true;
-        };
-
-        /**
-         * 修改课序号
-         */
-        $scope.modifyKeXuHao = function(){
-          $scope.showKeXuHaoManage = true;
+          $scope.kxhEditBoxShow = item;
+          if(item == 'modifyKeXuHao'){
+            $scope.guanliParams.modifyKxh = data.kxhName;
+          }
+          $scope.kxhSelectData = data;
         };
 
         /**
          * 保存课序号修改
          */
-        $scope.saveModifyKeXuHao = function(state, idx){
-          if(state == 'save'){
-            $scope.kxhInputShow = false;
+        $scope.saveKeXuHaoModify = function(){
+          var saveType = $scope.kxhEditBoxShow;
+          if(saveType == 'addKeXuHao'){ //新增课序号
+            if($scope.guanliParams.addNewKxh){
+              $http.post(url, shuju).success(function(data){
+                if(data.result){
+                  $scope.kxhEditBoxShow = ''; //弹出层显示那一部分内容重置
+                  $scope.guanliParams.addNewKxh = ''; //课序号重置
+                }
+              });
+            }
+            else{
+              DataService.alertInfFun('pmt', '新课序号为空！');
+            }
           }
-          if(state == 'cancel'){
-            $scope.kxhInputShow = false;
+          if(saveType == 'modifyKeXuHao'){ //修改课序号
+            if($scope.guanliParams.modifyKxh){
+              alert($scope.guanliParams.modifyKxh);
+            }
+          }
+          if(saveType == 'addSingleWork'){ //添加单个员工
+            if($scope.guanliParams.singleWorkName){
+              if($scope.guanliParams.singleWorkID){
+
+              }
+              else{
+                DataService.alertInfFun('pmt', '缺少身份证！');
+              }
+            }
+            else{
+              DataService.alertInfFun('pmt', '缺少姓名！');
+            }
+          }
+          if(saveType == 'addBatchWorks'){ //批量添加员工
+
           }
         };
 
         /**
          * 删除课序号
          */
-        $scope.deleteKeXuHao = function(){
-
-        };
-        /**
-         * 删除课序号
-         */
-        $scope.deleteKeXuHao = function(){
-
-        };
-
-        /**
-         * 删除课序号
-         */
-        $scope.deleteKeXuHao = function(){
-
-        };
-
-        /**
-         * 批量增加新员工
-         */
-        $scope.batchAddNewYuanGong = function(){
-          $scope.showKeXuHaoManage = true;
+        $scope.deleteKeXuHao = function(kxh){
+          if(kxh){
+            alert(kxh);
+          }
         };
 
         /**
@@ -144,6 +163,8 @@ define(['angular', 'config', 'jquery'], function (angular, config, $) {
          */
         $scope.closeKeXuHaoManage = function(){
           $scope.showKeXuHaoManage = false;
+          $scope.kxhEditBoxShow = ''; //弹出层显示那一部分重置
+          $scope.guanliParams.addNewKxh = ''; //课序号重置
         };
 
       }]);
