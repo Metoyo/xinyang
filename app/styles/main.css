@@ -1238,7 +1238,7 @@ label.checkbox {
     width: 16px;
     height: 16px;
     margin: 2px 0 0 5px;
-    background-image: url("../images/renzheng/icon/button-icons.png");
+    background-image: url("../images/button-icons.png");
     background-repeat: no-repeat;
     background-position: 0 0; }
   .renzhengWrapper .prevBtn span {
@@ -2256,6 +2256,10 @@ label.checkbox {
   padding: 6px 12px; }
 .guanLiWrapper .popup-wrap .btn {
   padding: 3px 12px; }
+.guanLiWrapper .more-info {
+  border: 1px solid #cfcfcf; }
+  .guanLiWrapper .more-info p {
+    margin-bottom: 5px; }
 
 .fileUploadBox p span {
   margin-right: 20px; }

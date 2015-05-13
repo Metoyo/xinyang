@@ -21,8 +21,9 @@ define(['angular', 'config', 'jquery'], function (angular, config, $) {
         var userInfo = $rootScope.session.userInfo;
         var defaultJg = userInfo.JIGOU;
         var xuehao = userInfo.xuehao;
-        //var baseBmAPIUrl = config.apiurl_bm; //报名的api
+        var baseRzAPIUrl = config.apiurl_rz; //renzheng的api;
         var token = config.token;
+        var qryJiGouUrl = baseRzAPIUrl + 'jiGou?token=' + token; //查询机构
 
 
         $scope.guanliParams = { //学生controller参数
@@ -42,6 +43,24 @@ define(['angular', 'config', 'jquery'], function (angular, config, $) {
         $scope.kxhSelectData = ''; //课序号管理，存放需要传入的数据
 
         /**
+         * 由机构类别查询机构
+         */
+        var getJgList = function(){
+          $scope.loadingImgShow = true;
+          DataService.getData(qryJiGouUrl).then(function(data){
+            if(data && data.length > 0){
+              $scope.buMenData = data[0].CHILDREN[0];
+              $scope.guanliParams.tabActive = 'bumen';
+              $scope.loadingImgShow = false;
+              $scope.guanLiTpl = 'views/guanli/bumen.html';
+            }
+            else{
+              $scope.loadingImgShow = false;
+            }
+          });
+        };
+
+        /**
          * 考生内容切换
          */
         $scope.guanLiTabSlide = function (tab) {
@@ -59,12 +78,7 @@ define(['angular', 'config', 'jquery'], function (angular, config, $) {
             ];
           }
           if (tab == 'bumen') {
-            $scope.guanliParams.tabActive = 'bumen';
-            $scope.guanLiTpl = 'views/guanli/bumen.html';
-            $scope.buMenData = [
-              {bmId: 1000, bmName: '部门名称一'},
-              {bmId: 1001, bmName: '部门名称二'}
-            ];
+            getJgList();
           }
         };
         $scope.guanLiTabSlide('bumen');

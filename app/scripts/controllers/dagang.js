@@ -72,7 +72,6 @@ define(['angular','config', 'mathjax', 'jquery', 'underscore'], function (angula
             else{
               DataService.alertInfFun('err', data.error);
             }
-            getPubDaGangListFun();
             getPriDaGangListFun();
           });
         };
@@ -81,18 +80,18 @@ define(['angular','config', 'mathjax', 'jquery', 'underscore'], function (angula
         /**
          * 加载公共知识大纲
          */
-        var getPubDaGangListFun = function(){
-          $scope.publicZsdgList = []; //存放公共知识大纲的数组
-          $http.get(qryPubDgBaseUrl).success(function(data){
-            if(data && data.length > 0){
-              $scope.publicZsdgList = data;
-            }
-            else{
-              DataService.alertInfFun('err', data.error);
-              $scope.publicZsdgList = [];
-            }
-          });
-        };
+        //var getPubDaGangListFun = function(){
+        //  $scope.publicZsdgList = []; //存放公共知识大纲的数组
+        //  $http.get(qryPubDgBaseUrl).success(function(data){
+        //    if(data && data.length > 0){
+        //      $scope.publicZsdgList = data;
+        //    }
+        //    else{
+        //      DataService.alertInfFun('err', data.error);
+        //      $scope.publicZsdgList = [];
+        //    }
+        //  });
+        //};
 
         /**
          * 加载自建知识大纲
@@ -165,7 +164,6 @@ define(['angular','config', 'mathjax', 'jquery', 'underscore'], function (angula
          */
         $scope.backToDaGangHome = function(){
           $scope.isPrivateDg = false;
-          $scope.isPublicDg = false;
           $scope.daGangParam.selected_dg = '';
           $scope.selectZjDgId = '';
           $scope.publicKnowledge = '';
@@ -179,29 +177,12 @@ define(['angular','config', 'mathjax', 'jquery', 'underscore'], function (angula
           $scope.daGangParam.showDaGangAsNew = false;
           $scope.backToDaGangHome();
           $scope.selectZjDgId = ''; //已经选择的自建知识大纲的值
-          //if(lx == 1){
-          //  if($scope.publicZsdgList && $scope.publicZsdgList.length > 0){
-          //    //$scope.daGangParam.selected_dg = '';
-          //    $scope.knowledgePb = '';
-          //  }
-          //  else{
-          //    getPubDaGangListFun();
-          //  }
-          //  $scope.dgTpl = 'views/dagang/daGangPublic.html';
-          //  $scope.isPrivateDg = false;
-          //  $scope.isPublicDg = true;
-          //  $scope.daGangParam.activeIdx = 1;
-          //  if($scope.daGangParam.defaultDaGangLeiXing == lx){
-          //    $scope.getPublicDgZsd($scope.daGangParam.defaultDaGangId);
-          //  }
-          //}
           if(lx == 2){
             if(!$scope.privateZsdgList.length){
               DataService.alertInfFun('pmt', '没有大纲，请新建一个！');
             }
             $scope.dgTpl = 'views/dagang/daGangPrivate.html';
             $scope.isPrivateDg = true;
-            $scope.isPublicDg = false;
             $scope.knowledgePr = '';
             $scope.prDgBtnDisabled = true;
             $scope.daGangParam.activeIdx = 2;
@@ -307,8 +288,6 @@ define(['angular','config', 'mathjax', 'jquery', 'underscore'], function (angula
           $http.post(xgMoRenDaGangUrl, defaultDg).success(function(result) {
             if(result.result){
               getMoRenDaGangFun();
-              //getPubDaGangListFun();
-              //getPriDaGangListFun();
               DataService.alertInfFun('suc', '将此大纲设置为默认大纲的操作成功！');
             }
             else{
@@ -529,8 +508,6 @@ define(['angular','config', 'mathjax', 'jquery', 'underscore'], function (angula
                     $scope.makeDaGangAsDefault(result.id);
                   }
                   getMoRenDaGangFun();
-                  //getPubDaGangListFun();
-                  //getPriDaGangListFun();
                   $scope.knowledgePr = '';
                   $scope.selectZjDgId = '';
                   $scope.prDgBtnDisabled = true;
@@ -618,8 +595,6 @@ define(['angular','config', 'mathjax', 'jquery', 'underscore'], function (angula
                 DataService.alertInfFun('suc', '大纲另存为成功！');
                 $scope.daGangParam.dgSaveAsName = '';
                 getMoRenDaGangFun();
-                //getPubDaGangListFun();
-                //getPriDaGangListFun();
               }
               else{
                 DataService.alertInfFun('err', result.error);

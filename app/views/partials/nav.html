@@ -10,7 +10,7 @@
   </div>
   <ul class="list-group nav-list">
     <li class="list-group-item" ng-repeat="ul in urlArrs" ng-class="navClass('{{ul.myUrl}}')">
-      <a ng-href="{{'/' + ul.myUrl}}" class="dropdownToggle {{ul.myUrl}}" ng-click="reloadModule('{{'/' + ul.myUrl}}')">
+      <a ng-href="{{'/' + ul.myUrl}}" class="dropdownToggle {{ul.myUrl}}" ng-click="reloadModule('/' + ul.myUrl)">
         <span class="nav-icon"></span> <span class="nav-name" ng-bind="ul.urlName"></span>
       </a>
     </li>

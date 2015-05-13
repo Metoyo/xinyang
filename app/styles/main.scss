@@ -1478,7 +1478,7 @@ label.checkbox{
     width: 16px;
     height: 16px;
     margin: 2px 0 0 5px;
-    background-image: url("../images/renzheng/icon/button-icons.png");
+    background-image: url("../images/button-icons.png");
     background-repeat: no-repeat;
     background-position: 0 0;
   }
@@ -2916,6 +2916,12 @@ label.checkbox{
   .popup-wrap{
     .btn{
       padding: 3px 12px;
+    }
+  }
+  .more-info{
+    border: 1px solid #cfcfcf;
+    p{
+      margin-bottom: 5px;
     }
   }
 }

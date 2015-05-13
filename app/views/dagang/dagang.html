@@ -11,13 +11,13 @@
   </div>
   <div class="content">
     <div class="save-box">
-      <button class="btn btn-primary" ng-click="daGangParam.showDaGangAsNew = true"
-              ng-show="isPrivateDg || isPublicDg" ng-disabled="!daGangParam.selected_dg">
-        大纲另存
-      </button>
-      <button class="btn btn-primary" ng-click="deleteDaGang()" ng-show="selectZjDgId">
-        删除大纲
-      </button>
+      <!--<button class="btn btn-primary" ng-click="daGangParam.showDaGangAsNew = true"-->
+              <!--ng-show="isPrivateDg || isPublicDg" ng-disabled="!daGangParam.selected_dg">-->
+        <!--大纲另存-->
+      <!--</button>-->
+      <!--<button class="btn btn-primary" ng-click="deleteDaGang()" ng-show="selectZjDgId">-->
+        <!--删除大纲-->
+      <!--</button>-->
       <button class="btn btn-primary" ng-click="saveZjDaGangData()" ng-show="isPrivateDg"
               ng-disabled="prDgBtnDisabled">
         保存大纲
@@ -26,10 +26,10 @@
               ng-disabled="prDgBtnDisabled">
         用作默认大纲
       </button>
-      <button class="btn btn-primary" ng-click="makeDaGangAsDefault()" ng-show="isPublicDg"
-              ng-disabled="!daGangParam.selected_dg">
-        用作默认大纲
-      </button>
+      <!--<button class="btn btn-primary" ng-click="makeDaGangAsDefault()" ng-show="isPublicDg"-->
+              <!--ng-disabled="!daGangParam.selected_dg">-->
+        <!--用作默认大纲-->
+      <!--</button>-->
     </div>
     <div class="row dagangInput" ng-init="dgTpl = 'views/dagang/daGangPrivate.html'">
       <div class="sub-nav fixed-top">

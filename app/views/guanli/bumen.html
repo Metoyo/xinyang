@@ -1,23 +1,21 @@
 <div class="row">
   <div class="col-md-5">
     <h4 class="bdb pb10">
-      <span>河南信阳电力公司</span>
+      <span ng-bind="buMenData.JIGOUMINGCHENG"></span>
       <a href="javascript:void(0)" class="fz14 pull-right" ng-click="showKeXuHaoPop('addBuMen')">新增部门</a>
     </h4>
     <div>
       <ul class="list-unstyled" id="keXuHaoManage">
-        <li class="bdbd ptb5" ng-repeat="bm in buMenData">
-          <span class="keXuHao cursorPointer" ng-bind="bm.bmName"></span>
+        <li class="bdbd ptb5" ng-repeat="bm in buMenData.CHILDREN">
+          <span class="keXuHao cursorPointer" ng-bind="bm.JIGOUMINGCHENG"></span>
           <span class="pull-right buMenBtn">
-            <a href="javascript:void(0)" class="mr10 banZu" bn-slide-show slid-show-tapon="banZu"
+            <a href="javascript:void(0)" class="mr10 banZu" bn-slide-show slid-show-tapon="banZu" ng-if="bm.CHILDREN.length>0"
                slide-show-target="more-info" slide-show-text="班组" slide-show-idx="{{$index}}">班组</a>
             <a href="javascript:void(0)" class="mr10" ng-click="showKeXuHaoPop('modifyBm', bm)">修改</a>
             <a href="javascript:void(0)" ng-click="deleteKeXuHao(bm)">删除</a>
           </span>
-          <div class="more-info">
-            <p class="cursorPointer">班组一</p>
-            <p class="cursorPointer">班组二</p>
-            <p class="cursorPointer">班组三</p>
+          <div class="more-info p10" ng-if="bm.CHILDREN.length>0">
+            <p class="cursorPointer" ng-repeat="bz in bm.CHILDREN" ng-bind="bz.JIGOUMINGCHENG"></p>
           </div>
         </li>
       </ul>
