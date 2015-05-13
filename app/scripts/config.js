@@ -4,12 +4,12 @@
 define( "config", [], function () {
   return {
     token: '12345',
-    apiurl_rz: "http://test.taianting.com:3000/api/",//认证的url
-    apiurl_mt: "http://test.taianting.com:4000/api/",//命题的url
-    apiurl_kw: "http://test.taianting.com:4100/api/",//考务的url
-    apiurl_tj: "http://test.taianting.com:4300/api/",//统计的url
-    apiurl_tj_ori: "http://test.taianting.com:4300/",//统计的原始url
-    apiurl_bm: "http://test.taianting.com:4400/api/",//报名的url
+    apiurl_rz: "http://192.168.1.10:3000/api/",//认证的url
+    apiurl_mt: "http://192.168.1.10:4000/api/",//命题的url
+    apiurl_kw: "http://192.168.1.10:4100/api/",//考务的url
+    apiurl_tj: "http://192.168.1.10:4300/api/",//统计的url
+    apiurl_tj_ori: "http://192.168.1.10:4300/",//统计的原始url
+    apiurl_bm: "http://192.168.1.10:4400/api/",//报名的url
 
     //apiurl_rz: "http://www.yunjiaoshou.com:3000/api/",//认证的url
     //apiurl_mt: "http://www.yunjiaoshou.com:4000/api/",//命题的url

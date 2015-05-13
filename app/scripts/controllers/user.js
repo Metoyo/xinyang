@@ -21,92 +21,92 @@ define(['angular', 'config', 'datepicker', 'jquery', 'underscore'],
         /**
          * 定义变量
          */
-        var userInfo = $rootScope.session.userInfo,
-          baseRzAPIUrl = config.apiurl_rz, //renzheng的api;
-          baseMtAPIUrl = config.apiurl_mt, //mingti的api
-          baseKwAPIUrl = config.apiurl_kw, //考务的api
-          baseTjAPIUrl = config.apiurl_tj, //统计的api
-          baseBmAPIUrl = config.apiurl_bm, //报名的api
-          token = config.token, //token的值
-          caozuoyuan = userInfo.UID,//登录的用户的UID
-          jigouid = userInfo.JIGOU[0].JIGOU_ID,
-          lingyuid = $rootScope.session.defaultLyId,
-          session = $rootScope.session,
-          dshyhjsUrl = baseRzAPIUrl + 'daishenhe_yonghu_juese?token=' + token + '&caozuoyuan=' + session.info.UID, //待审核用户角色url
-          shyhjsUrl = baseRzAPIUrl + 'shenhe_yonghu_juese', //审核用户角色
-          qryJglbUrl = baseRzAPIUrl + 'jiGou_LeiBie?token=' + token, //jiGouLeiBie 机构类别的api
-          qryJiGouUrl = baseRzAPIUrl + 'jiGou?token=' + token + '&leibieid=', //由机构类别查询机构的url
-          qryJiGouAdminBase = baseRzAPIUrl + 'get_jigou_admin?token=' + token + '&caozuoyuan=' + caozuoyuan + '&jigouid=', // 查询机构管理员
-          modifyJiGouUrl = baseRzAPIUrl + 'modify_jigou', //修改机构数据
-          qryLingYuUrl = baseRzAPIUrl + 'lingyu?token=' + token, //查询领域的url
-          modifyLingYuUrl = baseRzAPIUrl + 'modify_lingyu', //修改领域数据
-          modifyJiGouLingYuUrl = baseRzAPIUrl + 'modify_jigou_lingyu', //修改机构领域
-          jiGouData = { //新增机构的数据
+        var userInfo = $rootScope.session.userInfo;
+        var baseRzAPIUrl = config.apiurl_rz; //renzheng的api;
+        var baseMtAPIUrl = config.apiurl_mt; //mingti的api
+        var baseKwAPIUrl = config.apiurl_kw; //考务的api
+        var baseTjAPIUrl = config.apiurl_tj; //统计的api
+        var baseBmAPIUrl = config.apiurl_bm; //报名的api
+        var token = config.token; //token的值
+        var caozuoyuan = userInfo.UID;//登录的用户的UID
+        var jigouid = userInfo.JIGOU[0].JIGOU_ID;
+        var lingyuid = $rootScope.session.defaultLyId;
+        var session = $rootScope.session;
+        var dshyhjsUrl = baseRzAPIUrl + 'daishenhe_yonghu_juese?token=' + token + '&caozuoyuan=' + session.info.UID; //待审核用户角色url
+        var shyhjsUrl = baseRzAPIUrl + 'shenhe_yonghu_juese'; //审核用户角色
+        var qryJglbUrl = baseRzAPIUrl + 'jiGou_LeiBie?token=' + token; //jiGouLeiBie 机构类别的api
+        var qryJiGouUrl = baseRzAPIUrl + 'jiGou?token=' + token + '&leibieid='; //由机构类别查询机构的url
+        var qryJiGouAdminBase = baseRzAPIUrl + 'get_jigou_admin?token=' + token + '&caozuoyuan=' + caozuoyuan + '&jigouid='; // 查询机构管理员
+        var modifyJiGouUrl = baseRzAPIUrl + 'modify_jigou'; //修改机构数据
+        var qryLingYuUrl = baseRzAPIUrl + 'lingyu?token=' + token; //查询领域的url
+        var modifyLingYuUrl = baseRzAPIUrl + 'modify_lingyu'; //修改领域数据
+        var modifyJiGouLingYuUrl = baseRzAPIUrl + 'modify_jigou_lingyu'; //修改机构领域
+        var jiGouData = { //新增机构的数据
             token: token,
             caozuoyuan: caozuoyuan,
             shuju:[]
-          },
-          jgLeiBieId, //机构列表id
-          modifyJiGouAdminUrl = baseRzAPIUrl + 'modify_jigou_admin', //修改机构管理员
-          adminData = { //新增机构管理员的数据
+          };
+        var jgLeiBieId; //机构列表id
+        var modifyJiGouAdminUrl = baseRzAPIUrl + 'modify_jigou_admin'; //修改机构管理员
+        var adminData = { //新增机构管理员的数据
             token: token,
             caozuoyuan: caozuoyuan,
             shuju:{}
-          },
-          whichJiGouAddAdmin = '', //那个机构添加管理员
-          lingYuData = { //定义一个空的object用来存放需要保存的领域数据
+          };
+        var whichJiGouAddAdmin = ''; //那个机构添加管理员
+        var lingYuData = { //定义一个空的object用来存放需要保存的领域数据
             token: token,
             caozuoyuan: caozuoyuan,
             shuju:[]
-          },
-          selectedLyStr = '', //已选择的领域ID
-          selectedLyArr = [], //已选择的领域ID
-          qryTiXingUrl = baseMtAPIUrl + 'chaxun_tixing?token=' + token, //查询全部题型的url
-          qryKmTx = baseMtAPIUrl + 'chaxun_kemu_tixing?token=' + token + '&caozuoyuan=' + caozuoyuan + '&jigouid=' +
-            jigouid + '&lingyuid=', //查询科目包含什么题型的url
-          modifyTxJgLyUrl = baseMtAPIUrl + 'modify_tixing_jigou_lingyu', //修改题型机构领域
-          tiXingData = { //定义一个空的object用来存放需要保存的题型数据
+          };
+        var selectedLyStr = ''; //已选择的领域ID
+        var selectedLyArr = []; //已选择的领域ID
+        var qryTiXingUrl = baseMtAPIUrl + 'chaxun_tixing?token=' + token; //查询全部题型的url
+        var qryKmTx = baseMtAPIUrl + 'chaxun_kemu_tixing?token=' + token + '&caozuoyuan=' + caozuoyuan + '&jigouid=' +
+            jigouid + '&lingyuid='; //查询科目包含什么题型的url
+        var modifyTxJgLyUrl = baseMtAPIUrl + 'modify_tixing_jigou_lingyu'; //修改题型机构领域
+        var tiXingData = { //定义一个空的object用来存放需要保存的题型数据
             token: token,
             caozuoyuan: caozuoyuan,
             shuju:[]
-          },
-          qryZsdBaseUrl = baseMtAPIUrl + 'chaxun_zhishidian?token=' + token + '&caozuoyuan=' + caozuoyuan + '&jigouid='
-            + jigouid + '&leixing=1' + '&gen=0' + '&lingyuid=', //查询公共知识点的url
-          qryZsdgBaseUrl = baseMtAPIUrl + 'chaxun_gonggong_zhishidagang?token=' + token + '&caozuoyuan=' + caozuoyuan
-            + '&lingyuid=', //查询公共知识大纲的url
-          deletePublicDaGangBaseUrl = baseMtAPIUrl + 'shanchu_gonggong_zhishidagang', //删除公共知识大纲的url
-          qryZsdgZsdBaseUrl = baseMtAPIUrl + 'chaxun_zhishidagang_zhishidian?token=' + token + '&caozuoyuan=' + caozuoyuan
-            + '&jigouid=' + jigouid + '&lingyuid=', //查询知识大纲知识点的url
-          daGangData = { //定义一个空的大纲数据
+          };
+        var qryZsdBaseUrl = baseMtAPIUrl + 'chaxun_zhishidian?token=' + token + '&caozuoyuan=' + caozuoyuan + '&jigouid='
+            + jigouid + '&leixing=1' + '&lingyuid='; //查询公共知识点的url
+        var qryZsdgBaseUrl = baseMtAPIUrl + 'chaxun_gonggong_zhishidagang?token=' + token + '&caozuoyuan=' + caozuoyuan
+            + '&lingyuid='; //查询公共知识大纲的url
+        var deletePublicDaGangBaseUrl = baseMtAPIUrl + 'shanchu_gonggong_zhishidagang'; //删除公共知识大纲的url
+        var qryZsdgZsdBaseUrl = baseMtAPIUrl + 'chaxun_zhishidagang_zhishidian?token=' + token + '&caozuoyuan=' + caozuoyuan
+            + '&jigouid=' + jigouid + '&lingyuid='; //查询知识大纲知识点的url
+        var daGangData = { //定义一个空的大纲数据
             token: token,
             caozuoyuan: caozuoyuan,
             jigouid: jigouid,
             shuju:{}
-          },
-          daGangJieDianData = [], //定义一个大纲节点的数据
-          modifyZsdgUrl = baseMtAPIUrl + 'xiugai_zhishidagang', //保存知识大纲
-          queryTiKuBaseUrl = baseMtAPIUrl + 'chaxun_tiku?token=' + token + '&caozuoyuan=' + caozuoyuan
-            + '&jigouid=' + jigouid + '&chaxunzilingyu=false' + '&lingyuid=', //查询题目
-          xiuGaiTiKuUrl = baseMtAPIUrl + 'xiugai_tiku', //修改题库的url
-          alterShiJuanMuLuUrl = baseMtAPIUrl + 'xiugai_shijuanmulu', //修改试卷目录
-          queryShiJuanMuLuUrl = baseMtAPIUrl + 'chaxun_shijuanmulu?token=' + token + '&caozuoyuan=' + caozuoyuan
-            + '&jigouid=' + jigouid + '&lingyuid=', //查询试卷目录
-          isDaGangSet = false, //是否是大纲设置
-          isLingYuSet = false, //是否是领域设置
-          qrytimuliebiaoBase = baseMtAPIUrl + 'chaxun_timuliebiao?token=' + token + '&caozuoyuan=' + caozuoyuan +
-            '&jigouid=' + jigouid + '&lingyuid=' + lingyuid, //查询题目列表的url
-          alterZsdUrl = baseMtAPIUrl + 'xiugai_zhishidian', //修改知识点的url
-          alterYongHu = baseRzAPIUrl + 'xiugai_yonghu',
-          cxLyOfZsdBase = baseMtAPIUrl + 'chaxun_lingyu_of_zhishidian?token=' + token + '&caozuoyuan=' + caozuoyuan +
-            '&jigouid=' + jigouid + '&zhishidianid=', //根据知识点查科目
-          modifyZsdLy = baseMtAPIUrl + 'xiugai_zhishidian_lingyu', //修改知识点领域
-          qryZsdTiMuNumBase = baseMtAPIUrl + 'chaxun_timu_count?token=' + token + '&zhishidianid=', //查询此题目
-          originSelectLingYuArr = [], //存放本机构所选领域的原始数据
-          selectLingYuChangedArr = [], //存放本机构变动的领域数据
-          qryTeacherUrl = baseRzAPIUrl + 'query_teacher?token=' + token + '&jigouid=' + jigouid, //查询本机构下教师
-          qryKaoChangDetailBaseUrl = baseKwAPIUrl + 'chaxun_kaodiankaochang?token=' + token + '&caozuoyuan='
-            + caozuoyuan + '&lingyuid=', //查询考场详细的url
-          baoming = { //报名信息表
+          };
+        var daGangJieDianData = []; //定义一个大纲节点的数据
+        var modifyZsdgUrl = baseMtAPIUrl + 'xiugai_zhishidagang'; //保存知识大纲
+        var queryTiKuBaseUrl = baseMtAPIUrl + 'chaxun_tiku?token=' + token + '&caozuoyuan=' + caozuoyuan
+            + '&jigouid=' + jigouid + '&chaxunzilingyu=false' + '&lingyuid='; //查询题目
+        var xiuGaiTiKuUrl = baseMtAPIUrl + 'xiugai_tiku'; //修改题库的url
+        var alterShiJuanMuLuUrl = baseMtAPIUrl + 'xiugai_shijuanmulu'; //修改试卷目录
+        var queryShiJuanMuLuUrl = baseMtAPIUrl + 'chaxun_shijuanmulu?token=' + token + '&caozuoyuan=' + caozuoyuan
+            + '&jigouid=' + jigouid + '&lingyuid='; //查询试卷目录
+        var isDaGangSet = false; //是否是大纲设置
+        var isLingYuSet = false; //是否是领域设置
+        var qrytimuliebiaoBase = baseMtAPIUrl + 'chaxun_timuliebiao?token=' + token + '&caozuoyuan=' + caozuoyuan +
+            '&jigouid=' + jigouid + '&lingyuid=' + lingyuid; //查询题目列表的url
+        var alterZsdUrl = baseMtAPIUrl + 'xiugai_zhishidian'; //修改知识点的url
+        var alterYongHu = baseRzAPIUrl + 'xiugai_yonghu';
+        var cxLyOfZsdBase = baseMtAPIUrl + 'chaxun_lingyu_of_zhishidian?token=' + token + '&caozuoyuan=' + caozuoyuan +
+            '&jigouid=' + jigouid + '&zhishidianid='; //根据知识点查科目
+        var modifyZsdLy = baseMtAPIUrl + 'xiugai_zhishidian_lingyu'; //修改知识点领域
+        var qryZsdTiMuNumBase = baseMtAPIUrl + 'chaxun_timu_count?token=' + token + '&zhishidianid='; //查询此题目
+        var originSelectLingYuArr = []; //存放本机构所选领域的原始数据
+        var selectLingYuChangedArr = []; //存放本机构变动的领域数据
+        var qryTeacherUrl = baseRzAPIUrl + 'query_teacher?token=' + token + '&jigouid=' + jigouid; //查询本机构下教师
+        var qryKaoChangDetailBaseUrl = baseKwAPIUrl + 'chaxun_kaodiankaochang?token=' + token + '&caozuoyuan='
+            + caozuoyuan + '&lingyuid='; //查询考场详细的url
+        var baoming = { //报名信息表
             baomingxinxi: {
               baoming_id: '',
               jigou_id: '',
@@ -118,17 +118,17 @@ define(['angular', 'config', 'datepicker', 'jquery', 'underscore'],
             },
             baomingkaoshishijian: [],
             baomingkaodian: []
-          },
-          studentData = '', //存放报名考试查出来的考试
-          uploadKsUrl = baseBmAPIUrl + 'excel_to_json', //上传考生信息
-          saveBaoMingUrl = baseBmAPIUrl + 'save_baoming_set', //保存报名信息
-          qryBmByJgBase = baseBmAPIUrl + 'query_baoming_byjg?token=' + token + '&jigouid=', //由机构查询报名
-          qryStudentByBmIdBase = baseBmAPIUrl + 'query_mingdan_bybmid?token=' + token + '&baoming_id=', //由报名ID查询考生
-          qryBaoMingShiJianBase = baseBmAPIUrl + 'query_baoming_shijian?token=' + token + '&baoming_id=', //由报名ID查询考试时间
-          exportStuInfoUrl = baseTjAPIUrl + 'export_to_excel', //导出excel名单
-          downloadTempFileBase = config.apiurl_tj_ori + 'download_temp_file/', //下载文件
-          closeBaoMingBase = baseBmAPIUrl + 'close_baoming?token=' + token + '&baoming_id=', //结束报名
-          delBlankReg = /\s/g; //去除空格的正则表达
+          };
+        var studentData = ''; //存放报名考试查出来的考试
+        var uploadKsUrl = baseBmAPIUrl + 'excel_to_json'; //上传考生信息
+        var saveBaoMingUrl = baseBmAPIUrl + 'save_baoming_set'; //保存报名信息
+        var qryBmByJgBase = baseBmAPIUrl + 'query_baoming_byjg?token=' + token + '&jigouid='; //由机构查询报名
+        var qryStudentByBmIdBase = baseBmAPIUrl + 'query_mingdan_bybmid?token=' + token + '&baoming_id='; //由报名ID查询考生
+        var qryBaoMingShiJianBase = baseBmAPIUrl + 'query_baoming_shijian?token=' + token + '&baoming_id='; //由报名ID查询考试时间
+        var exportStuInfoUrl = baseTjAPIUrl + 'export_to_excel'; //导出excel名单
+        var downloadTempFileBase = config.apiurl_tj_ori + 'download_temp_file/'; //下载文件
+        var closeBaoMingBase = baseBmAPIUrl + 'close_baoming?token=' + token + '&baoming_id='; //结束报名
+        var delBlankReg = /\s/g; //去除空格的正则表达
 
         $scope.adminParams = {
           selected_dg: '',
@@ -1222,7 +1222,7 @@ define(['angular', 'config', 'datepicker', 'jquery', 'underscore'],
           pubDgZsdIdArr = [], //存放公共知识大纲知识点的数据
           pubZsdIdArr = []; //存放公共知识点id的数组
         var minusZsdFun = function(){
-          var  diffZsdIdArr, //存放不同知识点id的变量
+          var diffZsdIdArr, //存放不同知识点id的变量
             singleZsdData, //存放一条公共知识点数据的变量
             pubZsdList = []; //存放多条公共知识点的变量
           //从已有的公共知识点中减去知识大纲知识点
@@ -1871,7 +1871,7 @@ define(['angular', 'config', 'datepicker', 'jquery', 'underscore'],
                 $scope.zsdSetZsdData = data;
               }
               else{
-                DataService.alertInfFun('err', '此科目下没有知识点');
+                DataService.alertInfFun('err', data.error || '此领域下没有知识点！');
               }
             });
           }

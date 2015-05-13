@@ -12,13 +12,13 @@ define(['angular', 'jquery'], function (angular, $) {
       return {
         restrict: 'A',
         link: function postLink(scope, element, attrs) {
-          var targetClass,
-            slideTap = attrs.slidShowTapon,
-            slideTarget = '.' + attrs.slideShowTarget,
-            slideText = attrs.slideShowText,
-            slideDirection = attrs.slideShowDirt,
-            slideIdx = attrs.slideShowIdx,
-            targetSlt;
+          var targetClass;
+          var slideTap = attrs.slidShowTapon;
+          var slideTarget = '.' + attrs.slideShowTarget;
+          var slideText = attrs.slideShowText;
+          var slideDirection = attrs.slideShowDirt;
+          var slideIdx = attrs.slideShowIdx;
+          var targetSlt;
           if(slideTap){
             targetClass = '.' + slideTap;
           }
@@ -35,6 +35,7 @@ define(['angular', 'jquery'], function (angular, $) {
               if(slideText){ //用在考务里面的试卷列表
                 $(this).text(eltTxt == '关闭' ? slideText : '关闭');
                 $(this).closest('div').next(slideTarget).slideToggle();
+                $(this).closest('.buMenBtn').next(slideTarget).slideToggle();
               }
               else{
                 $(this).next(slideTarget).slideToggle();

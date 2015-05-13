@@ -238,6 +238,9 @@ a.add-btn:hover span {
 .dpb{
   display: block;
 }
+.cursorPointer{
+  cursor: pointer;
+}
 .form-header {
   margin-bottom: 0;
   .form-th {
@@ -769,6 +772,9 @@ a.add-btn:hover span {
 .messageWrap {
   color: red;
 }
+.more-info {
+  display: none;
+}
 //考务和组卷的 sliding tab
 .sub-nav{
   height: 47px;
@@ -1061,7 +1067,7 @@ a.add-btn:hover span {
   width: 200px;
   height: 28px;
   float: left;
-  background: url('../images/zujuan/zjStar.png') no-repeat 0 0;
+  background: url('../images/zjStar.png') no-repeat 0 0;
   li{
     float: left;
     margin-right: 12px;
@@ -1094,7 +1100,7 @@ a.add-btn:hover span {
 }
 /*伪装的select复选框*/
 .fakeMutiSelect{
-  background: url('../images/renzheng/icon/selectBg.png') no-repeat right center;
+  background: url('../images/selectBg.png') no-repeat right center;
   .fakeOptionList{
     background-color: #F2F2F2;
     padding: 10px 10px  0 10px;
@@ -1268,48 +1274,48 @@ label.checkbox{
   -ms-box-shadow: 0 0 8px #dddddd;
   -o-box-shadow: 0 0 8px #dddddd;
   box-shadow: 0 0 8px #dddddd;
-}
-.intimidatetime:after {
-  clear: both;
-}
-.intimidatetime.intimidatetime-inline {
-  position: static;
-}
-.intimidatetime .intimidatetime-buttons {
-  padding: 10px;
-}
-.intimidatetime .intimidatetime-buttons button {
-  margin: 0 15px 0 0;
-}
-.intimidatetime .intimidatetime-buttons:before {
-  clear: both;
-}
-.intimidatetime .intimidatetime-buttons:after {
-  clear: both;
+  &:after{
+    clear: both;
+  }
+  .intimidatetime-inline {
+    position: static;
+  }
+  .intimidatetime-buttons {
+    padding: 10px;
+    button {
+      margin: 0 15px 0 0;
+      &:before{
+        clear: both;
+      }
+      &:after{
+        clear: both;
+      }
+    }
+  }
 }
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 *	MODE: basic
 */
 .intimidatetime-mode-basic {
   display: inline-block;
-}
-.intimidatetime-mode-basic .intimidatetime-range {
-  display: inline-block;
-  border-left: solid 1px #e4e4e4;
-}
-.intimidatetime-mode-basic .intimidatetime-range .intimidatetime-preview {
-  text-align: center;
-  padding: 10px 0;
-}
-.intimidatetime-mode-basic .intimidatetime-range .intimidatetime-group {
-  padding: 5px 10px;
-}
-.intimidatetime-mode-basic .intimidatetime-range .intimidatetime-group .intimidatetime-unit {
-  display: inline-block;
-  padding-right: 5px;
-}
-.intimidatetime-mode-basic .intimidatetime-range .intimidatetime-group .intimidatetime-unit span {
-  display: block;
+  .intimidatetime-range {
+    display: inline-block;
+    border-left: solid 1px #e4e4e4;
+    .intimidatetime-preview {
+      text-align: center;
+      padding: 10px 0;
+    }
+    .intimidatetime-group {
+      padding: 5px 10px;
+      .intimidatetime-unit {
+        display: inline-block;
+        padding-right: 5px;
+        span {
+          display: block;
+        }
+      }
+    }
+  }
 }
 //固定到顶部
 .fixed-top{
@@ -1801,7 +1807,11 @@ label.checkbox{
   }
 }
 //大纲样式
+//大纲样式
 .dagangWrapper{
+  .content{
+    padding-top: 50px;
+  }
   .itemTitle {
     font-size: 120%;
     font-weight: 600;
@@ -1825,6 +1835,39 @@ label.checkbox{
       &:hover{
         text-decoration: none;
         background-color: #f3f3f3;
+      }
+    }
+  }
+  .publicKnowledgeWrap{
+    position: fixed;
+    right: 20px;
+    top: 60px;
+    bottom: 0;
+    width: 250px;
+    padding-bottom: 90px;
+    .innerBox{
+      border: 1px solid #cfcfcf;
+      height: 100%;
+      overflow-y: auto;
+      background-color: #fff;
+      padding: 10px;
+      p{
+        cursor: pointer;
+      }
+    }
+    .title{
+      padding: 10px 0;
+      .pull-left{
+        width: 90px;
+      }
+      .pull-right{
+        width: 155px;
+        span{
+          margin-right: 10px;
+        }
+        input{
+          margin-right: 5px;
+        }
       }
     }
   }
@@ -2325,7 +2368,6 @@ label.checkbox{
       }
     }
     .more-info{
-      display: none;
       padding: 10px;
       h5{
         font-weight: bold;
@@ -2432,22 +2474,6 @@ label.checkbox{
   .pointTree{
     top: 10px;
   }
-//  .pointTitleBox {
-//    margin: 0;
-//    border: 0;
-//    line-height: 40px;
-//    .pointTitle{
-//      font-size: 15px;
-//      width: 100%;
-//      padding: 0 10px;
-//      margin: 0;
-//      text-align: center;
-//    }
-//  }
-//  .pointSelect{
-//    height: 56px;
-//    border-bottom: 1px solid #cfcfcf;
-//  }
 }
 .paper_hand_form{ //手动组卷样式
   .contentInner{
@@ -2533,7 +2559,6 @@ label.checkbox{
       width: 100%;
       margin: 0;
       .more-info{
-        display: none;
         float: left;
         width: 100%;
         p{

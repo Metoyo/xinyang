@@ -32,7 +32,9 @@ define(['angular', 'config', 'jquery'], function (angular, config, $) {
           addNewKxh: '', //添加课序号
           modifyKxh: '',  //修改课序号
           singleWorkName: '', //添加单个员工姓名
-          singleWorkID: '' //添加单个员工身份证
+          singleWorkID: '', //添加单个员工身份证
+          addNewBm: '', //添加新部门
+          modifyBm: '' //修改部门
         };
         $scope.showKeXuHaoManage = false;
         $scope.kxhInputShow = false;
@@ -59,9 +61,13 @@ define(['angular', 'config', 'jquery'], function (angular, config, $) {
           if (tab == 'bumen') {
             $scope.guanliParams.tabActive = 'bumen';
             $scope.guanLiTpl = 'views/guanli/bumen.html';
+            $scope.buMenData = [
+              {bmId: 1000, bmName: '部门名称一'},
+              {bmId: 1001, bmName: '部门名称二'}
+            ];
           }
         };
-        $scope.guanLiTabSlide('kexuhao');
+        $scope.guanLiTabSlide('bumen');
 
         /**
          * 通过身份证查询员工
@@ -104,6 +110,9 @@ define(['angular', 'config', 'jquery'], function (angular, config, $) {
           $scope.kxhEditBoxShow = item;
           if(item == 'modifyKeXuHao'){
             $scope.guanliParams.modifyKxh = data.kxhName;
+          }
+          if(item == 'modifyBm'){
+            $scope.guanliParams.modifyBm = data.bmName;
           }
           $scope.kxhSelectData = data;
         };
@@ -166,6 +175,48 @@ define(['angular', 'config', 'jquery'], function (angular, config, $) {
           $scope.kxhEditBoxShow = ''; //弹出层显示那一部分重置
           $scope.guanliParams.addNewKxh = ''; //课序号重置
         };
+
+        /**
+         * 保存部门修改
+         */
+        $scope.saveBuMenModify = function(){
+          var saveType = $scope.kxhEditBoxShow;
+          if(saveType == 'addBuMen'){ //新增课序号
+            if($scope.guanliParams.addNewBm){
+              $http.post(url, shuju).success(function(data){
+                if(data.result){
+                  $scope.kxhEditBoxShow = ''; //弹出层显示那一部分内容重置
+                  $scope.guanliParams.addNewBm = ''; //部门重置
+                }
+              });
+            }
+            else{
+              DataService.alertInfFun('pmt', '新加部门名称为空！');
+            }
+          }
+          if(saveType == 'modifyBm'){ //修改部门
+            if($scope.guanliParams.modifyBm){
+              alert($scope.guanliParams.modifyBm);
+            }
+          }
+          if(saveType == 'addSingleWork'){ //添加单个员工
+            if($scope.guanliParams.singleWorkName){
+              if($scope.guanliParams.singleWorkID){
+
+              }
+              else{
+                DataService.alertInfFun('pmt', '缺少身份证！');
+              }
+            }
+            else{
+              DataService.alertInfFun('pmt', '缺少姓名！');
+            }
+          }
+          if(saveType == 'addBatchWorks'){ //批量添加员工
+
+          }
+        };
+
 
       }]);
 });

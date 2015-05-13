@@ -4,6 +4,9 @@
             ng-options="dg.ZHISHIDAGANG_ID as dg.ZHISHIDAGANGMINGCHENG for dg in privateZsdgList">
         <option value="">请选择大纲</option>
     </select>
+    <!--<button type="button" class="btn btn-default pull-right" ng-click="addNewZjDg()">-->
+        <!--新建-->
+    <!--</button>-->
 </div>
 <div class="form-horizontal dagangInputForm">
     <div class="loading-box text-center" ng-show="loadingImgShow">
@@ -14,7 +17,8 @@
         <div class="media-body">
             <div class="media-heading">
                 <div class="input-group col-md-6">
-                    <input type="text" class="form-control" ng-model="zsd.ZHISHIDIANMINGCHENG">
+                    <input type="text" class="form-control" ng-model="zsd.ZHISHIDIANMINGCHENG"
+                           ng-focus="privateDgInputIdx($event, zsd)" ng-blur="compareZjInputVal(zsd)">
                     <span class="input-group-btn">
                          <button class="btn btn-default dgAddBtn" ng-click="addNd($event, zsd)" type="button">
                              <span class="glyphicon glyphicon-plus"> </span>
@@ -28,7 +32,8 @@
                 <div class="media-body">
                     <div class="media-heading">
                         <div class="input-group col-md-6">
-                            <input type="text" class="form-control" ng-model="nd2.ZHISHIDIANMINGCHENG">
+                            <input type="text" class="form-control" ng-model="nd2.ZHISHIDIANMINGCHENG"
+                                   ng-focus="privateDgInputIdx($event, nd2)" ng-blur="compareZjInputVal(nd2)">
                             <span class="input-group-btn">
                                  <button class="btn btn-default dgDeleteBtn" ng-click="removeNd(zsd, nd2, $index)"
                                          type="button">
@@ -39,6 +44,31 @@
                     </div>
                 </div>
             </div>
+        </div>
+        <!--<input type="text" class="bbbbb"/>-->
+        <!--<button ng-click="focusInput()" class="ccc">点我</button>-->
+    </div>
+    <div class="publicKnowledgeWrap">
+        <div class="row title">
+            <div class="pull-left">已有知识点:</div>
+            <div class="pull-right">
+                <span class="wp50">
+                    <input type="radio" ng-model="daGangParam.zsdKind" value="1" ng-change="getThisOrgPublicZsd()">公共
+                </span>
+                <span class="wp50">
+                    <input type="radio" ng-model="daGangParam.zsdKind" value="2" ng-change="getThisOrgPublicZsd()">私有
+                </span>
+                <!--<select class="form-control" ng-model="daGangParam.zsdKind"-->
+                        <!--ng-chang="getThisOrgPublicZsd(daGangParam.zsdKind)">-->
+                    <!--<option value="">请选择类型</option>-->
+                    <!--<option value="1">公共知识点</option>-->
+                    <!--<option value="2">私有知识点</option>-->
+                <!--</select>-->
+            </div>
+        </div>
+        <div class="innerBox" id="daGangList" ng-show="publicKnowledge">
+            <p ng-repeat="pzsd in publicKnowledge" title="点击加入到知识大纲" ng-bind="pzsd.ZHISHIDIANMINGCHENG"
+               ng-click="addToZjDaGang(pzsd, $index)" repeat-done></p>
         </div>
     </div>
 </div>
