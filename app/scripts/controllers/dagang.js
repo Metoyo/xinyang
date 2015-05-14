@@ -78,22 +78,6 @@ define(['angular','config', 'mathjax', 'jquery', 'underscore'], function (angula
         getMoRenDaGangFun();
 
         /**
-         * 加载公共知识大纲
-         */
-        //var getPubDaGangListFun = function(){
-        //  $scope.publicZsdgList = []; //存放公共知识大纲的数组
-        //  $http.get(qryPubDgBaseUrl).success(function(data){
-        //    if(data && data.length > 0){
-        //      $scope.publicZsdgList = data;
-        //    }
-        //    else{
-        //      DataService.alertInfFun('err', data.error);
-        //      $scope.publicZsdgList = [];
-        //    }
-        //  });
-        //};
-
-        /**
          * 加载自建知识大纲
          */
         var getPriDaGangListFun = function(){

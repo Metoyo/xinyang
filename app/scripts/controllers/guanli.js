@@ -9,8 +9,8 @@ define(['angular', 'config', 'jquery'], function (angular, config, $) {
    * Controller of the xinyangApp
    */
   angular.module('xinyangApp.controllers.GuanLiCtrl', [])
-    .controller('GuanLiCtrl', ['$rootScope', '$scope', 'DataService',
-      function ($rootScope, $scope, DataService) {
+    .controller('GuanLiCtrl', ['$rootScope', '$scope', 'DataService', '$http',
+      function ($rootScope, $scope, DataService, $http) {
         /**
          * 定义变量
          */
@@ -19,12 +19,12 @@ define(['angular', 'config', 'jquery'], function (angular, config, $) {
          * 声明变量
          */
         var userInfo = $rootScope.session.userInfo;
-        var defaultJg = userInfo.JIGOU;
-        var xuehao = userInfo.xuehao;
         var baseRzAPIUrl = config.apiurl_rz; //renzheng的api;
         var token = config.token;
+        var caozuoyuan = userInfo.UID;//登录的用户的UID
         var qryJiGouUrl = baseRzAPIUrl + 'jiGou?token=' + token; //查询机构
-
+        var modifyJiGouUrl = baseRzAPIUrl + 'modify_jigou'; //修改机构的url
+        var numPerPage = 10; //每页多少条
 
         $scope.guanliParams = { //学生controller参数
           tabActive: '',
@@ -39,25 +39,50 @@ define(['angular', 'config', 'jquery'], function (angular, config, $) {
         };
         $scope.showKeXuHaoManage = false;
         $scope.kxhInputShow = false;
-        $scope.kxhEditBoxShow = ''; //弹出层显示那一部分内容
-        $scope.kxhSelectData = ''; //课序号管理，存放需要传入的数据
+        $scope.glEditBoxShow = ''; //弹出层显示那一部分内容
+        $scope.glSelectData = ''; //存放需要传入的数据
+        $scope.buMenPages = []; //部门分页
+        $scope.worksPages = []; //员工分页
+        $scope.originBuMenData = ''; //存放部门的原始数据
 
         /**
          * 由机构类别查询机构
          */
         var getJgList = function(){
+          $scope.originBuMenData = '';
           $scope.loadingImgShow = true;
+          var dataLength = ''; //所以二级知识点长度
+          var lastPage = ''; //最后一页
+          $scope.buMenPages = [];
           DataService.getData(qryJiGouUrl).then(function(data){
             if(data && data.length > 0){
-              $scope.buMenData = data[0].CHILDREN[0];
+              $scope.originBuMenData = data[0].CHILDREN[0];
               $scope.guanliParams.tabActive = 'bumen';
               $scope.loadingImgShow = false;
+              dataLength = $scope.originBuMenData.CHILDREN.length;
+              if(dataLength){
+                lastPage = Math.ceil(dataLength/numPerPage);
+                for(var i = 1; i <= lastPage; i++){
+                  $scope.buMenPages.push(i);
+                }
+              }
+              $scope.getThisBuMenPageDate(1);
               $scope.guanLiTpl = 'views/guanli/bumen.html';
             }
             else{
               $scope.loadingImgShow = false;
             }
           });
+        };
+
+        /**
+         * 得到分页的部门数据 currentBmPageVal
+         */
+        $scope.getThisBuMenPageDate = function(pg){
+          var startPage = (pg-1) * numPerPage;
+          var endPage = pg * numPerPage;
+          $scope.currentKsPageVal = pg;
+          $scope.buMenData = $scope.originBuMenData.CHILDREN.slice(startPage, endPage);
         };
 
         /**
@@ -72,10 +97,6 @@ define(['angular', 'config', 'jquery'], function (angular, config, $) {
           if (tab == 'kexuhao') {
             $scope.guanliParams.tabActive = 'kexuhao';
             $scope.guanLiTpl = 'views/guanli/kexuhao.html';
-            $scope.keXuHaoData = [
-              {kxhId: 1000, kxhName: '课序号一'},
-              {kxhId: 1001, kxhName: '课序号二'}
-            ];
           }
           if (tab == 'bumen') {
             getJgList();
@@ -121,26 +142,26 @@ define(['angular', 'config', 'jquery'], function (angular, config, $) {
          */
         $scope.showKeXuHaoPop = function(item, data){
           $scope.showKeXuHaoManage = true;
-          $scope.kxhEditBoxShow = item;
+          $scope.glEditBoxShow = item;
           if(item == 'modifyKeXuHao'){
             $scope.guanliParams.modifyKxh = data.kxhName;
           }
           if(item == 'modifyBm'){
-            $scope.guanliParams.modifyBm = data.bmName;
+            $scope.guanliParams.modifyBm = data.JIGOUMINGCHENG;
           }
-          $scope.kxhSelectData = data;
+          $scope.glSelectData = data;
         };
 
         /**
          * 保存课序号修改
          */
         $scope.saveKeXuHaoModify = function(){
-          var saveType = $scope.kxhEditBoxShow;
+          var saveType = $scope.glEditBoxShow;
           if(saveType == 'addKeXuHao'){ //新增课序号
             if($scope.guanliParams.addNewKxh){
               $http.post(url, shuju).success(function(data){
                 if(data.result){
-                  $scope.kxhEditBoxShow = ''; //弹出层显示那一部分内容重置
+                  $scope.glEditBoxShow = ''; //弹出层显示那一部分内容重置
                   $scope.guanliParams.addNewKxh = ''; //课序号重置
                 }
               });
@@ -186,7 +207,7 @@ define(['angular', 'config', 'jquery'], function (angular, config, $) {
          */
         $scope.closeKeXuHaoManage = function(){
           $scope.showKeXuHaoManage = false;
-          $scope.kxhEditBoxShow = ''; //弹出层显示那一部分重置
+          $scope.glEditBoxShow = ''; //弹出层显示那一部分重置
           $scope.guanliParams.addNewKxh = ''; //课序号重置
         };
 
@@ -194,12 +215,37 @@ define(['angular', 'config', 'jquery'], function (angular, config, $) {
          * 保存部门修改
          */
         $scope.saveBuMenModify = function(){
-          var saveType = $scope.kxhEditBoxShow;
+          var saveType = $scope.glEditBoxShow;
+          var bmParam = $scope.glSelectData;
           if(saveType == 'addBuMen'){ //新增课序号
+            var newBuMeData = {
+              token: token,
+              caozuoyuan: caozuoyuan,
+              shuju: [
+                {
+                  JIGOU_ID: bmParam.JIGOU_ID,
+                  //JIGOUMINGCHENG: '',
+                  //LEIBIE: '',
+                  //ZHUANGTAI: '',
+                  CHILDREN: [
+                    {
+                      JIGOU_ID: '',
+                      JIGOUMINGCHENG: '',
+                      LEIBIE: 2,
+                      ZHUANGTAI: 1,
+                      CHILDREN: []
+                    }
+                  ]
+                }
+              ]
+            };
             if($scope.guanliParams.addNewBm){
-              $http.post(url, shuju).success(function(data){
+              newBuMeData.shuju[0].CHILDREN[0].JIGOUMINGCHENG = $scope.guanliParams.addNewBm;
+              $http.post(modifyJiGouUrl, newBuMeData).success(function(data){
                 if(data.result){
-                  $scope.kxhEditBoxShow = ''; //弹出层显示那一部分内容重置
+                  console.log(data);
+                  getJgList();
+                  $scope.glEditBoxShow = ''; //弹出层显示那一部分内容重置
                   $scope.guanliParams.addNewBm = ''; //部门重置
                 }
               });

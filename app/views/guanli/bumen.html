@@ -1,22 +1,54 @@
 <div class="row">
   <div class="col-md-5">
     <h4 class="bdb pb10">
-      <span ng-bind="buMenData.JIGOUMINGCHENG"></span>
-      <a href="javascript:void(0)" class="fz14 pull-right" ng-click="showKeXuHaoPop('addBuMen')">新增部门</a>
+      <span ng-bind="originBuMenData.JIGOUMINGCHENG"></span>
+      <a href="javascript:void(0)" class="fz14 pull-right" ng-click="showKeXuHaoPop('addBuMen', originBuMenData)">新增部门</a>
     </h4>
     <div>
       <ul class="list-unstyled" id="keXuHaoManage">
-        <li class="bdbd ptb5" ng-repeat="bm in buMenData.CHILDREN">
+        <li class="bdbd ptb5" ng-repeat="bm in buMenData">
           <span class="keXuHao cursorPointer" ng-bind="bm.JIGOUMINGCHENG"></span>
           <span class="pull-right buMenBtn">
             <a href="javascript:void(0)" class="mr10 banZu" bn-slide-show slid-show-tapon="banZu" ng-if="bm.CHILDREN.length>0"
                slide-show-target="more-info" slide-show-text="班组" slide-show-idx="{{$index}}">班组</a>
+            <a href="javascript:void(0)" class="mr10" ng-click="showKeXuHaoPop('addBuMen', bm)">新增班组</a>
             <a href="javascript:void(0)" class="mr10" ng-click="showKeXuHaoPop('modifyBm', bm)">修改</a>
             <a href="javascript:void(0)" ng-click="deleteKeXuHao(bm)">删除</a>
           </span>
           <div class="more-info p10" ng-if="bm.CHILDREN.length>0">
-            <p class="cursorPointer" ng-repeat="bz in bm.CHILDREN" ng-bind="bz.JIGOUMINGCHENG"></p>
+            <p class="cursorPointer" ng-repeat="bz in bm.CHILDREN">
+              <span class="cursorPointer" ng-bind="bz.JIGOUMINGCHENG"></span>
+              <span class="pull-right buMenBtn">
+                <a href="javascript:void(0)" class="mr10" ng-click="showKeXuHaoPop('modifyBm', bm)">修改</a>
+                <a href="javascript:void(0)" ng-click="deleteKeXuHao(bm)">删除</a>
+              </span>
+            </p>
           </div>
+        </li>
+      </ul>
+    </div>
+    <div class="paging text-right" ng-if="buMenPages.length>0">
+      <ul class="pagination pagination-sm">
+        <li ng-class="{disabled: currentKsPageVal == 1}">
+          <a href ng-click="getThisBuMenPageDate(1)">首页</a>
+        </li>
+        <li ng-class="{disabled: currentKsPageVal == 1}">
+          <a href
+             ng-click="getThisBuMenPageDate(prevPg = currentKsPageVal > 1 ? currentKsPageVal - 1 : 1)">
+            上一页
+          </a>
+        </li>
+        <li ng-repeat="pg in buMenPages" ng-class="{active: currentKsPageVal == pg}">
+          <a href ng-click="getThisBuMenPageDate(pg)">{{pg}}</a>
+        </li>
+        <li ng-class="{disabled: currentKsPageVal == lastKaoShiPageNum}">
+          <a href
+             ng-click="getThisBuMenPageDate(nextPg = currentKsPageVal < lastKaoShiPageNum ? currentKsPageVal + 1 : lastKaoShiPageNum)">
+            下一页
+          </a>
+        </li>
+        <li ng-class="{disabled: currentKsPageVal == lastKaoShiPageNum}">
+          <a href ng-click="getThisBuMenPageDate(lastKaoShiPageNum)">尾页</a>
         </li>
       </ul>
     </div>
@@ -53,7 +85,7 @@
     </div>
     <div class="pwi-body plr10">
       <!--添加新部门-->
-      <div class="row mt15" ng-if="kxhEditBoxShow=='addBuMen'">
+      <div class="row mt15" ng-if="glEditBoxShow=='addBuMen'">
         <div class="col-md-2 text-right">
           <span class="mt5 dpb">部门</span>
         </div>
@@ -62,7 +94,7 @@
         </div>
       </div>
       <!--修改课部门-->
-      <div class="row mt15" ng-if="kxhEditBoxShow=='modifyBm'">
+      <div class="row mt15" ng-if="glEditBoxShow=='modifyBm'">
         <div class="col-md-2 text-right">
           <span class="mt5 dpb">部门</span>
         </div>
@@ -71,7 +103,7 @@
         </div>
       </div>
       <!--添加单个员工-->
-      <div class="row mt15" ng-if="kxhEditBoxShow=='addSingleWork'">
+      <div class="row mt15" ng-if="glEditBoxShow=='addSingleWork'">
         <div class="clearfix">
           <div class="col-md-2 text-right">
             <span class="mt5 dpb">姓名</span>
@@ -90,7 +122,7 @@
         </div>
       </div>
       <!--批量添加员工-->
-      <div class="row mt15" ng-if="kxhEditBoxShow=='addBatchWorks'">
+      <div class="row mt15" ng-if="glEditBoxShow=='addBatchWorks'">
         <div class="col-md-2 text-right">
           <span class="mt5 dpb">请选择文件</span>
         </div>
