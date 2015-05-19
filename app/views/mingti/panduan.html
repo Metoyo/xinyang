@@ -8,65 +8,16 @@
     <div class="col-md-12">
         <div class="form-horizontal">
             <div class="form-header">
-              <div class="form-group">
-                <label class="col-sm-1 control-label">题目来源</label>
-                <div class="col-sm-8">
-                  <select class="form-control" ng-model="panDuanData.shuju.TIMULAIYUAN_ID"
-                          ng-options="tmly.TIMULAIYUAN_ID as tmly.LAIYUANMINGCHENG for tmly in mingTiParam.tiMuLaiYuan">
-                    <option value="">请选择题目来源</option>
-                  </select>
-                </div>
-              </div>
                 <div class="form-group zsdNameBox">
                     <div class="col-sm-8 col-sm-offset-1">
                         知识点：【<span ng-bind="selectZhiShiDian"></span>】
-                    </div>
-                </div>
-                <div class="form-group answerBox" ng-hide="hidePanDuanTiGanEdt" ng-init="hidePanDuanTiGanEdt=false">
-                    <div class="col-sm-8 col-sm-offset-1 text-right">
-                        <a href="javascript:void(0)" ng-click="addTiGanEditor();hidePanDuanTiGanEdt=true">
-                            题干编辑器</a>
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-sm-1 control-label">题干</label>
                     <div class="col-sm-8">
                         <textarea id="aa47" class="form-control formulaEditTiGan" rows="6" ng-model="panDuanData.shuju.TIGAN"
-                                  placeholder="请输入判断题题干" ng-change="previewTiGan()"></textarea>
-                        <div class="previewBox" ng-show="hidePanDuanTiGanEdt">
-                            <h4 class="title">
-                                <span class="pull-left">
-                                    内容预览：
-                                </span>
-                                <span class="pull-right" ng-click="removeTiGanEditor();hidePanDuanTiGanEdt=false">
-                                    关闭题干编辑器
-                                </span>
-                            </h4>
-                            <div id="prevDoc" contentEditable='true'>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="form-group fileUploadBox">
-                    <div id="mediaPlugin">
-                        <div class="mediaPluginInner">
-                            <div class="row">
-                                <p class="uploadBtnBox">
-                                    <input type="file" file-upload multiple class="pull-left hide addFileBtn"/>
-                                    <button ng-click="addMyFile()" class="btn btn-default pull-left">添加文件</button>
-                                    <span ng-show="uploadFiles.length">{{uploadFiles.length}}个文件</span>
-                                    <button ng-click="uploadMyFiles()" class="btn btn-default pull-right">添加到编辑器</button>
-                                </p>
-                                <p ng-repeat="fl in uploadFiles track by $index">
-                                    <span ng-bind="fl.name"></span>
-                                    <span ng-bind="(fl.size/1024).toFixed(2) + 'KB'"></span>
-                                    <span class="glyphicon glyphicon-remove" ng-click="deleteSelectFile($index)"></span>
-                                </p>
-                            </div>
-                            <div class="closeBtn">
-                                <a href="javascript:void(0)" ng-click="closeMediaPlugin()">关闭</a>
-                            </div>
-                        </div>
+                                  placeholder="请输入判断题题干"></textarea>
                     </div>
                 </div>
             </div>

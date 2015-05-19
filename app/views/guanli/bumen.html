@@ -1,26 +1,26 @@
 <div class="row">
   <div class="col-md-5">
     <h4 class="bdb pb10">
-      <span ng-bind="originBuMenData.JIGOUMINGCHENG"></span>
+      <span ng-bind="originBuMenData.JIGOUMINGCHENG" ng-click="chaXunJiGouYongHu(originBuMenData)" class="cursorPointer"></span>
       <a href="javascript:void(0)" class="fz14 pull-right" ng-click="showKeXuHaoPop('addBuMen', originBuMenData)">新增部门</a>
     </h4>
     <div>
       <ul class="list-unstyled" id="keXuHaoManage">
         <li class="bdbd ptb5" ng-repeat="bm in buMenData">
-          <span class="keXuHao cursorPointer" ng-bind="bm.JIGOUMINGCHENG"></span>
+          <span class="keXuHao cursorPointer" ng-bind="bm.JIGOUMINGCHENG" ng-click="chaXunJiGouYongHu(bm)"></span>
           <span class="pull-right buMenBtn">
-            <a href="javascript:void(0)" class="mr10 banZu" bn-slide-show slid-show-tapon="banZu" ng-if="bm.CHILDREN.length>0"
+            <a href="javascript:void(0)" class="mr10 banZu" bn-slide-show slid-show-tapon="banZu" ng-show="bm.CHILDREN.length>0"
                slide-show-target="more-info" slide-show-text="班组" slide-show-idx="{{$index}}">班组</a>
             <a href="javascript:void(0)" class="mr10" ng-click="showKeXuHaoPop('addBuMen', bm)">新增班组</a>
             <a href="javascript:void(0)" class="mr10" ng-click="showKeXuHaoPop('modifyBm', bm)">修改</a>
-            <a href="javascript:void(0)" ng-click="deleteKeXuHao(bm)">删除</a>
+            <a href="javascript:void(0)" ng-click="deleteBuMen(bm.JIGOU_ID)">删除</a>
           </span>
-          <div class="more-info p10" ng-if="bm.CHILDREN.length>0">
+          <div class="more-info p10" ng-show="bm.CHILDREN.length>0">
             <p class="cursorPointer" ng-repeat="bz in bm.CHILDREN">
-              <span class="cursorPointer" ng-bind="bz.JIGOUMINGCHENG"></span>
+              <span class="cursorPointer" ng-bind="bz.JIGOUMINGCHENG" ng-click="chaXunJiGouYongHu(bz)"></span>
               <span class="pull-right buMenBtn">
-                <a href="javascript:void(0)" class="mr10" ng-click="showKeXuHaoPop('modifyBm', bm)">修改</a>
-                <a href="javascript:void(0)" ng-click="deleteKeXuHao(bm)">删除</a>
+                <a href="javascript:void(0)" class="mr10" ng-click="showKeXuHaoPop('modifyBm', bz)">修改</a>
+                <a href="javascript:void(0)" ng-click="deleteBuMen(bz.JIGOU_ID)">删除</a>
               </span>
             </p>
           </div>
@@ -41,37 +41,57 @@
         <li ng-repeat="pg in buMenPages" ng-class="{active: currentKsPageVal == pg}">
           <a href ng-click="getThisBuMenPageDate(pg)">{{pg}}</a>
         </li>
-        <li ng-class="{disabled: currentKsPageVal == lastKaoShiPageNum}">
+        <li ng-class="{disabled: currentKsPageVal == lastBmPageNum}">
           <a href
-             ng-click="getThisBuMenPageDate(nextPg = currentKsPageVal < lastKaoShiPageNum ? currentKsPageVal + 1 : lastKaoShiPageNum)">
+             ng-click="getThisBuMenPageDate(nextPg = currentKsPageVal < lastBmPageNum ? currentKsPageVal + 1 : lastBmPageNum)">
             下一页
           </a>
         </li>
-        <li ng-class="{disabled: currentKsPageVal == lastKaoShiPageNum}">
-          <a href ng-click="getThisBuMenPageDate(lastKaoShiPageNum)">尾页</a>
+        <li ng-class="{disabled: currentKsPageVal == lastBmPageNum}">
+          <a href ng-click="getThisBuMenPageDate(lastBmPageNum)">尾页</a>
         </li>
       </ul>
     </div>
   </div>
   <div class="col-md-5 col-md-offset-1">
-    <h4 class="bdb pb10">
-      <span>身份证号码和真实姓名</span>
+    <h4 class="bdb pb10 h28" ng-show="selectBmOrKxh.JIGOUMINGCHENG">
+      <span ng-bind="selectBmOrKxh.JIGOUMINGCHENG"></span>
       <span class="pull-right fz14">
           <a href="javascript:void(0)" class="mr10" ng-click="showKeXuHaoPop('addSingleWork')">新增员工</a>
           <a href="javascript:void(0)" ng-click="showKeXuHaoPop('addBatchWorks')">批量新增</a>
       </span>
     </h4>
-    <div>
+    <div ng-show="workersData.length">
       <ul class="list-unstyled">
-        <li class="bdbd ptb5 pull-left wp100">
-          <span>140227195610104750</span>
-          <span class="pl10">张松涛张</span>
-          <a href="javascript:void(0)" class="pull-right" ng-click="deleteYuanGong()">删除</a>
+        <li class="bdbd ptb5 pull-left wp100" ng-repeat="wk in workersDistData">
+          <span ng-bind="wk.ZHENGJIANHAO"></span>
+          <span class="pl10" ng-bind="wk.XINGMING"></span>
+          <a href="javascript:void(0)" class="pull-right" ng-click="deleteYuanGong(wk)">删除</a>
         </li>
-        <li class="bdbd ptb5 pull-left wp100">
-          <span>440227995690904</span>
-          <span class="pl10">张松涛张</span>
-          <a href="javascript:void(0)" class="pull-right" ng-click="deleteYuanGong()">删除</a>
+      </ul>
+    </div>
+    <div class="paging text-right" ng-if="worksPages.length>0">
+      <ul class="pagination pagination-sm">
+        <li ng-class="{disabled: currentWkPageVal == 1}">
+          <a href ng-click="workPgDist(1)">首页</a>
+        </li>
+        <li ng-class="{disabled: currentWkPageVal == 1}">
+          <a href
+             ng-click="workPgDist(prevPg = currentWkPageVal > 1 ? currentWkPageVal - 1 : 1)">
+            上一页
+          </a>
+        </li>
+        <li ng-repeat="pg in worksPages" ng-class="{active: currentWkPageVal == pg}">
+          <a href ng-click="workPgDist(pg)">{{pg}}</a>
+        </li>
+        <li ng-class="{disabled: currentWkPageVal == lastWkPageNum}">
+          <a href
+             ng-click="workPgDist(nextPg = currentWkPageVal < lastWkPageNum ? currentWkPageVal + 1 : lastWkPageNum)">
+            下一页
+          </a>
+        </li>
+        <li ng-class="{disabled: currentWkPageVal == lastWkPageNum}">
+          <a href ng-click="workPgDist(lastWkPageNum)">尾页</a>
         </li>
       </ul>
     </div>
@@ -81,7 +101,10 @@
 <div class="popup-wrap" ng-if="showKeXuHaoManage == true">
   <div class="popup-wrap-inner">
     <div class="pwi-header plr10 text-center">
-      <span class="title">部门管理</span>
+      <span class="title" ng-if="glEditBoxShow=='addBuMen'">新增部门</span>
+      <span class="title" ng-if="glEditBoxShow=='modifyBm'">修改部门</span>
+      <span class="title" ng-if="glEditBoxShow=='addSingleWork'">新增员工</span>
+      <span class="title" ng-if="glEditBoxShow=='addBatchWorks'">批量新增员工</span>
     </div>
     <div class="pwi-body plr10">
       <!--添加新部门-->
@@ -103,24 +126,65 @@
         </div>
       </div>
       <!--添加单个员工-->
-      <div class="row mt15" ng-if="glEditBoxShow=='addSingleWork'">
-        <div class="clearfix">
-          <div class="col-md-2 text-right">
-            <span class="mt5 dpb">姓名</span>
-          </div>
-          <div class="col-md-8">
-            <input type="text" class="form-control" placeholder="姓名" ng-model="guanliParams.singleWorkName"/>
-          </div>
-        </div>
-        <div class="clearfix mt15">
-          <div class="col-md-2 text-right">
-            <span class="mt5 dpb">身份证</span>
-          </div>
-          <div class="col-md-8">
-            <input type="text" class="form-control" placeholder="身份证" ng-model="guanliParams.singleWorkID"/>
-          </div>
-        </div>
-      </div>
+      <!--<div class="row mt15" ng-if="glEditBoxShow=='addSingleWork'">-->
+        <!--<div class="clearfix">-->
+          <!--<div class="col-md-2 text-right">-->
+            <!--<span class="mt5 dpb">姓名</span>-->
+          <!--</div>-->
+          <!--<div class="col-md-8">-->
+            <!--<input type="text" class="form-control" placeholder="姓名" ng-model="guanliParams.singleWorkName"/>-->
+          <!--</div>-->
+        <!--</div>-->
+        <!--<div class="clearfix mt15">-->
+          <!--<div class="col-md-2 text-right">-->
+            <!--<span class="mt5 dpb">身份证</span>-->
+          <!--</div>-->
+          <!--<div class="col-md-8">-->
+            <!--<input type="text" class="form-control" placeholder="身份证" ng-model="guanliParams.singleWorkID"/>-->
+          <!--</div>-->
+        <!--</div>-->
+        <!--<div class="clearfix mt15">-->
+          <!--<div class="col-md-2 text-right">-->
+            <!--<span class="mt5 dpb">部门</span>-->
+          <!--</div>-->
+          <!--<div class="col-md-8">-->
+            <!--<select class="form-control" ng-model="guanliParams.selected_bm" ng-change="getBanZuByBm(guanliParams.selected_bm)"-->
+                    <!--ng-options="bm.JIGOU_ID as bm.JIGOUMINGCHENG for bm in originBuMenData.CHILDREN">-->
+              <!--<option value="">请选择部门</option>-->
+            <!--</select>-->
+          <!--</div>-->
+        <!--</div>-->
+        <!--<div class="clearfix mt15">-->
+          <!--<div class="col-md-2 text-right">-->
+            <!--<span class="mt5 dpb">班组</span>-->
+          <!--</div>-->
+          <!--<div class="col-md-8">-->
+            <!--<select class="form-control" ng-model="guanliParams.selected_bz"-->
+                    <!--ng-options="bm.JIGOU_ID as bm.JIGOUMINGCHENG for bm in banZuData">-->
+              <!--<option value="">请选择部门</option>-->
+            <!--</select>-->
+          <!--</div>-->
+        <!--</div>-->
+        <!--<div class="clearfix mt15">-->
+          <!--<div class="col-md-2 text-right">-->
+            <!--<span class="mt5 dpb">专业</span>-->
+          <!--</div>-->
+          <!--<div class="col-md-8">-->
+            <!--<select class="form-control" ng-model="guanliParams.selected_zy"-->
+                    <!--ng-options="zy.ZHISHIDIAN_ID as zy.ZHISHIDIANMINGCHENG for zy in kowledgeList">-->
+              <!--<option value="">请选择专业</option>-->
+            <!--</select>-->
+          <!--</div>-->
+        <!--</div>-->
+        <!--<div class="clearfix mt15">-->
+          <!--<div class="col-md-2 text-right">-->
+            <!--<span>默认密码</span>-->
+          <!--</div>-->
+          <!--<div class="col-md-8">-->
+            <!--<span>123456</span>-->
+          <!--</div>-->
+        <!--</div>-->
+      <!--</div>-->
       <!--批量添加员工-->
       <div class="row mt15" ng-if="glEditBoxShow=='addBatchWorks'">
         <div class="col-md-2 text-right">

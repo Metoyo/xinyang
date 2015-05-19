@@ -1,36 +1,189 @@
 <div class="row">
   <div class="col-md-5">
-    <input type="text" class="form-control" placeholder="身份证"/>
+    <input type="text" class="form-control" placeholder="身份证" ng-model="guanliParams.shenFenZheng"/>
   </div>
   <div class="col-md-1">
-    <button type="button" class="btn btn-primary" ng-click="chaXunYuanGong()">查询</button>
+    <button type="button" class="btn btn-primary" ng-click="chaXunYuanGong(guanliParams.shenFenZheng)">查询</button>
   </div>
-  <div class="col-md-1">
-    <a href="javascript:void(0)" class="pull-left mt5" ng-click="addNewYuanGong()">新增</a>
+  <div class="col-md-2">
+    <a href="javascript:void(0)" class="pull-left mt5" ng-click="renYuanAddShow('singleWork')">新增</a>
+    <a href="javascript:void(0)" class="pull-left mt5 ml15" ng-click="renYuanAddShow('plWorks')">批量新增</a>
   </div>
 </div>
-<div class="row mt15" ng-show="guanliParams.yuanGongIn">
-  <p>
-    <span class="ml10">张松涛</span>
-    <span class="ml15">140227195610104750</span>
-    <a href="javascript:void(0)" class="ml15" ng-click="resetYuanGongPassword()">密码重置</a>
-    <a href="javascript:void(0)" class="ml15" ng-click="deleteYuanGong()">删除</a>
-  </p>
+<div class="row mt15" ng-show="workersData.length">
+  <div class="col-md-6">
+    <table class="table table-bordered" ng-repeat="wk in workersData">
+      <tr>
+        <td align="right" width="100px">姓名：</td>
+        <td colspan="2" ng-bind="wk.XINGMING"></td>
+      </tr>
+      <tr>
+        <td align="right">身份证：</td>
+        <td colspan="2" ng-bind="wk.ZHENGJIANHAO"></td>
+      </tr>
+      <tr>
+        <td align="right">所属机构：</td>
+        <td ng-bind="wk.JIGOUMINGCHENG"></td>
+        <td class="text-center" width="100px">
+          <a href="javascript:void(0)" ng-click="renYuanAddShow('modifyYhJg', wk)">修改机构</a>
+        </td>
+      </tr>
+      <tr>
+        <td align="right">所属专业：</td>
+        <td ng-bind="wk.KEXUHAO_MINGCHENG"></td>
+        <td class="text-center" width="100px">
+          <a href="javascript:void(0)" ng-click="renYuanAddShow('modifyYhZy', wk)">修改专业</a>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="3" class="text-right">
+          <a href="javascript:void(0)" ng-click="renYuanAddShow('resetPw', wk)">重置密码</a>
+          <a href="javascript:void(0)" class="ml15" ng-click="deleteYuanGong(wk)">删除</a>
+        </td>
+      </tr>
+    </table>
+  </div>
 </div>
-<div class="row mt15 form-horizontal" ng-show="guanliParams.addYuanGong">
-  <div class="form-group">
-    <label class="col-md-1 control-label">身份证</label>
-    <div class="col-md-4">
-      <input type="text" class="form-control" placeholder="身份证"/>
+<!--新增单个员工-->
+<div class="row mt15 form-horizontal" ng-if="renYuanAddType == 'singleWork'">
+  <div class="col-md-6">
+    <div class="clearfix">
+      <div class="col-md-2 text-right">
+        <span class="mt5 dpb">姓名</span>
+      </div>
+      <div class="col-md-8">
+        <input type="text" class="form-control" placeholder="姓名" ng-model="guanliParams.singleWorkName"/>
+      </div>
+    </div>
+    <div class="clearfix mt15">
+      <div class="col-md-2 text-right">
+        <span class="mt5 dpb">身份证</span>
+      </div>
+      <div class="col-md-8">
+        <input type="text" class="form-control" placeholder="身份证" ng-model="guanliParams.singleWorkID"/>
+      </div>
+    </div>
+    <div class="clearfix mt15">
+      <div class="col-md-2 text-right">
+        <span class="mt5 dpb">部门</span>
+      </div>
+      <div class="col-md-8">
+        <select class="form-control" ng-model="guanliParams.selected_bm"
+                ng-change="getBanZuByBm(guanliParams.selected_bm)"
+                ng-options="bm.JIGOU_ID as bm.JIGOUMINGCHENG for bm in originBuMenData.CHILDREN">
+          <option value="">请选择部门</option>
+        </select>
+      </div>
+    </div>
+    <div class="clearfix mt15">
+      <div class="col-md-2 text-right">
+        <span class="mt5 dpb">班组</span>
+      </div>
+      <div class="col-md-8">
+        <select class="form-control" ng-model="guanliParams.selected_bz"
+                ng-options="bm.JIGOU_ID as bm.JIGOUMINGCHENG for bm in banZuData">
+          <option value="">请选择部门</option>
+        </select>
+      </div>
+    </div>
+    <div class="clearfix mt15">
+      <div class="col-md-2 text-right">
+        <span class="mt5 dpb">专业</span>
+      </div>
+      <div class="col-md-8">
+        <select class="form-control" ng-model="guanliParams.selected_zy"
+                ng-options="kxh.KEXUHAO_ID as kxh.KEXUHAO_MINGCHENG for kxh in keXuHaoData">
+          <option value="">请选择专业</option>
+        </select>
+      </div>
+    </div>
+    <div class="clearfix mt15">
+      <div class="col-md-2 text-right">
+        <span>默认密码</span>
+      </div>
+      <div class="col-md-8">
+        <span>123456</span>
+      </div>
+    </div>
+    <div class="clearfix mt15 text-right">
+      <div class="col-md-8 col-md-offset-2 text-right">
+        <button type="button" class="btn btn-primary" ng-click="saveNewWork()">保存</button>
+        <button type="button" class="btn btn-danger" ng-click="cancelAddRenYuan()">取消</button>
+      </div>
     </div>
   </div>
-  <div class="form-group">
-    <label class="col-md-1 control-label">姓名</label>
-    <div class="col-md-3">
-      <input type="text" class="form-control" placeholder="姓名"/>
+</div>
+<!--批量新增员工-->
+<div class="row mt15" ng-if="renYuanAddType == 'plWorks'">
+  <div class="col-md-6">
+    <div class="clearfix mt15">
+      <form id="importStudentForm" class="ng-pristine ng-valid">
+        <em>
+          请选择上传人员信息的文件，格式为Excel格式
+        </em>
+        <input type="file" file-upload="" multiple="" class="pull-left mt15 addFileBtn">
+      </form>
     </div>
-    <div class="col-md-1 text-right">
-      <button type="button" class="btn btn-primary">提交</button>
+    <div class="clearfix mt15 text-right">
+      <button type="button" class="btn btn-primary mr5" ng-click="uploadXlsFile()">
+        确认上传
+      </button>
+    </div>
+  </div>
+</div>
+<!--修改单个员工的机构-->
+<div class="row mt15" ng-if="renYuanAddType == 'modifyYhJg'">
+  <div class="col-md-6">
+    <div class="clearfix mt15">
+      <div class="col-md-2 text-right">
+        <span class="mt5 dpb">部门</span>
+      </div>
+      <div class="col-md-8">
+        <select class="form-control" ng-model="guanliParams.selected_bm"
+                ng-change="getBanZuByBm(guanliParams.selected_bm)"
+                ng-options="bm.JIGOU_ID as bm.JIGOUMINGCHENG for bm in originBuMenData.CHILDREN">
+          <option value="">请选择部门</option>
+        </select>
+      </div>
+    </div>
+    <div class="clearfix mt15">
+      <div class="col-md-2 text-right">
+        <span class="mt5 dpb">班组</span>
+      </div>
+      <div class="col-md-8">
+        <select class="form-control" ng-model="guanliParams.selected_bz"
+                ng-options="bm.JIGOU_ID as bm.JIGOUMINGCHENG for bm in banZuData">
+          <option value="">请选择部门</option>
+        </select>
+      </div>
+    </div>
+    <div class="clearfix mt15 text-right">
+      <div class="col-md-8 col-md-offset-2 text-right">
+        <button type="button" class="btn btn-primary" ng-click="saveNewWork()">保存</button>
+        <button type="button" class="btn btn-danger" ng-click="cancelAddRenYuan()">取消</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!--修改单个员工的专业-->
+<div class="row mt15" ng-if="renYuanAddType == 'modifyYhZy'">
+  <div class="col-md-6">
+    <div class="clearfix mt15">
+      <div class="col-md-2 text-right">
+        <span class="mt5 dpb">专业</span>
+      </div>
+      <div class="col-md-8">
+        <select class="form-control" ng-model="guanliParams.selected_zy"
+                ng-options="kxh.KEXUHAO_ID as kxh.KEXUHAO_MINGCHENG for kxh in keXuHaoData">
+          <option value="">请选择专业</option>
+        </select>
+      </div>
+    </div>
+    <div class="clearfix mt15 text-right">
+      <div class="col-md-8 col-md-offset-2 text-right">
+        <button type="button" class="btn btn-primary" ng-click="saveNewWork()">保存</button>
+        <button type="button" class="btn btn-danger" ng-click="cancelAddRenYuan()">取消</button>
+      </div>
     </div>
   </div>
 </div>
