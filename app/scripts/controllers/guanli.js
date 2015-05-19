@@ -33,7 +33,6 @@ define(['angular', 'config', 'jquery', 'underscore'], function (angular, config,
         var modifyJgYh = baseRzAPIUrl + 'jigou_yonghu'; //修改用户的机构
         var modifyKxhYh = baseRzAPIUrl + 'kexuhao_yonghu'; //修改用户的课序号
         var kxhManageUrl = baseRzAPIUrl + 'kexuhao'; //课序号管理的url
-        var uploadKsUrl = baseGgAPIUrl + 'import_users2'; //上传考生信息
         var importUser = baseRzAPIUrl + 'import_users2'; //大批新增用户
         var paginationLength = 7; //分页部分，页码的长度，目前设定为11
         var totalWkPage; //符合条件的员工数据一共有多少页
@@ -248,8 +247,7 @@ define(['angular', 'config', 'jquery', 'underscore'], function (angular, config,
                   XINGMING: $scope.guanliParams.singleWorkName,
                   ZHUANGTAI: 1,
                   ZHENGJIANHAO: $scope.guanliParams.singleWorkID,
-                  JIGOU: [{JIGOU_ID: '', ZHUANGTAI: 1}],
-                  KEXUHAO: [{KEXUHAO_ID: $scope.guanliParams.selected_zy, ZHUANGTAI: 1}]
+                  JIGOU: [{JIGOU_ID: '', ZHUANGTAI: 1}]
                 };
                 if($scope.guanliParams.selected_bm){
                   if($scope.guanliParams.selected_bz){
@@ -259,9 +257,16 @@ define(['angular', 'config', 'jquery', 'underscore'], function (angular, config,
                     singleWordData.JIGOU[0].JIGOU_ID = $scope.guanliParams.selected_bm;
                   }
                 }
+                else{
+                  singleWordData.JIGOU[0].JIGOU_ID = 1;
+                }
+                if($scope.guanliParams.selected_zy){
+                  singleWordData.KEXUHAO = [];
+                  var kxhObj = {KEXUHAO_ID: $scope.guanliParams.selected_zy, ZHUANGTAI: 1};
+                  singleWordData.KEXUHAO.push(kxhObj);
+                }
                 $http.post(xiuGaiYongHu, singleWordData).success(function(data){
                   if(data.result){
-                    DataService.alertInfFun('suc', '添加成功！请去相对应的部门查看。');
                     $scope.renYuanAddType = '';
                     $scope.guanliParams.singleWorkName = '';
                     $scope.guanliParams.singleWorkID = '';
@@ -271,6 +276,7 @@ define(['angular', 'config', 'jquery', 'underscore'], function (angular, config,
                     $scope.guanliParams.selected_bz = '';
                     $scope.guanliParams.selected_bm = '';
                     $scope.guanliParams.selected_zy = '';
+                    DataService.alertInfFun('suc', '添加成功！请去相对应的部门查看。');
                   }
                   else{
                     DataService.alertInfFun('err', data.error);
@@ -404,7 +410,7 @@ define(['angular', 'config', 'jquery', 'underscore'], function (angular, config,
             UID: yh.UID,
             ZHUANGTAI: -1
           };
-          if(confirm('确定要删除次员工吗？')){
+          if(confirm('确定要删除此员工吗？')){
             $http.post(xiuGaiYongHu, singleWordData).success(function(data){
               if(data.result){
                 $scope.workersData = _.reject($scope.workersData, function(wk){ return wk.UID == yh.UID; });
@@ -433,7 +439,6 @@ define(['angular', 'config', 'jquery', 'underscore'], function (angular, config,
             $scope.guanliParams.modifyBm = data.JIGOUMINGCHENG;
           }
           if(item == 'addSingleWork'){
-            getKeXuHaoData();
           }
           if(data){
             $scope.glSelectData = data;
@@ -448,6 +453,41 @@ define(['angular', 'config', 'jquery', 'underscore'], function (angular, config,
           var endPage = pg * numPerPage;
           $scope.currentKxhPageVal = pg;
           $scope.keXuHaoPgData = $scope.keXuHaoData.slice(startPage, endPage);
+        };
+
+        /**
+         * 删除员工课序号的关系
+         */
+        $scope.deleteKxhYh = function(yh){
+          if(yh){
+            var obj = {
+              token: token,
+              kexuhaoid: '',
+              users: [{uid: yh.UID, zhuangtai: -1}]
+            };
+            if($scope.selectBmOrKxh){
+              obj.kexuhaoid = $scope.selectBmOrKxh.KEXUHAO_ID;
+              if(confirm('确定要删除此员工吗？')){
+                $http.post(modifyKxhYh, obj).success(function(data){
+                  if(data.result){
+                    $scope.workersData = _.reject($scope.workersData, function(wk){ return wk.UID == yh.UID; });
+                    $scope.workersDistData = _.reject($scope.workersDistData, function(wk){ return wk.UID == yh.UID; });
+                    DataService.alertInfFun('suc', '删除成功！');
+                    $scope.showKeXuHaoManage = false;
+                  }
+                  else{
+                    DataService.alertInfFun('err', data.error);
+                  }
+                });
+              }
+            }
+            else{
+              DataService.alertInfFun('pmt', '请选择要删除员工的课序号！');
+            }
+          }
+          else{
+            DataService.alertInfFun('pmt', '请选择要删除的人员！');
+          }
         };
 
         /**
@@ -512,7 +552,41 @@ define(['angular', 'config', 'jquery', 'underscore'], function (angular, config,
           if(saveType == 'addSingleWork'){ //添加单个员工
             if($scope.guanliParams.singleWorkName){
               if($scope.guanliParams.singleWorkID){
-
+                //先去查询UID
+                var chaXunStuUrl = chaXunJiGouYongHuUrl + '?token=' + token + '&jigouid=' + jigouid +
+                  '&sfzh=' + $scope.guanliParams.singleWorkID;
+                $http.get(chaXunStuUrl).success(function(data){
+                  if(data && data.length){
+                    keXuHaoObj = {
+                      token: token,
+                      kexuhaoid: '',
+                      users: [{uid: data[0].UID, zhuangtai:1}]
+                    };
+                    if($scope.selectBmOrKxh){
+                      keXuHaoObj.kexuhaoid = $scope.selectBmOrKxh.KEXUHAO_ID;
+                      $http.post(modifyKxhYh, keXuHaoObj).success(function(addKxh){
+                        if(addKxh.result){
+                          DataService.alertInfFun('suc', '添加用户成功!');
+                          $scope.renYuanAddType = '';
+                          $scope.glSelectData = '';
+                          $scope.showKeXuHaoManage = false;
+                          $scope.guanliParams.singleWorkName = '';
+                          $scope.guanliParams.singleWorkID = '';
+                          $scope.chaXunKxhYongHu($scope.selectBmOrKxh);
+                        }
+                        else{
+                          DataService.alertInfFun('err', addKxh.error);
+                        }
+                      });
+                    }
+                    else{
+                      DataService.alertInfFun('pmt', '课序号ID为空！');
+                    }
+                  }
+                  else{
+                    DataService.alertInfFun('err', data.error);
+                  }
+                });
               }
               else{
                 DataService.alertInfFun('pmt', '缺少身份证！');
@@ -523,7 +597,39 @@ define(['angular', 'config', 'jquery', 'underscore'], function (angular, config,
             }
           }
           if(saveType == 'addBatchWorks'){ //批量添加员工
-
+            var file = $scope.uploadFiles;
+            var worksData = {
+              token: token,
+              kexuhaoid: ''
+            };
+            if($scope.selectBmOrKxh){
+              worksData.kexuhaoid = $scope.selectBmOrKxh.KEXUHAO_ID;
+              $scope.loadingImgShow = true;
+              var fd = new FormData();
+              for(var j = 1; j <= file.length; j++){
+                fd.append('file' + j, file[j - 1]);
+              }
+              for(var key in worksData){
+                fd.append(key, worksData[key]);
+              }
+              $http.post(modifyKxhYh, fd, {transformRequest: angular.identity, headers:{'Content-Type': undefined}})
+                .success(function(data){
+                  if(data){
+                    console.log(data);
+                    $scope.loadingImgShow = false;
+                    $scope.showKeXuHaoManage = '';
+                    DataService.alertInfFun('suc', '批量新增成功！');
+                    $scope.chaXunKxhYongHu($scope.selectBmOrKxh);
+                  }
+                  else{
+                    $scope.loadingImgShow = false;
+                    DataService.alertInfFun('err', data.error);
+                  }
+              });
+            }
+            else{
+              DataService.alertInfFun('pmt', '请选择课序号！');
+            }
           }
         };
 
@@ -649,49 +755,88 @@ define(['angular', 'config', 'jquery', 'underscore'], function (angular, config,
               DataService.alertInfFun('pmt', '部门名称为空！');
             }
           }
-          //if(saveType == 'addSingleWork'){ //添加单个员工
-          //  if($scope.guanliParams.singleWorkName){
-          //    if($scope.guanliParams.singleWorkID){
-          //      var singleWordData = {
-          //        token: token,
-          //        UID: '',
-          //        MIMA: '123456',
-          //        YONGHULEIBIE: 2,
-          //        XINGMING: $scope.guanliParams.singleWorkName,
-          //        ZHUANGTAI: 1,
-          //        ZHENGJIANHAO: $scope.guanliParams.singleWorkID,
-          //        JIGOU: [{JIGOU_ID: '', ZHUANGTAI: 1}],
-          //        KEXUHAO: [{KEXUHAO_ID: $scope.guanliParams.selected_zy, ZHUANGTAI: 1}]
-          //      };
-          //      if($scope.guanliParams.selected_bm){
-          //        if($scope.guanliParams.selected_bz){
-          //          singleWordData.JIGOU[0].JIGOU_ID = $scope.guanliParams.selected_bz;
-          //        }
-          //        else{
-          //          singleWordData.JIGOU[0].JIGOU_ID = $scope.guanliParams.selected_bm;
-          //        }
-          //      }
-          //      $http.post(xiuGaiYongHu, singleWordData).success(function(data){
-          //        if(data.result){
-          //          DataService.alertInfFun('suc', '添加成功！请去相对应的部门查看。');
-          //          $scope.showKeXuHaoManage = false;
-          //        }
-          //        else{
-          //          DataService.alertInfFun('err', data.error);
-          //        }
-          //      });
-          //    }
-          //    else{
-          //      DataService.alertInfFun('pmt', '缺少身份证！');
-          //    }
-          //  }
-          //  else{
-          //    DataService.alertInfFun('pmt', '缺少姓名！');
-          //  }
-          //}
-          //if(saveType == 'addBatchWorks'){ //批量添加员工
-          //
-          //}
+          if(saveType == 'addSingleWork'){ //添加单个员工
+            if($scope.guanliParams.singleWorkName){
+              if($scope.guanliParams.singleWorkID){
+                //先去查询UID
+                var chaXunStuUrl = chaXunJiGouYongHuUrl + '?token=' + token + '&jigouid=' + jigouid +
+                  '&sfzh=' + $scope.guanliParams.singleWorkID;
+                $http.get(chaXunStuUrl).success(function(data){
+                  if(data && data.length){
+                    var addBmYgObj = {
+                      token: token,
+                      jigouid: '',
+                      users: [{uid: data[0].UID, zhuangtai: 1}]
+                    };
+                    if($scope.selectBmOrKxh){
+                      addBmYgObj.jigouid = $scope.selectBmOrKxh.JIGOU_ID;
+                      $http.post(modifyJgYh, addBmYgObj).success(function(addBmYg){
+                        if(addBmYg.result){
+                          $scope.renYuanAddType = '';
+                          $scope.glSelectData = '';
+                          $scope.showKeXuHaoManage = false;
+                          $scope.guanliParams.singleWorkName = '';
+                          $scope.guanliParams.singleWorkID = '';
+                          $scope.chaXunJiGouYongHu($scope.selectBmOrKxh);
+                          DataService.alertInfFun('suc', '添加用户成功!');
+                        }
+                        else{
+                          DataService.alertInfFun('err', addBmYg.error);
+                        }
+                      });
+                    }
+                    else{
+                      DataService.alertInfFun('pmt', '课序号ID为空！');
+                    }
+                  }
+                  else{
+                    DataService.alertInfFun('err', data.error);
+                  }
+                });
+              }
+              else{
+                DataService.alertInfFun('pmt', '缺少身份证！');
+              }
+            }
+            else{
+              DataService.alertInfFun('pmt', '缺少姓名！');
+            }
+          }
+          if(saveType == 'addBatchWorks'){ //批量添加员工
+            var file = $scope.uploadFiles;
+            var worksData = {
+              token: token,
+              jigouid: ''
+            };
+            if($scope.selectBmOrKxh){
+              worksData.jigouid = $scope.selectBmOrKxh.JIGOU_ID;
+              $scope.loadingImgShow = true;
+              var fd = new FormData();
+              for(var j = 1; j <= file.length; j++){
+                fd.append('file' + j, file[j - 1]);
+              }
+              for(var key in worksData){
+                fd.append(key, worksData[key]);
+              }
+              $http.post(modifyJgYh, fd, {transformRequest: angular.identity, headers:{'Content-Type': undefined}})
+                .success(function(data){
+                  if(data.result){
+                    console.log(data);
+                    $scope.loadingImgShow = false;
+                    $scope.showKeXuHaoManage = '';
+                    DataService.alertInfFun('suc', '批量新增成功！');
+                    $scope.chaXunJiGouYongHu($scope.selectBmOrKxh);
+                  }
+                  else{
+                    $scope.loadingImgShow = false;
+                    DataService.alertInfFun('err', data.error);
+                  }
+                });
+            }
+            else{
+              DataService.alertInfFun('pmt', '请选择课序号！');
+            }
+          }
         };
 
         /**
@@ -759,6 +904,42 @@ define(['angular', 'config', 'jquery', 'underscore'], function (angular, config,
         $scope.getBanZuJgId = function(bzId){
           if(bzId){
             $scope.guanliParams.addWorkJgId = bzId;
+          }
+        };
+
+        /**
+         * 删除员工机构的关系
+         */
+        $scope.deleteBmYh = function(yh){
+          if(yh){
+            var obj = {
+              token: token,
+              jigouid: '',
+              users: [{uid: yh.UID, zhuangtai: -1}]
+            };
+            if($scope.selectBmOrKxh){
+              obj.jigouid = $scope.selectBmOrKxh.JIGOU_ID;
+              if(confirm('确定要删除此员工吗？')){
+                $http.post(modifyJgYh, obj).success(function(data){
+                  if(data.result){
+                    $scope.workersData = _.reject($scope.workersData, function(wk){ return wk.UID == yh.UID; });
+                    $scope.workersDistData = _.reject($scope.workersDistData, function(wk){ return wk.UID == yh.UID; });
+                    $scope.showKeXuHaoManage = false;
+                    $scope.chaXunJiGouYongHu($scope.selectBmOrKxh);
+                    DataService.alertInfFun('suc', '删除成功！');
+                  }
+                  else{
+                    DataService.alertInfFun('err', data.error);
+                  }
+                });
+              }
+            }
+            else{
+              DataService.alertInfFun('pmt', '请选择要删除员工的机构！');
+            }
+          }
+          else{
+            DataService.alertInfFun('pmt', '请选择要删除的人员！');
           }
         };
 

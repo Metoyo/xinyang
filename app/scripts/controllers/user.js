@@ -2284,13 +2284,6 @@ define(['angular', 'config', 'datepicker', 'jquery', 'underscore'],
           baoming.baomingkaoshishijian = $scope.bmkssjArr;
           baoming.baomingkaodian = baomingkaodianArr;
           bmData.shuju = JSON.stringify(bmData.shuju);
-
-          //if(errorCount > 0){
-          //
-          //}
-          //else{
-          //
-          //}
           var fd = new FormData();
           for(var j = 1; j <= file.length; j++){
             fd.append('file' + j, file[j - 1]);

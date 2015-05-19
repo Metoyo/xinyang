@@ -56,6 +56,7 @@
   <div class="col-md-5 col-md-offset-1">
     <h4 class="bdb pb10 h28" ng-show="selectBmOrKxh.JIGOUMINGCHENG">
       <span ng-bind="selectBmOrKxh.JIGOUMINGCHENG"></span>
+      <span ng-bind="'(' + workersData.length + '人' + ')'"></span>
       <span class="pull-right fz14">
           <a href="javascript:void(0)" class="mr10" ng-click="showKeXuHaoPop('addSingleWork')">新增员工</a>
           <a href="javascript:void(0)" ng-click="showKeXuHaoPop('addBatchWorks')">批量新增</a>
@@ -66,7 +67,7 @@
         <li class="bdbd ptb5 pull-left wp100" ng-repeat="wk in workersDistData">
           <span ng-bind="wk.ZHENGJIANHAO"></span>
           <span class="pl10" ng-bind="wk.XINGMING"></span>
-          <a href="javascript:void(0)" class="pull-right" ng-click="deleteYuanGong(wk)">删除</a>
+          <a href="javascript:void(0)" class="pull-right" ng-click="deleteBmYh(wk)">删除</a>
         </li>
       </ul>
     </div>
@@ -126,75 +127,38 @@
         </div>
       </div>
       <!--添加单个员工-->
-      <!--<div class="row mt15" ng-if="glEditBoxShow=='addSingleWork'">-->
-        <!--<div class="clearfix">-->
-          <!--<div class="col-md-2 text-right">-->
-            <!--<span class="mt5 dpb">姓名</span>-->
-          <!--</div>-->
-          <!--<div class="col-md-8">-->
-            <!--<input type="text" class="form-control" placeholder="姓名" ng-model="guanliParams.singleWorkName"/>-->
-          <!--</div>-->
-        <!--</div>-->
-        <!--<div class="clearfix mt15">-->
-          <!--<div class="col-md-2 text-right">-->
-            <!--<span class="mt5 dpb">身份证</span>-->
-          <!--</div>-->
-          <!--<div class="col-md-8">-->
-            <!--<input type="text" class="form-control" placeholder="身份证" ng-model="guanliParams.singleWorkID"/>-->
-          <!--</div>-->
-        <!--</div>-->
-        <!--<div class="clearfix mt15">-->
-          <!--<div class="col-md-2 text-right">-->
-            <!--<span class="mt5 dpb">部门</span>-->
-          <!--</div>-->
-          <!--<div class="col-md-8">-->
-            <!--<select class="form-control" ng-model="guanliParams.selected_bm" ng-change="getBanZuByBm(guanliParams.selected_bm)"-->
-                    <!--ng-options="bm.JIGOU_ID as bm.JIGOUMINGCHENG for bm in originBuMenData.CHILDREN">-->
-              <!--<option value="">请选择部门</option>-->
-            <!--</select>-->
-          <!--</div>-->
-        <!--</div>-->
-        <!--<div class="clearfix mt15">-->
-          <!--<div class="col-md-2 text-right">-->
-            <!--<span class="mt5 dpb">班组</span>-->
-          <!--</div>-->
-          <!--<div class="col-md-8">-->
-            <!--<select class="form-control" ng-model="guanliParams.selected_bz"-->
-                    <!--ng-options="bm.JIGOU_ID as bm.JIGOUMINGCHENG for bm in banZuData">-->
-              <!--<option value="">请选择部门</option>-->
-            <!--</select>-->
-          <!--</div>-->
-        <!--</div>-->
-        <!--<div class="clearfix mt15">-->
-          <!--<div class="col-md-2 text-right">-->
-            <!--<span class="mt5 dpb">专业</span>-->
-          <!--</div>-->
-          <!--<div class="col-md-8">-->
-            <!--<select class="form-control" ng-model="guanliParams.selected_zy"-->
-                    <!--ng-options="zy.ZHISHIDIAN_ID as zy.ZHISHIDIANMINGCHENG for zy in kowledgeList">-->
-              <!--<option value="">请选择专业</option>-->
-            <!--</select>-->
-          <!--</div>-->
-        <!--</div>-->
-        <!--<div class="clearfix mt15">-->
-          <!--<div class="col-md-2 text-right">-->
-            <!--<span>默认密码</span>-->
-          <!--</div>-->
-          <!--<div class="col-md-8">-->
-            <!--<span>123456</span>-->
-          <!--</div>-->
-        <!--</div>-->
-      <!--</div>-->
+      <div class="row mt15" ng-if="glEditBoxShow=='addSingleWork'">
+        <div class="clearfix">
+          <div class="col-md-2 text-right">
+            <span class="mt5 dpb">姓名</span>
+          </div>
+          <div class="col-md-8">
+            <input type="text" class="form-control" placeholder="姓名" ng-model="guanliParams.singleWorkName"/>
+          </div>
+        </div>
+        <div class="clearfix mt15">
+          <div class="col-md-2 text-right">
+            <span class="mt5 dpb">身份证</span>
+          </div>
+          <div class="col-md-8">
+            <input type="text" class="form-control" placeholder="身份证" ng-model="guanliParams.singleWorkID"/>
+          </div>
+        </div>
+      </div>
       <!--批量添加员工-->
       <div class="row mt15" ng-if="glEditBoxShow=='addBatchWorks'">
-        <div class="col-md-2 text-right">
-          <span class="mt5 dpb">请选择文件</span>
-        </div>
-        <div class="col-md-8">
-          <input type="file" class="mt5"/>
-        </div>
-        <div class="col-md-2">
-          <button type="button" class="btn btn-primary">确认上传</button>
+        <div class="clearfix">
+          <div class="col-md-2 text-right">
+            <span class="mt5 dpb"></span>
+          </div>
+          <div class="col-md-8">
+            <form id="importStudentForm" class="ng-pristine ng-valid">
+              <em>
+                请选择上传人员信息的文件，格式为Excel格式
+              </em>
+              <input type="file" file-upload="" multiple="" class="pull-left mt15 addFileBtn">
+            </form>
+          </div>
         </div>
       </div>
     </div>
