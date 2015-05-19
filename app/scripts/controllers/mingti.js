@@ -20,35 +20,35 @@ define(['angular', 'config', 'jquery', 'underscore', 'mathjax', 'markitup', 'set
         /**
          * 声明变量
          */
-        var userInfo = $rootScope.session.userInfo,
-          baseMtAPIUrl = config.apiurl_mt, //mingti的api
-          baseRzAPIUrl = config.apiurl_rz, //renzheng的api
-          token = config.token,
-          caozuoyuan = userInfo.UID,//登录的用户的UID
-          jigouid = userInfo.JIGOU[0].JIGOU_ID,
-          lingyuid = $rootScope.session.defaultLyId,
-          tiKuLingYuId = $rootScope.session.defaultTiKuLyId,
-          letterArr = config.letterArr,
-          chaxunzilingyu = true,
-          qryKmTx = baseMtAPIUrl + 'chaxun_kemu_tixing?token=' + token + '&caozuoyuan=' + caozuoyuan + '&jigouid=' +
-            jigouid + '&lingyuid=', //查询科目包含什么题型的url
-          qryKnowledgeBaseUrl = baseMtAPIUrl + 'chaxun_zhishidagang_zhishidian?token=' + token + '&caozuoyuan=' +
-            caozuoyuan + '&jigouid=' + jigouid + '&lingyuid=' + lingyuid + '&zhishidagangid=', //查询知识点基础url
-          xgtmUrl = baseMtAPIUrl + 'xiugai_timu', //保存添加题型的url
-          qryKnowledge = '', //定义一个空的查询知识点的url
-          tixing_id = '', //用于根据题型id查询题目的字符串
-          nandu_id = '', //用于根据难度查询题目的字符串
-          zhishidian_id = '', //用于根据知识点查询题目的字符串
-          checkSchoolTiKu = caozuoyuan, //查看学校题库需要传的参数
-          zsdgZsdArr = [], //存放所有知识大纲知识点的数组
-          qryTiKuUrl =  baseMtAPIUrl + 'chaxun_tiku?token=' + token + '&caozuoyuan=' + caozuoyuan +
-            '&jigouid=' + jigouid + '&lingyuid=' + tiKuLingYuId, //查询题库
-          qrytimuliebiaoBase = baseMtAPIUrl + 'chaxun_timuliebiao?token=' + token + '&caozuoyuan=' + caozuoyuan +
-            '&jigouid=' + jigouid + '&lingyuid=' + lingyuid, //查询题目列表的url
-          qrytimuxiangqingBase = baseMtAPIUrl + 'chaxun_timuxiangqing?token=' + token + '&caozuoyuan=' + caozuoyuan +
-            '&jigouid=' + jigouid + '&lingyuid=' + lingyuid, //查询题目详情基础url
-          selectZsd = [], //定义一个选中知识点的变量（数组)
-          timu_data = { //题目类型的数据格式公共部分
+        var userInfo = $rootScope.session.userInfo;
+        var baseMtAPIUrl = config.apiurl_mt; //mingti的api
+        var baseRzAPIUrl = config.apiurl_rz; //renzheng的api
+        var token = config.token;
+        var caozuoyuan = userInfo.UID;//登录的用户的UID
+        var jigouid = userInfo.JIGOU[0].JIGOU_ID;
+        var lingyuid = $rootScope.session.defaultLyId;
+        var tiKuLingYuId = $rootScope.session.defaultTiKuLyId;
+        var letterArr = config.letterArr;
+        var chaxunzilingyu = true;
+        var qryKmTx = baseMtAPIUrl + 'chaxun_kemu_tixing?token=' + token + '&caozuoyuan=' + caozuoyuan + '&jigouid=' +
+            jigouid + '&lingyuid='; //查询科目包含什么题型的url
+        var qryKnowledgeBaseUrl = baseMtAPIUrl + 'chaxun_zhishidagang_zhishidian?token=' + token + '&caozuoyuan=' +
+            caozuoyuan + '&jigouid=' + jigouid + '&lingyuid=' + lingyuid + '&zhishidagangid='; //查询知识点基础url
+        var xgtmUrl = baseMtAPIUrl + 'xiugai_timu'; //保存添加题型的url
+        var qryKnowledge = ''; //定义一个空的查询知识点的url
+        var tixing_id = ''; //用于根据题型id查询题目的字符串
+        var nandu_id = ''; //用于根据难度查询题目的字符串
+        var zhishidian_id = ''; //用于根据知识点查询题目的字符串
+        var checkSchoolTiKu = caozuoyuan; //查看学校题库需要传的参数
+        var zsdgZsdArr = []; //存放所有知识大纲知识点的数组
+        var qryTiKuUrl =  baseMtAPIUrl + 'chaxun_tiku?token=' + token + '&caozuoyuan=' + caozuoyuan +
+            '&jigouid=' + jigouid + '&lingyuid=' + tiKuLingYuId; //查询题库
+        var qrytimuliebiaoBase = baseMtAPIUrl + 'chaxun_timuliebiao?token=' + token + '&caozuoyuan=' + caozuoyuan +
+            '&jigouid=' + jigouid + '&lingyuid=' + lingyuid; //查询题目列表的url
+        var qrytimuxiangqingBase = baseMtAPIUrl + 'chaxun_timuxiangqing?token=' + token + '&caozuoyuan=' + caozuoyuan +
+            '&jigouid=' + jigouid + '&lingyuid=' + lingyuid; //查询题目详情基础url
+        var selectZsd = []; //定义一个选中知识点的变量（数组)
+        var timu_data = { //题目类型的数据格式公共部分
             token: config.token,
             caozuoyuan: userInfo.UID,
             jigouid: jigouid,
@@ -73,46 +73,49 @@ define(['angular', 'config', 'jquery', 'underscore', 'mathjax', 'markitup', 'set
               ZHUANGTAI: 1,
               REMARK: ''
             }
-          },
-          danxuan_data, //单选题数据模板
-          duoxuan_data, //多选题数据模板
-          jisuan_data, //计算题数据模板
-          jieda_data, //解答题数据模板
-          pandu_data, //判断题数据模板
-          tiankong_data, //填空题数据模板
-          yuedu_data, //阅读题数据模板
-          zhengming_data,//证明题数据模板
-          loopArr = [0,1,2,3], //用于题支循环的数组
-          tkLoopArr = [], //用于填空题支循环的数组
-          tznrIsNull,//用了判断题支内容是否为空
-          deleteTiMuUrl = baseMtAPIUrl + 'shanchu_timu', //删除题目的url
-          deleteTiMuData = { //删除题目的数据格式
+          };
+        var danxuan_data; //单选题数据模板
+        var duoxuan_data; //多选题数据模板
+        var jisuan_data; //计算题数据模板
+        var jieda_data; //解答题数据模板
+        var pandu_data; //判断题数据模板
+        var tiankong_data; //填空题数据模板
+        var yuedu_data; //阅读题数据模板
+        var zhengming_data;//证明题数据模板
+        var loopArr = [0,1,2,3]; //用于题支循环的数组
+        var tkLoopArr = []; //用于填空题支循环的数组
+        var tznrIsNull;//用了判断题支内容是否为空
+        var deleteTiMuUrl = baseMtAPIUrl + 'shanchu_timu'; //删除题目的url
+        var deleteTiMuData = { //删除题目的数据格式
             token: config.token,
             caozuoyuan: userInfo.UID,
             jigouid: jigouid,
             lingyuid: lingyuid,
             timu_id: ''
-          },
-          tiMuIdArr = [], //获得查询题目ID的数组
-          pageArr = [], //根据得到的数据定义一个分页数组
-          totalPage, //符合条件的数据一共有多少页
-          itemNumPerPage = 10, //每页显示多少条数据
-          paginationLength = 11, //分页部分，页码的长度，目前设定为11
-          testListStepZst, //用了保存查询试题阶段的知识点
-          isEditItemStep = true, //是否是编辑阶段
-          getUserNameBase = baseRzAPIUrl + 'get_user_name?token=' + token + '&uid=', //得到用户名的URL
-          isDanXuanType = false, //判断是否出单选题
-          isDuoXuanType = false, //判断是否出多选题
-          uploadFileUrl = baseMtAPIUrl + 'upload_file',//文件上传
-          showFileUrl =  '/show_file/',//文件显示
-          regRN = /\r\n/g, //匹配enter换行
-          regN = /\n/g, //匹配换行
-          replaceStr = '<br/>', //匹配<br/>
-          fileTypeReg = /\.\b\w+$\b/, // 匹配文件类型/\.(\w+)$/  \.\b\w+$\b
-          qryMoRenDgUrl = baseMtAPIUrl + 'chaxun_zhishidagang?token=' + token + '&caozuoyuan=' + caozuoyuan + '&jigouid='
-            + jigouid + '&lingyuid=' + lingyuid + '&chaxunzilingyu=' + chaxunzilingyu + '&moren=1', //查询默认知识大纲的url
-          queryTiMuSource = baseMtAPIUrl + 'query_timusource?token=' + token + '&jigouid=' + jigouid
+          };
+        var tiMuIdArr = []; //获得查询题目ID的数组
+        var pageArr = []; //根据得到的数据定义一个分页数组
+        var totalPage; //符合条件的数据一共有多少页
+        var itemNumPerPage = 10; //每页显示多少条数据
+        var paginationLength = 11; //分页部分，页码的长度，目前设定为11
+        var testListStepZst; //用了保存查询试题阶段的知识点
+        var isEditItemStep = true; //是否是编辑阶段
+        var getUserNameBase = baseRzAPIUrl + 'get_user_name?token=' + token + '&uid='; //得到用户名的URL
+        var isDanXuanType = false; //判断是否出单选题
+        var isDuoXuanType = false; //判断是否出多选题
+        var uploadFileUrl = baseMtAPIUrl + 'upload_file';//文件上传
+        var showFileUrl =  '/show_file/';//文件显示
+        var regRN = /\r\n/g; //匹配enter换行
+        var regN = /\n/g; //匹配换行
+        var replaceStr = '<br/>'; //匹配<br/>
+        var fileTypeReg = /\.\b\w+$\b/; // 匹配文件类型/\.(\w+)$/  \.\b\w+$\b
+        var qryMoRenDgUrl = baseMtAPIUrl + 'chaxun_zhishidagang?token=' + token + '&caozuoyuan=' + caozuoyuan + '&jigouid='
+            + jigouid + '&lingyuid=' + lingyuid + '&chaxunzilingyu=' + chaxunzilingyu + '&moren=1'; //查询默认知识大纲的url
+        var queryTiMuSource = baseMtAPIUrl + 'query_timusource?token=' + token + '&jigouid=' + jigouid
             + '&lingyuid=' + lingyuid; //查询题目来源
+
+        console.log('lingyuid' + lingyuid);
+        console.log('tiKuLingYuId' + tiKuLingYuId);
 
         /**
          * 初始化是DOM元素的隐藏和显示
@@ -611,19 +614,6 @@ define(['angular', 'config', 'jquery', 'underscore', 'mathjax', 'markitup', 'set
         };
 
         /**
-         * 查询题目来源的数据
-         */
-        var qryTiMuSourceFun = function(){
-          if(!($scope.mingTiParam.tiMuLaiYuan && $scope.mingTiParam.tiMuLaiYuan.length)){
-            DataService.getData(queryTiMuSource).then(function(data) {
-              if(data && data.length > 0){
-                $scope.mingTiParam.tiMuLaiYuan = data;
-              }
-            });
-          }
-        };
-
-        /**
          * 添加新的试题
          */
         $scope.addNewShiTi = function(){
@@ -710,7 +700,6 @@ define(['angular', 'config', 'jquery', 'underscore', 'mathjax', 'markitup', 'set
           $scope.tkLoopArr = [];
           $('.pointTree').find('input[name=point]').prop('checked', false); // add new
           $scope.addDanXuan('views/mingti/danxuan.html');
-          qryTiMuSourceFun();
         };
 
         /**
@@ -1543,9 +1532,7 @@ define(['angular', 'config', 'jquery', 'underscore', 'mathjax', 'markitup', 'set
                 tkTiZhiArr.eq(i).val(tkEditDaAnArr[i]);
               }
             }
-
           };
-          qryTiMuSourceFun();
           $scope.alterTiXingBox = true;
           onceMakeWord = false;
           $timeout(nanDuSelectFun, 500);

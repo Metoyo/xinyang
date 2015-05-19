@@ -121,7 +121,7 @@ define(['angular', 'config', 'underscore'],
                           if(data.LINGYU.length == 1){
                             session.defaultLyId = data.LINGYU[0].LINGYU_ID;
                             session.defaultLyName = data.LINGYU[0].LINGYUMINGCHENG;
-                            session.defaultTiKuLyId = data.LINGYU[0].PARENT_LINGYU_ID;
+                            session.defaultTiKuLyId = data.LINGYU[0].LINGYU_ID;
                             quanxianArr = _.map(quanxianDist[parseInt(data.LINGYU[0].LINGYU_ID)], function(qx){
                               return qx.QUANXIAN_ID;
                             });
@@ -131,7 +131,7 @@ define(['angular', 'config', 'underscore'],
                                 quanXianId: quanxianArr
                               },
                               tiKuCookie = {
-                                tkLingYuId: data.LINGYU[0].PARENT_LINGYU_ID
+                                tkLingYuId: data.LINGYU[0].LINGYU_ID
                               };
                             $cookieStore.put('quanXianCk', quanXianCookie);
                             $cookieStore.put('tiKuCk', tiKuCookie);
