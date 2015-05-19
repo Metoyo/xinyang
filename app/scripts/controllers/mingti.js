@@ -113,10 +113,6 @@ define(['angular', 'config', 'jquery', 'underscore', 'mathjax', 'markitup', 'set
             + jigouid + '&lingyuid=' + lingyuid + '&chaxunzilingyu=' + chaxunzilingyu + '&moren=1'; //查询默认知识大纲的url
         var queryTiMuSource = baseMtAPIUrl + 'query_timusource?token=' + token + '&jigouid=' + jigouid
             + '&lingyuid=' + lingyuid; //查询题目来源
-
-        console.log('lingyuid' + lingyuid);
-        console.log('tiKuLingYuId' + tiKuLingYuId);
-
         /**
          * 初始化是DOM元素的隐藏和显示
          */

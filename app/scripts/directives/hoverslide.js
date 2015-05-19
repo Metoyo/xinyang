@@ -12,13 +12,14 @@ define(['angular', 'jquery'], function (angular, $) {
       return {
         restrict: 'A',
         link: function postLink(scope, element, attrs) {
-          var slideTarget = '.' + attrs.hoverSlideTarget,
-            slideGetval = '.' + attrs.hoverSlideGetval,
-            slideSetval = '.' + attrs.hoverSlideSetval,
-            timeOut;
-          element.hover(
+          var slideTarget = '.' + attrs.hoverSlideTarget;
+          var slideGetval = '.' + attrs.hoverSlideGetval;
+          var slideSetval = '.' + attrs.hoverSlideSetval;
+          var timeOut;
+          var targetOn = '.' + element.attr('class');
+          $(targetOn).hover(
             function () {
-              var  cont = element.find(slideGetval).val();
+              var cont = $(targetOn).find(slideGetval).val();
               timeOut = $timeout(function(){
                 $(slideSetval).html(cont);
                 $(slideTarget).show();
