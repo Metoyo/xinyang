@@ -2535,6 +2535,8 @@ label.checkbox{
     .moreBtnCont{
       width: 300px;
       right: 75px;
+      top: 50%;
+      margin-top: -21px;
       .mbc-inner {
         width: 280px;
         text-align: center;
@@ -2610,6 +2612,12 @@ label.checkbox{
   }
   .fixed-top{
     left: 300px;
+  }
+  .ipDelete{
+    position: absolute;
+    right: -30px;
+    top: 10px;
+    cursor: pointer;
   }
 }
 //统计样式

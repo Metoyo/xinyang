@@ -20,8 +20,6 @@ define(['angular', 'config', 'jquery', 'underscore'], function (angular, config,
          */
         var userInfo = $rootScope.session.userInfo;
         var baseRzAPIUrl = config.apiurl_rz; //renzheng的api;
-        var baseMtAPIUrl = config.apiurl_mt; //mingti的api
-        var baseGgAPIUrl = config.apiurl_gg; //api的公共接口
         var token = config.token;
         var caozuoyuan = userInfo.UID;//登录的用户的UID
         var jigouid = userInfo.JIGOU[0].JIGOU_ID;

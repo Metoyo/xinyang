@@ -112,16 +112,14 @@
       <h4>考生信息</h4>
       <table class="table table-bordered kaowu-table">
         <tr class="active">
-          <th>学号</th>
+          <th>省份证</th>
           <th>姓名</th>
-          <th>班级</th>
           <th>试卷</th>
         </tr>
         <tr ng-repeat="stu in kaoShiDetailData.KAODIANKAOCHANG[0].USERS">
-          <td>{{stu.YONGHUHAO}}</td>
-          <td>{{stu.XINGMING}}</td>
-          <td>{{stu.BANJI}}</td>
-          <td>{{stu.SHIJUAN_MINGCHENG}}</td>
+          <td ng-bind="stu.ZHENGJIANHAO"></td>
+          <td ng-bind="stu.XINGMING"></td>
+          <td ng-bind="stu.SHIJUAN_MINGCHENG"></td>
         </tr>
       </table>
     </div>

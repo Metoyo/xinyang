@@ -1,5 +1,5 @@
 <div class="row editKaoShi">
-  <div class="form-horizontal">
+  <form class="form-horizontal" name="">
     <div class="form-group explain">
       <label class="col-sm-2 control-label"></label>
       <div class="col-sm-8">
@@ -8,7 +8,6 @@
     </div>
     <div class="form-group">
       <label class="col-sm-2 control-label">考试名称<i>*</i></label>
-
       <div class="col-sm-6">
         <input type="text" name="ksName" class="form-control" placeholder="考试名称" required autofocus="true"
                ng-model="kaoshiData.shuju.KAOSHI_MINGCHENG"/>
@@ -67,105 +66,67 @@
       </div>
     </div>
     <div class="form-group">
-      <label class="col-sm-2 control-label">课序号<i>*</i></label>
-      <div class="col-sm-6">
-        <select class="form-control">
-          <option value="">请选择</option>
-          <option value="">课序号一</option>
-          <option value="">课序号二</option>
-          <option value="">课序号三</option>
-          <option value="">课序号四</option>
-        </select>
-      </div>
-    </div>
-    <div class="form-group">
-      <label class="col-sm-2 control-label">部门<i>*</i></label>
-      <div class="col-sm-6">
-        <select class="form-control">
-          <option value="">请选择</option>
-          <option value="">部门一</option>
-          <option value="">部门二</option>
-          <option value="">部门三</option>
-          <option value="">部门四</option>
-        </select>
-      </div>
-    </div>
-    <div class="form-group advanced-set" ng-init="showKaoShiXuZhi=false;showAdvancedSet=false">
-      <div class="col-sm-6 col-sm-offset-2">
-        <div class="pull-left">
-          <a href="javascript:void(0)" ng-click="showKaoShiXuZhi = !showKaoShiXuZhi" ng-hide="showKaoShiXuZhi">
-            <span class="glyphicon glyphicon-plus"></span>增加考试须知
-          </a>
-          <a href="javascript:void(0)" ng-click="showKaoShiXuZhi = !showKaoShiXuZhi" ng-show="showKaoShiXuZhi">
-            <span class="glyphicon glyphicon-plus"></span>取消考试须知
-          </a>
-        </div>
-        <div class="pull-right">
-          <a href="javascript:void(0)" ng-click="showAdvancedSet=!showAdvancedSet">
-            <span class="glyphicon glyphicon-plus"></span>高级设置
-          </a>
-        </div>
-      </div>
-      <div class="col-sm-8 col-sm-offset-2" ng-show="showKaoShiXuZhi">
-                <textarea class="form-control" cols="30" rows="6" placeholder="考试须知"
-                          ng-model="kaoshiData.shuju.XUZHI"></textarea>
-      </div>
-      <div class="popup-wrap" ng-show="showAdvancedSet">
-        <div class="popup-wrap-inner">
-          <div class="pwi-header plr10">
-            <button type="button" class="btn btn-danger pull-right mt5"
-                    ng-click="showAdvancedSet=!showAdvancedSet">关闭</button>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="form-group">
       <div class="col-sm-offset-2 col-sm-6">
         <button type="button" class="btn btn-primary" ng-click="addNewKaoSheng()">增加考生</button>
         <button type="button" class="btn btn-primary ml10" ng-click="importKaoSheng()">导入考生</button>
-        <span class="ml10">共  <b ng-bind="kaoshiData.shuju.KAOCHANG[selectKaoChangIdx].USERS.length"></b>  名考生</span>
+        <span class="ml10">共  <b ng-bind="kaoshiData.shuju.KAOCHANG[0].USERS.length"></b>  名考生</span>
       </div>
     </div>
     <div class="form-group" ng-show="isAddNewKaoSheng">
       <div class="col-sm-8 col-sm-offset-2">
         <div class="row student-info">
-          <div class="form-group">
-            <label class="col-sm-2 control-label">选择考场<i>*</i></label>
-            <div class="col-sm-8">
-              <select class="form-control subOrganization" ng-model="selectKaoChangId"
-                      ng-change="selectKaoChang(selectKaoChangId)"
-                      ng-options="kcInfo.KID as kcInfo.KMINGCHENG for kcInfo in allKaoChangList">
-                <option value="">请选择考场</option>
-              </select>
+          <!--添加单个考生-->
+          <div class="addKsAddSingleStu">
+            <h4 class="bdb ptb5 text-center">添加单个考生</h4>
+            <div class="form-group">
+              <label class="col-sm-2 control-label">身份证<i>*</i></label>
+              <div class="col-sm-8">
+                <input type="text" class="form-control studentID" placeholder="身份证"
+                       ng-keyup="checkInputVal()"/>
+              </div>
+              <div class="col-sm-2">
+                <p class="help-block" ng-show='studentIDIsNull'>请输入身份证！</p>
+              </div>
             </div>
-            <div class="col-sm-2">
-              <p ng-show="kaoshiForm.ksKaoChang.$error.required" class="help-block">请选择考场！</p>
+            <div class="form-group">
+              <label class="col-sm-2 control-label">姓名<i>*</i></label>
+              <div class="col-sm-8">
+                <input type="text" class="form-control studentName" placeholder="姓名"
+                       ng-keyup="checkInputVal()">
+              </div>
+              <div class="col-sm-2">
+                <p class="help-block" ng-show='studentNameIsNull'>请输入姓名！</p>
+              </div>
             </div>
-          </div>
-          <div class="form-group">
-            <label class="col-sm-2 control-label">身份证<i>*</i></label>
-            <div class="col-sm-8">
-              <input type="text" class="form-control studentID" placeholder="学号"
-                     ng-keyup="checkInputVal()"/>
-            </div>
-            <div class="col-sm-2">
-              <p class="help-block" ng-show='studentIDIsNull'>请输入身份证！</p>
-            </div>
-          </div>
-          <div class="form-group">
-            <label class="col-sm-2 control-label">姓名<i>*</i></label>
-            <div class="col-sm-8">
-              <input type="text" class="form-control studentName" placeholder="姓名"
-                     ng-keyup="checkInputVal()">
-            </div>
-            <div class="col-sm-2">
-              <p class="help-block" ng-show='studentNameIsNull'>请输入姓名！</p>
+            <div class="form-group">
+              <div class="col-sm-8 col-sm-offset-2 text-right">
+                <button type="button" class="btn btn-primary" ng-click="saveNewStudent()">增加考生</button>
+                <button type="button" class="btn btn-danger" ng-click="cancelAddStudent()">取消</button>
+              </div>
             </div>
           </div>
-          <div class="form-group">
-            <div class="col-sm-8 col-sm-offset-2 text-right">
-              <button type="button" class="btn btn-primary" ng-click="saveNewStudent()">增加考生</button>
-              <button type="button" class="btn btn-danger" ng-click="cancelAddStudent()">取消</button>
+          <!--通过部门或者课序号添加考生-->
+          <div class="addKsSelectStu">
+            <h4 class="bdb ptb5 text-center">通过部门或者课序号选择考生</h4>
+            <div class="form-group">
+              <label class="col-sm-2 control-label">部门</label>
+              <div class="col-sm-8">
+                <select class="form-control" ng-model="kwParams.selected_bm"
+                        ng-change="chaXunJiGouYongHu(kwParams.selected_bm)"
+                        ng-options="bm.JIGOU_ID as bm.JIGOUMINGCHENG for bm in originBuMenData">
+                  <option value="">请选择部门</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-sm-2 control-label">课序号</label>
+              <div class="col-sm-8">
+                <select class="form-control" ng-model="kwParams.selected_zy"
+                        ng-change="chaXunKxhYongHu(kwParams.selected_zy)"
+                        ng-options="kxh.KEXUHAO_ID as kxh.KEXUHAO_MINGCHENG for kxh in keXuHaoData">
+                  <option value="">请选择专业</option>
+                </select>
+              </div>
             </div>
           </div>
         </div>
@@ -176,8 +137,8 @@
               <th>姓名</th>
               <th width="50px">删除</th>
             </tr>
-            <tr ng-repeat="usr in kaoshiData.shuju.KAOCHANG[selectKaoChangIdx].USERS">
-              <td>{{usr.YONGHUHAO}}</td>
+            <tr ng-repeat="usr in kaoshiData.shuju.KAOCHANG[0].USERS">
+              <td>{{usr.ZHENGJIANHAO}}</td>
               <td>{{usr.XINGMING}}</td>
               <td class="text-center">
                 <a href="javascript:void(0)" ng-click="deleteStudent($index)">
@@ -192,20 +153,19 @@
     <div class="form-group" ng-show="isImportKaoSheng">
       <div class="col-sm-8 col-sm-offset-2">
         <div class="row selectFileBox">
-          <div class="form-group">
-            <label class="col-sm-2 control-label">选择考场<i>*</i></label>
-
-            <div class="col-sm-8">
-              <select class="form-control subOrganization" ng-model="selectKaoChangId"
-                      ng-change="selectKaoChang(selectKaoChangId)"
-                      ng-options="kcInfo.KID as kcInfo.KMINGCHENG for kcInfo in allKaoChangList">
-                <option value="">请选择考场</option>
-              </select>
-            </div>
-            <div class="col-sm-2">
-              <p ng-show="kaoshiForm.ksKaoChang.$error.required" class="help-block">请选择考场！</p>
-            </div>
-          </div>
+          <!--<div class="form-group">-->
+            <!--<label class="col-sm-2 control-label">选择考场<i>*</i></label>-->
+            <!--<div class="col-sm-8">-->
+              <!--<select class="form-control subOrganization" ng-model="selectKaoChangId"-->
+                      <!--ng-change="selectKaoChang(selectKaoChangId)"-->
+                      <!--ng-options="kcInfo.KID as kcInfo.KMINGCHENG for kcInfo in allKaoChangList">-->
+                <!--<option value="">请选择考场</option>-->
+              <!--</select>-->
+            <!--</div>-->
+            <!--<div class="col-sm-2">-->
+              <!--<p ng-show="kaoshiForm.ksKaoChang.$error.required" class="help-block">请选择考场！</p>-->
+            <!--</div>-->
+          <!--</div>-->
           <div class="form-group">
             <form id="importStudentForm">
               <em>
@@ -236,21 +196,13 @@
         <div class="student-list" ng-show="showImportStuds">
           <table class="table table-bordered kaowu-table">
             <tr class="active">
-              <th>学号</th>
               <th>姓名</th>
-              <th>班级</th>
-              <th>课序号</th>
-              <th>序号</th>
-              <th>座位号</th>
+              <th>身份证</th>
               <th width="50px">删除</th>
             </tr>
-            <tr ng-repeat="importusr in kaoshiData.shuju.KAOCHANG[selectKaoChangIdx].USERS">
-              <td>{{importusr.YONGHUHAO}}</td>
+            <tr ng-repeat="importusr in kaoshiData.shuju.KAOCHANG[0].USERS">
               <td>{{importusr.XINGMING}}</td>
-              <td>{{importusr.BANJI}}</td>
-              <td>{{importusr.KEXUHAO}}</td>
-              <td>{{importusr.XUHAO}}</td>
-              <td>{{importusr.ZUOWEIHAO}}</td>
+              <td>{{importusr.ZHENGJIANHAO}}</td>
               <td class="text-center">
                 <a href="javascript:void(0)" ng-click="deleteStudent($index)">
                   <span class="glyphicon glyphicon-trash"></span>
@@ -286,7 +238,7 @@
       </button>
       <button type="button" class="btn btn-danger ml10" ng-click="showKaoShiList()">取消</button>
     </div>
-  </div>
+  </form>
   <!-- 试卷选择 -->
   <div class="popup-wrap" ng-show="showPopupBox">
     <div class="popup-wrap-inner">

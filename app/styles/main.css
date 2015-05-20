@@ -1994,7 +1994,9 @@ label.checkbox {
       margin: 0; }
 .kaowuWrapper .kaoChangList .moreBtnCont {
   width: 300px;
-  right: 75px; }
+  right: 75px;
+  top: 50%;
+  margin-top: -21px; }
   .kaowuWrapper .kaoChangList .moreBtnCont .mbc-inner {
     width: 280px;
     text-align: center; }
@@ -2047,6 +2049,11 @@ label.checkbox {
   margin-right: 15px; }
 .kaowuWrapper .fixed-top {
   left: 300px; }
+.kaowuWrapper .ipDelete {
+  position: absolute;
+  right: -30px;
+  top: 10px;
+  cursor: pointer; }
 
 .tongjiWrapper .tj-ks .nav-tabs li:first-child {
   margin-left: 5%; }
