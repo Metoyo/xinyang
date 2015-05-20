@@ -173,7 +173,7 @@ define(['angular', 'config', 'mathjax', 'jquery', 'underscore'],
         $scope.keMuList = true; //科目选择列表内容隐藏
         $scope.dgListBox = true; //大纲选择列表隐藏
         $scope.letterArr = config.letterArr; //题支的序号
-        $scope.cnNumArr = config.cnNumArr; //汉语的大学数字
+        $scope.cnNumArr = config.cnNumArr; //汉语的大写数字
         $scope.shijuanData = shijuanData; // 试卷的数据
         $scope.mubanData = mubanData; // 模板的数据
         $scope.sjPreview = false; //试卷预览里面的试题试题列表
@@ -2375,7 +2375,8 @@ define(['angular', 'config', 'mathjax', 'jquery', 'underscore'],
           paperDetailData = '';
           paperDetailId = ''; //用来存放所选试卷的id
           paperDetailName = ''; //用来存放所选试卷的名称
-
+          $scope.zuJuanGuiZe = ''; //随机试卷组卷规则
+          $scope.zuJuanGuiZeSummary = ''; //随机组卷规则概要
           $http.get(qryPaperDetailUrl).success(function(data){
             if(!data.error){
               paperDetailId = data.SHIJUAN.SHIJUAN_ID; //用来存放所选试卷的id
@@ -2441,6 +2442,14 @@ define(['angular', 'config', 'mathjax', 'jquery', 'underscore'],
                   }
                 });
               });
+              //如果为随机试卷
+              if(data.SHIJUAN.SHIJUANLEIXING == 1){
+                $scope.zuJuanGuiZeSummary = {
+                  sjlx: data.SHIJUAN.SHIJUANLEIXING,
+                  sjzf: data.SHIJUAN.FENZHI
+                };
+                $scope.zuJuanGuiZe = JSON.parse(data.SHIJUAN.SUIJIGUIZE);
+              }
               $scope.shijuanPreview(); //试卷预览
               $scope.shijuanyulanBtn = false; //试卷预览的按钮
               $scope.fangqibencizujuanBtn = true; //放弃本次组卷的按钮

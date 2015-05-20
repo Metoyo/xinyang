@@ -27,9 +27,9 @@
     </h1>
 
     <div class="attention hover-style" title="点击设置" ng-show="mubanData.shuju.ZONGDAOYU">
-            <span class="sj-param-val" ng-click="editMuBanDaTiNameAndScore('sj_dy_input')">
-                {{ mubanData.shuju.ZONGDAOYU }}
-            </span>
+      <span class="sj-param-val" ng-click="editMuBanDaTiNameAndScore('sj_dy_input')">
+          {{ mubanData.shuju.ZONGDAOYU }}
+      </span>
     </div>
     <div class="form-paper-type text-center" ng-hide="sjPreview">
       <button type="button" class="btn btn-primary" ng-click="handMakePaper()">手动组卷</button>
@@ -119,6 +119,24 @@
           </li>
         </ul>
       </div>
+    </div>
+    <!--组卷规则-->
+    <div class="mr10" ng-if="zuJuanGuiZeSummary.sjlx == 1">
+      <h4>试卷总分：<span ng-bind="zuJuanGuiZeSummary.sjzf"></span></h4>
+      <table class="table table-bordered">
+        <tr>
+          <th width="60%">知识点</th>
+          <th width="10%">题型</th>
+          <th width="10%">数量</th>
+          <th width="10%">难度</th>
+        </tr>
+        <tr ng-repeat="gz in zuJuanGuiZe track by $index">
+          <td ng-bind="gz.zsdNameArr.join(';')"></td>
+          <td ng-bind="tiXingNameArr[gz.TIXING[0].TIXING_ID - 1]"></td>
+          <td ng-bind="gz.TIXING[0].COUNT"></td>
+          <td ng-bind="gz.NANDU"></td>
+        </tr>
+      </table>
     </div>
     <!--弹出层用来修改题目和大题的信息-->
     <div class="popup-wrap alter-dati" ng-show="shijuan_edit">
@@ -221,15 +239,12 @@
     </div>
   </div>
   <div class="save-paper-box" ng-show="baocunshijuanBtn">
-    <!--<button type="button" class="btn btn-primary" ng-click="setDaTiKa()"-->
-    <!--ng-show="shijuanData.shuju.SHIJUAN_ID">答题卡设置</button>-->
-    <label>
+    <label ng-hide="zuJuanGuiZeSummary.sjlx == 1">
       <input type="checkbox" ng-model="zuJuanParam.tiMuSuiJi"> 题目随机排序
     </label>
-    <label>
+    <label ng-hide="zuJuanGuiZeSummary.sjlx == 1">
       <input type="checkbox" ng-model="zuJuanParam.xuanXiangSuiJi"> 选项随机排序
     </label>
-    <!--<button type="button" class="btn btn-primary savePaperToPdf">保存试卷为PDF</button>-->
-    <button type="button" class="btn btn-primary" ng-click="savePaperConfirm()">保存试卷</button>
+    <button type="button" class="btn btn-primary" ng-click="savePaperConfirm()" ng-hide="zuJuanGuiZeSummary.sjlx == 1">保存试卷</button>
   </div>
 </div>
