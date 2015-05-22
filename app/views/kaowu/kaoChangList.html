@@ -4,39 +4,20 @@
 <table class="table table-bordered kaowu-table kaoChangList">
   <tr class="active">
     <th>考场名称</th>
-    <th>考位数量</th>
+    <th width="100px">考位数量</th>
     <th>考场地址</th>
-    <th>IP列表</th>
-    <!--<th>交通方式</th>-->
-    <!--<th>联系人</th>-->
-    <!--<th>联系方式</th>-->
-    <th width="205px">操作</th>
+    <th width="140px">IP列表</th>
+    <th width="100px">操作</th>
   </tr>
   <tr ng-repeat="kc in kaoChangList">
     <td ng-bind="kc.KMINGCHENG"></td>
     <td class="text-center" ng-bind="kc.KAOWEISHULIANG"></td>
     <td ng-bind="kc.XIANGXIDIZHI"></td>
-    <td>
+    <td align="center">
       <p ng-repeat="ip in kc.ips track by $index" ng-bind="ip"></p>
     </td>
-    <!--<td ng-bind="kc.JIAOTONGFANGSHI">-->
-    <!--</td>-->
-    <!--<td class="text-center" ng-bind="kc.LIANXIREN">-->
-    <!--</td>-->
-    <!--<td class="text-center" ng-bind="kc.LIANXIFANGSHI">-->
-    <!--</td>-->
     <td class="text-center">
-      <button type="button" class="btn btn-default" ng-click="deleteKaoChang(kc)">删除</button>
       <button type="button" class="btn btn-primary" ng-click="editKaoChang(kc)">修改</button>
-      <button type="button" class="btn btn-primary jiHuoMa" bn-slide-show slid-show-tapon="jiHuoMa"
-              slide-show-target="moreBtnCont"
-              slide-show-dirt="left" slide-show-idx="{{$index}}">激活码
-      </button>
-      <div class="moreBtnCont">
-        <div class="mbc-inner" ng-bind="kc.JIHUOMA">
-
-        </div>
-      </div>
     </td>
   </tr>
 </table>

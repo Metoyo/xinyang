@@ -21,7 +21,7 @@
             </table>
         </li>
         <li ng-repeat="pld in paperListData">
-            <table class="table" bn-slide-show slide-show-target="more-info" slide-show-idx="{{$index}}">
+            <table class="table">
                 <tr>
                     <td>
                         <a href="javascript:void(0)" ng-click="showPaperDetail(pld.SHIJUAN_ID)"
@@ -39,28 +39,6 @@
                     </td>
                 </tr>
             </table>
-            <div class="more-info">
-                <div>
-                    <h5>
-                        题型分布：
-                    </h5>
-                    <p>
-                        <span ng-repeat="dati in pld.TIXING_DATA">
-                            {{tiXingNameArr[dati.TIXING_ID -1]}}:{{dati.COUNT}}
-                        </span>
-                    </p>
-                </div>
-                <div>
-                    <h5>
-                        题型难度：
-                    </h5>
-                    <p>
-                        <span ng-repeat="nadu in pld.NANDU.daTiNanDuArr">
-                            {{tiXingNameArr[nadu.mubandati_id -1]}}:{{nadu.nanDu}}
-                        </span>
-                    </p>
-                </div>
-            </div>
         </li>
     </ul>
     <div class="paging text-right">

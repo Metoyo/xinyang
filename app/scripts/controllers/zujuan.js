@@ -979,19 +979,19 @@ define(['angular', 'config', 'mathjax', 'jquery', 'underscore'],
               NANDU: '', // 难度系数
               ZHISHIDIAN: [], //知识点ID, 数组
               zsdNameArr: [], //知识点名称, 数组
-              PIPEIDU: 1, //匹配度
+              PIPEIDU: 0.7, //匹配度
               TIXING: [{
                 TIXING_ID: '',
                 COUNT: ''
               }] //{TIXING_ID: 1, COUNT: 10}
-            },
-            txNumClass = $('.ruleMakePaper-header input.txNum'),
-            txNum = parseInt(txNumClass.val()),
-            coefftRule = (parseInt($scope.zuJuanParam.zjLastNd) - 1) * 0.25;
+            };
+          var txNumClass = $('.ruleMakePaper-header input.txNum');
+          var txNum = parseInt(txNumClass.val());
+          var coefftRule = (parseInt($scope.zuJuanParam.zjLastNd) - 1) * 0.5;
           if(selectZsd.length){
             if(ruleMakePaperSelectTxid){
               if(txNum){
-                if(coefftRule){
+                if(coefftRule >= 0){
                   targetTx.TIXING[0].TIXING_ID = ruleMakePaperSelectTxid;
                   targetTx.TIXING[0].COUNT = txNum;
                   targetTx.NANDU = coefftRule;

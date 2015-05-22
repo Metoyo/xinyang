@@ -344,16 +344,7 @@ define(['angular', 'config', 'mathjax', 'datepicker', 'jquery', 'underscore', 'l
                 $scope.txTpl = 'views/kaowu/editKaoShi.html';
               }
               else if(isDeleteKaoShi){
-                kaoshi_data.shuju.KAOSHI_ID = ks.KAOSHI_ID;
-                kaoshi_data.shuju.KAOSHI_MINGCHENG = ks.KAOSHI_MINGCHENG;
-                kaoshi_data.shuju.KAISHISHIJIAN = ks.KAISHISHIJIAN;
-                kaoshi_data.shuju.JIESHUSHIJIAN = ks.JIESHUSHIJIAN;
-                kaoshi_data.shuju.SHICHANG = ks.SHICHANG;
-                kaoshi_data.shuju.XINGZHI = ks.XINGZHI;
-                kaoshi_data.shuju.LEIXING = ks.LEIXING;
-                kaoshi_data.shuju.XUZHI = ks.XUZHI;
-                kaoshi_data.shuju.SHIJUAN_ID = _.map(ks.SHIJUAN, function(sj, key){ return sj.SHIJUAN_ID; });
-                kaoshi_data.shuju.ZHUANGTAI = -1;
+
               }
               else{
                 getJgList();
@@ -447,7 +438,6 @@ define(['angular', 'config', 'mathjax', 'datepicker', 'jquery', 'underscore', 'l
                     kaoshi_data.shuju.KAOCHANG[0].USERS.push(obj);
                   }
                 });
-                console.log(kaoshi_data.shuju.KAOCHANG[0].USERS);
               }
               else{
                 $scope.bmWorkersData = '';
@@ -885,10 +875,20 @@ define(['angular', 'config', 'mathjax', 'datepicker', 'jquery', 'underscore', 'l
         $scope.deleteKaoShi = function(ks){
           isEditKaoShi = false;
           isDeleteKaoShi = true;
-          $scope.addNewKaoShi(ks);
+          var kaoshiData = { //考试的数据格式
+            token: token,
+            caozuoyuan: caozuoyuan,
+            jigouid: jigouid,
+            lingyuid: lingyuid,
+            shuju:{
+              KAOSHI_ID: ks.KAOSHI_ID,
+              ZHUANGTAI: -1
+            }
+          };
+          //$scope.addNewKaoShi(ks);
           var confirmInfo = confirm("确定要删除考试吗？");
           if(confirmInfo){
-            $http.post(xiuGaiKaoShiUrl, kaoshi_data).success(function(data){
+            $http.post(xiuGaiKaoShiUrl, kaoshiData).success(function(data){
               if(data.result){
                 $scope.showKaoShiList($scope.kwParams.ksListZt);
                 DataService.alertInfFun('suc', '考试删除成功！');

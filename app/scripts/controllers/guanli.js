@@ -100,8 +100,8 @@ define(['angular', 'config', 'jquery', 'underscore'], function (angular, config,
           $scope.loadingImgShow = true;
           $http.get(chaXunKxh).success(function(kxh){
             if(kxh && kxh.length > 0){
+              $scope.keXuHaoData = kxh;
               if(parm == 'dist'){
-                $scope.keXuHaoData = kxh;
                 var dataLength = kxh.length; //所以二级知识点长度
                 var lastPage = Math.ceil(dataLength/numPerPage); //最后一页
                 $scope.lastKxhPageNum = lastPage;
@@ -613,7 +613,6 @@ define(['angular', 'config', 'jquery', 'underscore'], function (angular, config,
               $http.post(modifyKxhYh, fd, {transformRequest: angular.identity, headers:{'Content-Type': undefined}})
                 .success(function(data){
                   if(data){
-                    console.log(data);
                     $scope.loadingImgShow = false;
                     $scope.showKeXuHaoManage = '';
                     DataService.alertInfFun('suc', '批量新增成功！');

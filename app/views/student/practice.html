@@ -1,46 +1,33 @@
 <div class="row col-md-6">
   <div class="col-md-12">
-    <select class="form-control">
-      <option value="1">机电</option>
-      <option value="2">热力</option>
-      <option value="3">运维</option>
-      <option value="4">控制</option>
+    <select class="form-control" ng-model="stuParams.zsdId"
+            ng-options="zsd.ZHISHIDIAN_ID as zsd.ZHISHIDIANMINGCHENG for zsd in kowledgeList">
+      <option value="">请选择知识点</option>
     </select>
   </div>
   <div class="col-md-12 mt10">
-    <label class="checkbox-inline">
-      <input type="checkbox" value=""> 单选
+    <label class="radio-inline">
+      <input type="radio" name="itemNum" value="100" ng-model="stuParams.lxItemNum"> 100题
     </label>
-    <label class="checkbox-inline">
-      <input type="checkbox" value=""> 多选
+    <label class="radio-inline">
+      <input type="radio" name="itemNum" value="200" ng-model="stuParams.lxItemNum"> 200题
     </label>
-    <label class="checkbox-inline">
-      <input type="checkbox" value=""> 判断
+    <label class="radio-inline">
+      <input type="radio" name="itemNum" value="99999" ng-model="stuParams.lxItemNum"> 所有试题
     </label>
   </div>
   <div class="col-md-12 mt10">
     <label class="radio-inline">
-      <input type="radio" name="itemNum" value=""> 100题
+      <input type="radio" name="practiceTime" value="60" ng-model="stuParams.lxTime"> 60分钟
     </label>
     <label class="radio-inline">
-      <input type="radio" name="itemNum" value=""> 200题
+      <input type="radio" name="practiceTime" value="120" ng-model="stuParams.lxTime"> 120分钟
     </label>
     <label class="radio-inline">
-      <input type="radio" name="itemNum" value=""> 所有试题
+      <input type="radio" name="practiceTime" value="999999" ng-model="stuParams.lxTime"> 不限时
     </label>
   </div>
   <div class="col-md-12 mt10">
-    <label class="radio-inline">
-      <input type="radio" name="practiceTime" value=""> 60分钟
-    </label>
-    <label class="radio-inline">
-      <input type="radio" name="practiceTime" value=""> 120分钟
-    </label>
-    <label class="radio-inline">
-      <input type="radio" name="practiceTime" value=""> 不限时
-    </label>
-  </div>
-  <div class="col-md-12 mt10">
-    <button type="button" class="btn btn-primary pull-right">确定</button>
+    <button type="button" class="btn btn-primary pull-right" ng-click="lianXiChouTi()">确定</button>
   </div>
 </div>

@@ -29,8 +29,8 @@
           <li><a href="javascript:void(0)" ng-click="zjNanDuSelect(1)"></a></li>
           <li><a href="javascript:void(0)" ng-click="zjNanDuSelect(2)"></a></li>
           <li><a href="javascript:void(0)" ng-click="zjNanDuSelect(3)"></a></li>
-          <li><a href="javascript:void(0)" ng-click="zjNanDuSelect(4)"></a></li>
-          <li><a href="javascript:void(0)" ng-click="zjNanDuSelect(5)"></a></li>
+          <!--<li><a href="javascript:void(0)" ng-click="zjNanDuSelect(4)"></a></li>-->
+          <!--<li><a href="javascript:void(0)" ng-click="zjNanDuSelect(5)"></a></li>-->
         </ul>
       </td>
       <td class="text-right">
@@ -45,7 +45,7 @@
   </table>
 </div>
 <div class="row ruleMakePaper-body">
-  <div class="form-horizontal">
+  <div class="form-horizontal col-md-12">
     <div class="col-md-6">
       <div class="form-group">
         <label class="col-md-2 control-label">试卷名称</label>
@@ -92,28 +92,7 @@
   </div>
 </div>
 <div class="row fixed-bottom">
-  <!--<label class="checkbox-inline">-->
-  <!--<input type="checkbox" value="" ng-model="isTiMuQuChong">题目去重（一年）-->
-  <!--</label>-->
-  <table>
-    <tr>
-      <td>
-        <select ng-model="zuJuanParam.selectQuChongNum" class="form-control w200 h28 mr5"
-                ng-change="checkSelectQuChongNum()"
-                ng-options="qct.qcTime as qct.qcName for qct in zuJuanParam.quChong">
-          <option value="">请选择题目去重年限</option>
-        </select>
-      </td>
-      <td>
-        或输入
-        <input type="text" ng-model="zuJuanParam.inputQuChongNum" placeholder="年限" class="w80 mr5 h28"
-               ng-keyup="checkInPutQuChongNum()" onafterpaste="if(isNaN(value))execCommand('undo')">
-      </td>
-      <td>
-        <button type="button" class="btn btn-primary" ng-click="addRandomShiJuan()"
-                ng-disabled="ruleMakePaperSaveBtnDisabled">生成试卷
-        </button>
-      </td>
-    </tr>
-  </table>
+  <button type="button" class="btn btn-primary" ng-click="addRandomShiJuan()"
+          ng-disabled="ruleMakePaperSaveBtnDisabled">生成试卷
+  </button>
 </div>

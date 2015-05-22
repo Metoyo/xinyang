@@ -183,7 +183,7 @@ define(['angular', 'config', 'jquery', 'underscore', 'mathjax', 'markitup', 'set
               $scope.keMuList = true; //选择的科目render完成后列表显示
             }
             else{
-              DataService.alertInfFun('err', '查询科目题型失败！错误信息为：' + data.error);
+              DataService.alertInfFun('err', + data.error);
             }
           });
         };
