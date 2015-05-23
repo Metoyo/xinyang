@@ -32,6 +32,7 @@ define(['angular', 'config', 'underscore', 'lazy'], function (angular, config, _
         var startKaoShiUrl = baseKwAPIUrl + 'kaoshi_kaishi'; // 开始考试
         var endKaoShiUrl = baseKwAPIUrl + 'kaoshi_jiaojuan'; // 结束考试
         var kaoShiDaTiUrl = baseKwAPIUrl + 'kaoshi_dati'; // 考试答题
+        var lianXiDaTiUrl = baseKwAPIUrl + 'lianxi_dati'; // 考试答题
         var qryMoRenDgUrl = baseMtAPIUrl + 'chaxun_zhishidagang?token=' + token + '&caozuoyuan=' + caozuoyuan + '&jigouid=1'
           + '&lingyuid=2' + '&chaxunzilingyu=true' + '&moren=1'; //查询默认知识大纲的url
         var qryKnowledgeBaseUrl = baseMtAPIUrl + 'chaxun_zhishidagang_zhishidian?token=' + token + '&caozuoyuan=' +
@@ -40,6 +41,8 @@ define(['angular', 'config', 'underscore', 'lazy'], function (angular, config, _
           '&jigouid=1' + '&lingyuid=2' + '&timu_id='; //查询题目详情基础url
         var numPerPage = 10; //每页显示多少条数据
         var paginationLength = 11; //显示多少个页码
+        var lastDxDa = []; //上一个多选题的答案数组
+        var lastDxTm = ''; //上一个多选题
 
         $scope.stuParams = { //学生controller参数
           stuTabActive: '',
@@ -48,6 +51,7 @@ define(['angular', 'config', 'underscore', 'lazy'], function (angular, config, _
           zsdId: '',
           cnNumArr: config.cnNumArr,
           startKaoShiState: false, //考试状态
+          startLianXiState: false, //练习状态
           kaoShiName: '', //考试名称
           tmNumPerPage: 10
         };
@@ -124,6 +128,7 @@ define(['angular', 'config', 'underscore', 'lazy'], function (angular, config, _
             $scope.tiMuDistPage = [];
             $scope.daTiData = [];
             $scope.stuParams.startKaoShiState = false;
+            $scope.stuParams.startLianXiState = false;
             $scope.stuParams.kaoShiName = '';
             $scope.stuParams.stuTabActive = 'practice';
             $scope.stuTpl = 'views/student/practice.html'
@@ -134,6 +139,7 @@ define(['angular', 'config', 'underscore', 'lazy'], function (angular, config, _
             $scope.tiMuDetail = [];
             $scope.tiMuDistPage = [];
             $scope.stuParams.startKaoShiState = false;
+            $scope.stuParams.startLianXiState = false;
             $scope.stuParams.kaoShiName = '';
             $scope.stuParams.stuTabActive = 'exam';
             $scope.stuTpl = 'views/student/exam.html'
@@ -142,72 +148,10 @@ define(['angular', 'config', 'underscore', 'lazy'], function (angular, config, _
             $scope.stuParams.stuTabActive = 'score';
             $scope.stuTpl = 'views/student/score.html'
           }
+          lastDxDa = []; //上一个多选题的答案数组
+          lastDxTm = ''; //上一个多选题
         };
         $scope.stuTabSlide('exam');
-
-        /**
-         * 联系开始的抽题
-         */
-        $scope.lianXiChouTi = function(){
-          var shujuObj = {
-            token: token,
-            shuju: {
-              UID: caozuoyuan,
-              JIGOU_ID: 1,
-              LINGYU_ID: 2,
-              COUNT: $scope.stuParams.lxItemNum,
-              ZHISHIDIAN: $scope.stuParams.zsdId,
-              shichang: $scope.stuParams.lxTime
-            }
-          };
-          var errArr = [];
-          $scope.tiMuIdData = '';
-          $scope.tiMuPage = [];
-          Lazy(shujuObj.shuju).each(function(v, k, l){
-            if(!v){
-              switch (k){
-                case 'UID':
-                  errArr.push('UID');
-                  break;
-                case 'JIGOU_ID':
-                  errArr.push('机构ID');
-                  break;
-                case 'LINGYU_ID':
-                  errArr.push('领域ID');
-                  break;
-                case 'COUNT':
-                  errArr.push('题目数量');
-                  break;
-                case 'ZHISHIDIAN':
-                  errArr.push('知识点');
-                  break;
-                case 'shichang':
-                  errArr.push('练习时长');
-                  break;
-              }
-            }
-          });
-          if(errArr.length > 0){
-            var errInfo = '"' + errArr.join() + '"' + '不能为空！';
-            DataService.alertInfFun('pmt', errInfo);
-          }
-          else{
-            $http.get(lianxiKaiShiUrl, {params: shujuObj}).success(function(data){
-              if(data.result){
-                $scope.lianXiData = data;
-                $scope.tiMuIdData = data.TIMU;
-                $scope.stuParams.zsdId = '';
-                $scope.stuParams.lxItemNum = '';
-                console.log(data);
-              }
-              else{
-                $scope.lianXiData = '';
-                $scope.tiMuIdData = '';
-                DataService.alertInfFun('err', data.error);
-              }
-            });
-          }
-        };
 
         /**
          * 开始考试
@@ -301,19 +245,26 @@ define(['angular', 'config', 'underscore', 'lazy'], function (angular, config, _
             if(data && data.length > 0){
               $scope.tiMuDetail = [];
               var distByTxid = Lazy(data).groupBy('TIXING_ID');
+              var stuHasAnsewer = JSON.parse(localStorage.getItem('stuDaArr'));
               Lazy(distByTxid).each(function(v, k, l){
                 var tmObj = {daTi: '', tiMu: ''};
-                switch (k) {
-                  case '1':
-                    tmObj.daTi = '单选题';
-                    break;
-                  case '2':
-                    tmObj.daTi = '多选题';
-                    break;
-                  case '4':
-                    tmObj.daTi = '判断题';
-                    break;
+                if(k == 1){
+                  tmObj.daTi = '单选题';
                 }
+                if(k == 2){
+                  tmObj.daTi = '多选题';
+                }
+                if(k == 3){
+                  tmObj.daTi = '判断题';
+                }
+                var hasInArr = Lazy(stuHasAnsewer).map(function(hItem){return hItem.TIMU_ID;}).toArray();
+                var newInArr = Lazy(v).map(function(nItem){return nItem.TIMU_ID;}).toArray();
+                var sameArr = Lazy(hasInArr).intersection(newInArr);
+                Lazy(sameArr).each(function(inTm){
+                  var hIndex = Lazy(hasInArr).indexOf(inTm);
+                  var nIndex = Lazy(newInArr).indexOf(inTm);
+                  v[nIndex].ksKsDa = stuHasAnsewer[hIndex].stuDa;
+                });
                 tmObj.tiMu = v;
                 $scope.tiMuDetail.push(tmObj);
               });
@@ -327,8 +278,6 @@ define(['angular', 'config', 'underscore', 'lazy'], function (angular, config, _
         /**
          * 考试答题 Returns: JSON, {result: true, defen: 1} $scope.daTiData
          */
-        var lastDxDa = []; //上一个多选题的答案数组
-        var lastDxTm = ''; //上一个多选题
         $scope.kaoShiDaTi = function(xtm, idxDa, mdDa){
           var dtObj = {
             token: token,
@@ -372,7 +321,24 @@ define(['angular', 'config', 'underscore', 'lazy'], function (angular, config, _
           if(dtObj.shuju.KSDAAN >= 0 || dtObj.shuju.KSDAAN){
             $http.post(kaoShiDaTiUrl, dtObj).success(function(data){
               if(data.result){
-                console.log(data);
+                //存已答题的数据，存放到本地存储
+                var hasIn = true;
+                Lazy($scope.daTiData).each(function(kstm, idx, lst){
+                  if(kstm.TIMU_ID == xtm.TIMU_ID){
+                    kstm.stuDa = dtObj.shuju.KSDAAN;
+                    hasIn = false;
+                  }
+                });
+                if(hasIn){
+                  var daTiObj = {
+                    TIMU_ID: xtm.TIMU_ID,
+                    stuDa: dtObj.shuju.KSDAAN
+                  };
+                  $scope.daTiData.push(daTiObj);
+                }
+                if (window.localStorage){
+                  localStorage.setItem('stuDaArr', JSON.stringify($scope.daTiData));
+                }
               }
               else{
                 DataService.alertInfFun('err', data.error);
@@ -382,7 +348,7 @@ define(['angular', 'config', 'underscore', 'lazy'], function (angular, config, _
         };
 
         /**
-         * 结束考试  Returns: JSON, {result: true, defen: 85, zhengque: 85, cuowu: 15}
+         * 结束考试{result: true, defen: 85, zhengque: 85, cuowu: 15}
          */
         $scope.endKaoShi = function(){
           var endObj = {
@@ -395,6 +361,167 @@ define(['angular', 'config', 'underscore', 'lazy'], function (angular, config, _
             if(data.result){
               $scope.stuParams.startKaoShiState = false;
               $scope.stuParams.kaoShiName = '';
+              localStorage.removeItem('stuDaArr');
+              DataService.alertInfFun('suc', '提交成功！');
+            }
+            else{
+              DataService.alertInfFun('err', data.error);
+            }
+          });
+        };
+
+        /**
+         * 练习开始的抽题
+         */
+        $scope.lianXiChouTi = function(){
+          var shujuObj = {
+            token: token,
+            shuju: {
+              UID: caozuoyuan,
+              JIGOU_ID: 1,
+              LINGYU_ID: 2,
+              COUNT: $scope.stuParams.lxItemNum,
+              ZHISHIDIAN: $scope.stuParams.zsdId,
+              shichang: $scope.stuParams.lxTime
+            }
+          };
+          var errArr = [];
+          $scope.tiMuIdData = '';
+          $scope.tiMuPage = [];
+          Lazy(shujuObj.shuju).each(function(v, k, l){
+            if(!v){
+              switch (k){
+                case 'UID':
+                  errArr.push('UID');
+                  break;
+                case 'JIGOU_ID':
+                  errArr.push('机构ID');
+                  break;
+                case 'LINGYU_ID':
+                  errArr.push('领域ID');
+                  break;
+                case 'COUNT':
+                  errArr.push('题目数量');
+                  break;
+                case 'ZHISHIDIAN':
+                  errArr.push('知识点');
+                  break;
+                case 'shichang':
+                  errArr.push('练习时长');
+                  break;
+              }
+            }
+          });
+          if(errArr.length > 0){
+            var errInfo = '"' + errArr.join() + '"' + '不能为空！';
+            DataService.alertInfFun('pmt', errInfo);
+          }
+          else{
+            $http.get(lianxiKaiShiUrl, {params: shujuObj}).success(function(data){
+              if(data.result){
+                $scope.lianXiData = data;
+                $scope.tiMuIdData = data.TIMU;
+                $scope.stuParams.zsdId = '';
+                $scope.stuParams.lxItemNum = '';
+                $scope.stuParams.startLianXiState = true;
+                $scope.changeNumPerPage($scope.stuParams.tmNumPerPage);
+              }
+              else{
+                $scope.lianXiData = '';
+                $scope.tiMuIdData = '';
+                $scope.stuParams.startLianXiState = false;
+                DataService.alertInfFun('err', data.error);
+              }
+            });
+          }
+        };
+
+        /**
+         * 练习答题 Returns: JSON, {result: true, defen: 1} $scope.daTiData
+         */
+        $scope.lianXiDaTi = function(xtm, idxDa, mdDa){
+          var dtObj = {
+            token: token,
+            shuju: {
+              TIMU_ID: xtm.TIMU_ID,
+              ksda: ''
+            }
+          };
+          if(xtm.TIXING_ID == 1){
+            dtObj.shuju.ksda = parseInt(mdDa);
+          }
+          if(xtm.TIXING_ID == 2){
+            if(lastDxTm){
+              if(xtm.TIMU_ID == lastDxTm.TIMU_ID){
+                if(mdDa){
+                  lastDxDa.push(idxDa);
+                }
+                else{
+                  lastDxDa = Lazy(lastDxDa).reject(function(da){return da == idxDa;}).toArray();
+                  console.log(lastDxDa);
+                }
+              }
+              else{
+                lastDxDa = [];
+                lastDxDa.push(idxDa);
+                lastDxTm = xtm;
+              }
+            }
+            else{
+              lastDxTm = xtm;
+              lastDxDa.push(idxDa);
+            }
+            if(lastDxDa && lastDxDa.length > 0){
+              dtObj.shuju.ksda = lastDxDa.join(',');
+            }
+          }
+          if(xtm.TIXING_ID == 4){
+            dtObj.shuju.ksda = idxDa;
+          }
+          if(dtObj.shuju.ksda >= 0 || dtObj.shuju.ksda){
+            $http.post(lianXiDaTiUrl, dtObj).success(function(data){
+              if(data.result){
+                //存已答题的数据，存放到本地存储
+                var hasIn = true;
+                Lazy($scope.daTiData).each(function(kstm, idx, lst){
+                  if(kstm.TIMU_ID == xtm.TIMU_ID){
+                    kstm.stuDa = dtObj.shuju.ksda;
+                    hasIn = false;
+                  }
+                });
+                if(hasIn){
+                  var daTiObj = {
+                    TIMU_ID: xtm.TIMU_ID,
+                    stuDa: dtObj.shuju.ksda
+                  };
+                  $scope.daTiData.push(daTiObj);
+                }
+                if (window.localStorage){
+                  localStorage.setItem('stuDaArr', JSON.stringify($scope.daTiData));
+                }
+              }
+              else{
+                DataService.alertInfFun('err', data.error);
+              }
+            });
+          }
+        };
+
+        /**
+         * 结束练习{result: true, defen: 85, zhengque: 85, cuowu: 15}
+         */
+        $scope.endLianXi = function(){
+          var endObj = {
+            token: token,
+            shuju: {
+              LIANXI_ID: $scope.lianXiData.LIANXI_ID
+            }
+          };
+          $http.post(endKaoShiUrl, endObj).success(function(data){
+            if(data.result){
+              console.log(data);
+              $scope.stuParams.startLianXiState = false;
+              localStorage.removeItem('stuDaArr');
               DataService.alertInfFun('suc', '提交成功！');
             }
             else{

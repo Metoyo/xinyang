@@ -1,31 +1,31 @@
 <!--考试列表-->
 <div class="row" ng-hide="stuParams.startKaoShiState">
+  <!--<div class="numPerPage text-center">-->
+    <!--<span>每页题目数量：</span>-->
+    <!--<label class="radio-inline">-->
+      <!--<input type="radio" name="tiMuNum" value="10" ng-model="stuParams.tmNumPerPage"> 10-->
+    <!--</label>-->
+    <!--<label class="radio-inline">-->
+      <!--<input type="radio" name="tiMuNum" value="20" ng-model="stuParams.tmNumPerPage"> 20-->
+    <!--</label>-->
+    <!--<label class="radio-inline">-->
+      <!--<input type="radio" name="tiMuNum" value="50" ng-model="stuParams.tmNumPerPage"> 50-->
+    <!--</label>-->
+    <!--<label class="radio-inline">-->
+      <!--<input type="radio" name="tiMuNum" value="100" ng-model="stuParams.tmNumPerPage"> 100-->
+    <!--</label>-->
+  <!--</div>-->
   <table class="table table-bordered">
     <tr>
       <th>考试名称</th>
       <th>时长(分)</th>
       <th>开始时间</th>
-      <th>每页题目数量</th>
       <th>操作</th>
     </tr>
     <tr ng-repeat="ks in kaoShiList">
       <td ng-bind="ks.KAOSHI_MINGCHENG"></td>
       <td ng-bind="ks.SHICHANG"></td>
       <td ng-bind="ks.KAISHISHIJIAN | myLocalDateWithWeek"></td>
-      <td>
-        <label class="radio-inline">
-          <input type="radio" name="tiMuNum" value="10" ng-model="stuParams.tmNumPerPage"> 10
-        </label>
-        <label class="radio-inline">
-          <input type="radio" name="tiMuNum" value="20" ng-model="stuParams.tmNumPerPage"> 20
-        </label>
-        <label class="radio-inline">
-          <input type="radio" name="tiMuNum" value="50" ng-model="stuParams.tmNumPerPage"> 50
-        </label>
-        <label class="radio-inline">
-          <input type="radio" name="tiMuNum" value="100" ng-model="stuParams.tmNumPerPage"> 100
-        </label>
-      </td>
       <td>
         <a href="javascript:void(0)" ng-click="startKaoShi(ks)">开始考试</a>
       </td>
@@ -34,21 +34,21 @@
 </div>
 <!--具体的题目-->
 <div class="row" ng-show="stuParams.startKaoShiState">
-  <!--<div class="numPerPage">-->
-    <!--<span>每页题目数量：</span>-->
-    <!--<label class="radio-inline">-->
-      <!--<input type="radio" name="tiMuNum" value="10" ng-model="numPerPage" ng-click="changeNumPerPage(10)"> 10-->
-    <!--</label>-->
-    <!--<label class="radio-inline">-->
-      <!--<input type="radio" name="tiMuNum" value="20" ng-model="numPerPage" ng-click="changeNumPerPage(20)"> 20-->
-    <!--</label>-->
-    <!--<label class="radio-inline">-->
-      <!--<input type="radio" name="tiMuNum" value="50" ng-model="numPerPage" ng-click="changeNumPerPage(50)"> 50-->
-    <!--</label>-->
-    <!--<label class="radio-inline">-->
-      <!--<input type="radio" name="tiMuNum" value="100" ng-model="numPerPage" ng-click="changeNumPerPage(100)"> 100-->
-    <!--</label>-->
-  <!--</div>-->
+  <div class="numPerPage">
+    <span>每页题目数量：</span>
+    <label class="radio-inline">
+      <input type="radio" name="tiMuNum" value="10" ng-model="stuParams.tmNumPerPage" ng-click="changeNumPerPage(10)"> 10
+    </label>
+    <label class="radio-inline">
+      <input type="radio" name="tiMuNum" value="20" ng-model="stuParams.tmNumPerPage" ng-click="changeNumPerPage(20)"> 20
+    </label>
+    <label class="radio-inline">
+      <input type="radio" name="tiMuNum" value="50" ng-model="stuParams.tmNumPerPage" ng-click="changeNumPerPage(50)"> 50
+    </label>
+    <label class="radio-inline">
+      <input type="radio" name="tiMuNum" value="100" ng-model="stuParams.tmNumPerPage" ng-click="changeNumPerPage(100)"> 100
+    </label>
+  </div>
   <!--题目容器-->
   <div class="answerReappearWrap">
     <h2 class="text-center">
@@ -80,7 +80,8 @@
               <div class="ar-tz" ng-repeat="tznr in xtm.TIGAN.tiZhiNeiRong track by $index">
                 <p class="positionAb">
                   <input type="checkbox" name="{{'checkbox' + $parent.$index}}" ng-model="ksKsDa.$index"
-                         ng-click="kaoShiDaTi(xtm, $index, ksKsDa.$index)"/>
+                         ng-click="kaoShiDaTi(xtm, $index, ksKsDa.$index)"
+                         ng-checked="xtm.ksKsDa.indexOf($index) > -1"/>
                 </p>
                 <p class="pl20" ng-bind-html="tznr"></p>
               </div>
@@ -88,11 +89,11 @@
             <!-- 判断题 -->
             <div class="ar-tzs" ng-if="xtm.TIXING_ID == 4">
               <span>
-                <input type="radio" name="{{'pdRadio' + $parent.$index}}" value="对" ng-model="xtm.ksKsDa"
+                <input type="radio" name="{{'pdRadio' + $parent.$index}}" value="1" ng-model="xtm.ksKsDa"
                        ng-click="kaoShiDaTi(xtm, 1, xtm.ksKsDa)"/>  对
               </span>
               <span>
-                <input type="radio" name="{{'pdRadio' + $parent.$index}}" value="错" style="margin: 0 0 0 20px"
+                <input type="radio" name="{{'pdRadio' + $parent.$index}}" value="0" style="margin: 0 0 0 20px"
                        ng-model="xtm.ksKsDa" ng-click="kaoShiDaTi(xtm, 0, xtm.ksKsDa)"/>  错
               </span>
             </div>
