@@ -23,6 +23,7 @@ define(['angular', 'config', 'underscore', 'lazy'], function (angular, config, _
         var token = config.token;
         var baseKwAPIUrl = config.apiurl_kw; //考务的api
         var baseMtAPIUrl = config.apiurl_mt; //mingti的api
+        var baseRzAPIUrl = config.apiurl_rz; //认证的api
         var caozuoyuan = userInfo.UID;//登录的用户的UID   chaxun_kaoshi_liebiao
         var jigouid = userInfo.JIGOU[0].JIGOU_ID || defaultJg;
         var lingyuid = $rootScope.session.defaultLyId;
@@ -43,6 +44,7 @@ define(['angular', 'config', 'underscore', 'lazy'], function (angular, config, _
         var paginationLength = 11; //显示多少个页码
         var lastDxDa = []; //上一个多选题的答案数组
         var lastDxTm = ''; //上一个多选题
+        var xiuGaiYongHu = baseRzAPIUrl + 'xiugai_yonghu';//修改用户
 
         $scope.stuParams = { //学生controller参数
           stuTabActive: '',
@@ -53,13 +55,16 @@ define(['angular', 'config', 'underscore', 'lazy'], function (angular, config, _
           startKaoShiState: false, //考试状态
           startLianXiState: false, //练习状态
           kaoShiName: '', //考试名称
-          tmNumPerPage: 10
+          tmNumPerPage: 10,
+          mima: '' //新密码
         };
         $scope.tiMuIdData = ''; //存放题目id的数据
         $scope.tiMuPage = []; //存放题目分页的数据
         $scope.currentTmPageVal = ''; //目前是那一页
         $scope.daTiData = []; //存放已答题目数据
         //$scope.tmNumPerPage = ''; //存放已答题目数据
+        $scope.showXiuGaiMiMa = false; //修改密码显示
+        $scope.passwordRegexp = /^.{6,20}$/;//密码的正则表达式
 
         /**
          * 获得大纲数据
@@ -528,6 +533,43 @@ define(['angular', 'config', 'underscore', 'lazy'], function (angular, config, _
               DataService.alertInfFun('err', data.error);
             }
           });
+        };
+
+        /**
+         * 修改密码显示
+         */
+        $scope.showXiuGaiMiMaShow = function(){
+          $scope.showXiuGaiMiMa = true;
+        };
+
+        /**
+         * 修改密码
+         */
+        $scope.xiuGaiMiMa = function(){
+          var userObj = {
+            token: token,
+            UID: caozuoyuan,
+            MIMA: ''
+          };
+          if($scope.stuParams.mima){
+            userObj.MIMA = $scope.stuParams.mima;
+            $http.post(xiuGaiYongHu, userObj).success(function(data){
+              if(data.result){
+                $scope.showXiuGaiMiMa = false;
+                DataService.alertInfFun('suc', '密码修改成功！');
+              }
+              else{
+                DataService.alertInfFun('err', data.error);
+              }
+            });
+          }
+        };
+
+        /**
+         * 取消修改密码 showXiuGaiMiMa
+         */
+        $scope.closeXiuGaiMiMa = function(){
+          $scope.showXiuGaiMiMa = false;
         };
 
     }]);

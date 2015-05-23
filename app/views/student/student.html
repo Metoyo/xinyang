@@ -15,7 +15,38 @@
         <button type="button" class="btn btn-danger mt5 mr10" ng-show="stuParams.startLianXiState" ng-click="endLianXi()">结束练习</button>
       </li>
       <li class="pull-right">
-        <a href="javascript:void(0)">修改密码</a>
+        <a href="javascript:void(0)" ng-click="showXiuGaiMiMaShow()">修改密码</a>
+        <div class="modifyMiMa" ng-show="showXiuGaiMiMa">
+          <h4 class="bdb ptb5 text-center">修改密码</h4>
+          <form name="studForm">
+            <!-- 密码 -->
+            <div class="form-group col-md-12">
+              <label>密码 <strong class="clRed">*</strong> <em>(6-20个字符)</em></label>
+              <input type="password" name="mima" placeholder="密码"
+                     class="form-control regPassword" ng-minlength=6 ng-maxlength=20
+                     ng-model="stuParams.mima" ng-pattern="passwordRegexp" required
+                     ng-change="stuCheckPassword()"/>
+              <p ng-show="studForm.mima.$error.pattern" class="help-block">密码需要6-20个字符！</p>
+            </div>
+            <!-- 确认密码 -->
+            <div class="form-group col-md-12">
+              <label>确认密码<strong class="clRed">*</strong><em>(6-20个字符)</em></label>
+              <input type="password" name="confirmPassword" ng-model="stuParams.mima_verify"
+                     data-password-verify="stuParams.mima" required placeholder="确认密码" class="form-control" />
+              <p class="help-block" ng-show="studForm.confirmPassword.$error.passwordVerify">
+                确认密码和密码不匹配！
+              </p>
+              <p class="help-block" ng-show="stuIfPswTheSame">
+                确认密码和密码不匹配！
+              </p>
+            </div>
+            <div class="form-group col-md-12 text-right">
+              <button type="button" class="btn btn-primary" ng-click="xiuGaiMiMa()"
+                      ng-disabled="studForm.mima.$invalid || studForm.confirmPassword.$invalid">提交</button>
+              <button type="button" class="btn btn-danger" ng-click="closeXiuGaiMiMa()">取消</button>
+            </div>
+          </form>
+        </div>
       </li>
     </ul>
   </div>
