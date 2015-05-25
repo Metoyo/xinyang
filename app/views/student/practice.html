@@ -7,6 +7,17 @@
   </div>
   <div class="col-md-12 mt10">
     <label class="radio-inline">
+      <input type="radio" name="tiXingId" value="1" ng-model="stuParams.lxTiMuId"> 单选题
+    </label>
+    <label class="radio-inline">
+      <input type="radio" name="tiXingId" value="2" ng-model="stuParams.lxTiMuId"> 多选题
+    </label>
+    <label class="radio-inline">
+      <input type="radio" name="tiXingId" value="4" ng-model="stuParams.lxTiMuId"> 判读题
+    </label>
+  </div>
+  <div class="col-md-12 mt10">
+    <label class="radio-inline">
       <input type="radio" name="itemNum" value="100" ng-model="stuParams.lxItemNum"> 100题
     </label>
     <label class="radio-inline">
@@ -62,16 +73,18 @@
         <ul class="list-unstyled">
           <li class="ptb5" ng-repeat="xtm in tm.tiMu">
             <h4 class="ar-tiGan itemHasImg">
-              <span ng-bind-html="($index + 1) + '、' + xtm.TIGAN.tiGan"></span> {{xtm.DAAN}}
+              <span ng-bind-html="($index + 1) + '、' + xtm.TIGAN.tiGan"></span>
+              <span class="tiShiBox cBlue" ng-click="showDaAn($event, xtm.DAAN, xtm.TIXING_ID)">提示</span>
+              <span class="standardAnswer cBlue">正确答案：<strong></strong></span>
             </h4>
             <!-- 单选题 -->
             <div class="ar-tzs" ng-if="xtm.TIXING_ID == 1">
               <div class="ar-tz" ng-repeat="tznr in xtm.TIGAN.tiZhiNeiRong track by $index">
                 <p class="positionAb">
                   <input type="radio" name="{{'radio' + $parent.$index}}" value="{{$index}}" ng-model="xtm.ksKsDa"
-                         ng-click="lianXiDaTi(xtm, $index, xtm.ksKsDa)"/>
+                         ng-click="lianXiDaTi(xtm, $index, xtm.ksKsDa)"/> {{'(' + stuParams.letterArr[$index] + ')'}}
                 </p>
-                <p class="pl20" ng-bind-html="tznr"></p>
+                <p class="pl40" ng-bind-html="tznr"></p>
               </div>
             </div>
             <!-- 双选选题和多选 -->
@@ -80,9 +93,9 @@
                 <p class="positionAb">
                   <input type="checkbox" name="{{'checkbox' + $parent.$index}}" ng-model="ksKsDa.$index"
                          ng-click="lianXiDaTi(xtm, $index, ksKsDa.$index)"
-                         ng-checked="xtm.ksKsDa.indexOf($index) > -1"/>
+                         ng-checked="xtm.ksKsDa.indexOf($index) > -1"/> {{'(' + tjParas.letterArr[$index] + ')'}}
                 </p>
-                <p class="pl20" ng-bind-html="tznr"></p>
+                <p class="pl40" ng-bind-html="tznr"></p>
               </div>
             </div>
             <!-- 判断题 -->

@@ -2268,6 +2268,10 @@ label.checkbox {
   width: 300px;
   font-size: 14px;
   z-index: 10; }
+.studentWrapper .standardAnswer {
+  display: none; }
+.studentWrapper .tiShiBox {
+  cursor: pointer; }
 
 .guanLiWrapper .fixed-top {
   left: 80px; }

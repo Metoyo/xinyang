@@ -2923,7 +2923,12 @@ label.checkbox{
     width: 300px;
     font-size: 14px;
     z-index: 10;
-//    display: none;
+  }
+  .standardAnswer{
+    display: none;
+  }
+  .tiShiBox{
+    cursor: pointer;
   }
 }
 //管理界面

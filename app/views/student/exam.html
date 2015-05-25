@@ -22,7 +22,7 @@
       <th>开始时间</th>
       <th>操作</th>
     </tr>
-    <tr ng-repeat="ks in kaoShiList">
+    <tr ng-repeat="ks in kaoShiList" ng-if="ks.ZHUANGTAI<3">
       <td ng-bind="ks.KAOSHI_MINGCHENG"></td>
       <td ng-bind="ks.SHICHANG"></td>
       <td ng-bind="ks.KAISHISHIJIAN | myLocalDateWithWeek"></td>
@@ -63,16 +63,16 @@
         <ul class="list-unstyled">
           <li class="ptb5" ng-repeat="xtm in tm.tiMu">
             <h4 class="ar-tiGan itemHasImg">
-              <span ng-bind-html="($index + 1) + '、' + xtm.TIGAN.tiGan"></span> {{xtm.DAAN}}
+              <span ng-bind-html="($index + 1) + '、' + xtm.TIGAN.tiGan"></span>
             </h4>
             <!-- 单选题 -->
             <div class="ar-tzs" ng-if="xtm.TIXING_ID == 1">
               <div class="ar-tz" ng-repeat="tznr in xtm.TIGAN.tiZhiNeiRong track by $index">
                 <p class="positionAb">
                   <input type="radio" name="{{'radio' + $parent.$index}}" value="{{$index}}" ng-model="xtm.ksKsDa"
-                    ng-click="kaoShiDaTi(xtm, $index, xtm.ksKsDa)"/>
+                    ng-click="kaoShiDaTi(xtm, $index, xtm.ksKsDa)"/> {{'(' + tjParas.letterArr[$index] + ')'}}
                 </p>
-                <p class="pl20" ng-bind-html="tznr"></p>
+                <p class="pl40" ng-bind-html="tznr"></p>
               </div>
             </div>
             <!-- 双选选题和多选 -->
@@ -81,9 +81,9 @@
                 <p class="positionAb">
                   <input type="checkbox" name="{{'checkbox' + $parent.$index}}" ng-model="ksKsDa.$index"
                          ng-click="kaoShiDaTi(xtm, $index, ksKsDa.$index)"
-                         ng-checked="xtm.ksKsDa.indexOf($index) > -1"/>
+                         ng-checked="xtm.ksKsDa.indexOf($index) > -1"/> {{'(' + tjParas.letterArr[$index] + ')'}}
                 </p>
-                <p class="pl20" ng-bind-html="tznr"></p>
+                <p class="pl40" ng-bind-html="tznr"></p>
               </div>
             </div>
             <!-- 判断题 -->
