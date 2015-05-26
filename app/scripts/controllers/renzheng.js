@@ -204,7 +204,7 @@ define(['angular', 'config', 'underscore'],
                   else if(data.YONGHULEIBIE == 2){
                     var urlObj = {
                       myUrl: 'student',
-                      urlName: '报名'
+                      urlName: '员工'
                     };
                     urlArr.push(urlObj);
                     $rootScope.urlArrs = urlArr;

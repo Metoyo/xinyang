@@ -43,6 +43,7 @@ define(['angular', 'config', 'jquery', 'underscore', 'lazy'], function (angular,
           '&jigouid=1' + '&lingyuid=2' + '&timu_id='; //查询题目详情基础url
         var numPerPage = 10; //每页显示多少条数据
         var paginationLength = 11; //显示多少个页码
+        var paginationLengthTwo = 7; //分页部分，页码的长度，目前设定为7; //显示多少个页码
         var lastDxDa = []; //上一个多选题的答案数组
         var lastDxTm = ''; //上一个多选题
         var xiuGaiYongHu = baseRzAPIUrl + 'xiugai_yonghu';//修改用户
@@ -50,6 +51,8 @@ define(['angular', 'config', 'jquery', 'underscore', 'lazy'], function (angular,
         var kaoshiTime; //考试时间, 秒
         var timer;
         var chaCunLianXiFs = baseKwAPIUrl + 'chaxun_lianxichengji'; // 查询练习成绩
+        var totalKssPage; //考试成绩分页
+        var totalLxPage; //练习成绩分页
 
         $scope.stuParams = { //学生controller参数
           stuTabActive: '',
@@ -121,12 +124,57 @@ define(['angular', 'config', 'jquery', 'underscore', 'lazy'], function (angular,
           $http.get(chaXunKaoShiUrl, {params: stuObj}).success(function(data){
             if(data && data.length > 0){
               $scope.kaoShiList = data;
+              kaoShiScorePages(data);
             }
             else{
               $scope.kaoShiList = '';
               DataService.alertInfFun('err', data.error);
             }
           });
+        };
+
+        /**
+         * 考试成绩分页数码
+         */
+        var kaoShiScorePages = function(ks){
+          totalKssPage = [];
+          $scope.lastKssPageNum = '';
+          if(ks && ks.length > 10){
+            var dataLength;
+            var dataLastPage;
+            dataLength = ks.length;
+            dataLastPage = Math.ceil(dataLength/numPerPage);
+            $scope.lastKssPageNum = dataLastPage;
+            for(var i = 1; i <= dataLastPage; i++){
+              totalKssPage.push(i);
+            }
+            $scope.kssPgDist(1);
+          }
+          else{
+            $scope.kssDistData = $scope.kaoShiList.slice(0);
+          }
+        };
+
+        /**
+         * 练习成绩分页数码
+         */
+        var lianXiScorePages = function(ks){
+          totalLxPage = [];
+          $scope.lastLxPageNum = '';
+          if(ks && ks.length > 10){
+            var dataLength;
+            var dataLastPage;
+            dataLength = ks.length;
+            dataLastPage = Math.ceil(dataLength/numPerPage);
+            $scope.lastLxPageNum = dataLastPage;
+            for(var i = 1; i <= dataLastPage; i++){
+              totalLxPage.push(i);
+            }
+            $scope.lxPgDist(1);
+          }
+          else{
+            $scope.lxDistData = $scope.lianXiList.slice(0);
+          }
         };
 
         /**
@@ -140,10 +188,10 @@ define(['angular', 'config', 'jquery', 'underscore', 'lazy'], function (angular,
           $http.get(chaCunLianXiFs, {params: stuObj}).success(function(data){
             if(data && data.length > 0){
               Lazy(data).each(function(lx){
-                lx.name = DataService.formatDateZh(lx.KAISHISHIJIAN) + '练习';
+                lx.name = DataService.formatDateUtc(lx.KAISHISHIJIAN) + '练习';
               });
               $scope.lianXiList = Lazy(data).reverse().toArray();
-              console.log($scope.lianXiList);
+              lianXiScorePages($scope.lianXiList);
             }
             else{
               $scope.lianXiList = '';
@@ -171,6 +219,60 @@ define(['angular', 'config', 'jquery', 'underscore', 'lazy'], function (angular,
             $timeout(addActiveFun, 2000);
             $interval.cancel(timer);
           }
+        };
+
+        /**
+         * 考试分页
+         */
+        $scope.kssPgDist = function(pg){
+          var startPage = (pg-1) * numPerPage;
+          var endPage = pg * numPerPage;
+          var lastPageNum = $scope.lastKssPageNum;
+          $scope.currentKssPageVal = pg;
+          //得到分页数组的代码
+          var currentPageNum = pg ? pg : 1;
+          if(lastPageNum <= paginationLengthTwo){
+            $scope.kssPages = totalKssPage;
+          }
+          if(lastPageNum > paginationLengthTwo){
+            if(currentPageNum > 0 && currentPageNum <= 4 ){
+              $scope.kssPages = totalKssPage.slice(0, paginationLengthTwo);
+            }
+            else if(currentPageNum > lastPageNum - 4 && currentPageNum <= lastPageNum){
+              $scope.kssPages = totalKssPage.slice(lastPageNum - paginationLengthTwo);
+            }
+            else{
+              $scope.kssPages = totalKssPage.slice(currentPageNum - 4, currentPageNum + 3);
+            }
+          }
+          $scope.kssDistData = $scope.workersData.slice(startPage, endPage);
+        };
+
+        /**
+         * 练习分页
+         */
+        $scope.lxPgDist = function(pg){
+          var startPage = (pg-1) * numPerPage;
+          var endPage = pg * numPerPage;
+          var lastPageNum = $scope.lastLxPageNum;
+          $scope.currentLxPageVal = pg;
+          //得到分页数组的代码
+          var currentPageNum = pg ? pg : 1;
+          if(lastPageNum <= paginationLengthTwo){
+            $scope.lxPages = totalLxPage;
+          }
+          if(lastPageNum > paginationLengthTwo){
+            if(currentPageNum > 0 && currentPageNum <= 4 ){
+              $scope.lxPages = totalLxPage.slice(0, paginationLengthTwo);
+            }
+            else if(currentPageNum > lastPageNum - 4 && currentPageNum <= lastPageNum){
+              $scope.lxPages = totalLxPage.slice(lastPageNum - paginationLengthTwo);
+            }
+            else{
+              $scope.lxPages = totalLxPage.slice(currentPageNum - 4, currentPageNum + 3);
+            }
+          }
+          $scope.lxDistData = $scope.lianXiList.slice(startPage, endPage);
         };
 
         /**
