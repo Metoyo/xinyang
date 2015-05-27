@@ -2,9 +2,11 @@
   <div class="col-md-5">
     <input type="text" class="form-control" placeholder="身份证" ng-model="guanliParams.shenFenZheng"/>
   </div>
-  <div class="col-md-1">
-    <button type="button" class="btn btn-primary" ng-click="chaXunYuanGong(guanliParams.shenFenZheng)">查询</button>
-  </div>
+  <form>
+    <div class="col-md-1">
+      <button type="submit" class="btn btn-primary" ng-click="chaXunYuanGong(guanliParams.shenFenZheng)">查询</button>
+    </div>
+  </form>
   <div class="col-md-2">
     <a href="javascript:void(0)" class="pull-left mt5" ng-click="renYuanAddShow('singleWork')">新增</a>
     <a href="javascript:void(0)" class="pull-left mt5 ml15" ng-click="renYuanAddShow('plWorks')">批量新增</a>
@@ -82,7 +84,7 @@
       <div class="col-md-8">
         <select class="form-control" ng-model="guanliParams.selected_bz"
                 ng-options="bm.JIGOU_ID as bm.JIGOUMINGCHENG for bm in banZuData">
-          <option value="">请选择部门</option>
+          <option value="">请选择班组</option>
         </select>
       </div>
     </div>
@@ -153,7 +155,7 @@
       <div class="col-md-8">
         <select class="form-control" ng-model="guanliParams.selected_bz"
                 ng-options="bm.JIGOU_ID as bm.JIGOUMINGCHENG for bm in banZuData">
-          <option value="">请选择部门</option>
+          <option value="">请选择班组</option>
         </select>
       </div>
     </div>

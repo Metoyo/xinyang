@@ -1,5 +1,5 @@
-define(['angular', 'config', 'mathjax', 'jquery', 'underscore'],
-  function (angular, config, mathjax, $, _) {
+define(['angular', 'config', 'jquery', 'underscore'],
+  function (angular, config, $, _) {
   'use strict';
 
   /**
@@ -33,13 +33,13 @@ define(['angular', 'config', 'mathjax', 'jquery', 'underscore'],
         var qryDgUrl = baseMtAPIUrl + 'chaxun_zhishidagang?token=' + token + '&caozuoyuan=' + caozuoyuan
             + '&jigouid=' + jigouid + '&lingyuid=' + lingyuid + '&chaxunzilingyu=' + chaxunzilingyu; //查询大纲的url
         var qryKnowledgeBaseUrl = baseMtAPIUrl + 'chaxun_zhishidagang_zhishidian?token=' + token + '&caozuoyuan=' +
-            caozuoyuan + '&jigouid=' + jigouid + '&lingyuid=' + lingyuid + '&zhishidagangid='; //查询知识点基础url
-        var qryKnowledge = ''; //定义一个空的查询知识点的url
-        var selectZsd = []; //定义一个选中知识点的变量（数组)
-        var selectZsdName = []; //定义一个选中知识点的变量的名称（数组)
+            caozuoyuan + '&jigouid=' + jigouid + '&lingyuid=' + lingyuid + '&zhishidagangid='; //查询专业基础url
+        var qryKnowledge = ''; //定义一个空的查询专业的url
+        var selectZsd = []; //定义一个选中专业的变量（数组)
+        var selectZsdName = []; //定义一个选中专业的变量的名称（数组)
         var tixing_id = ''; //用于根据题型id查询题目的字符串
         var nandu_id = ''; //用于根据难度查询题目的字符串
-        var zhishidian_id = ''; //用于根据知识点查询题目的字符串
+        var zhishidian_id = ''; //用于根据专业查询题目的字符串
         var qryKmTx = baseMtAPIUrl + 'chaxun_kemu_tixing?token=' + token + '&caozuoyuan=' + caozuoyuan + '&jigouid=' +
             jigouid + '&lingyuid='; //查询科目包含什么题型的url
         var qrytimuliebiaoBase = baseMtAPIUrl + 'chaxun_timuliebiao?token=' + token + '&caozuoyuan=' + caozuoyuan +
@@ -160,7 +160,7 @@ define(['angular', 'config', 'mathjax', 'jquery', 'underscore'],
         var zuJuanRuleStr = ''; //存放组卷规则的字符串，有json数据格式转化而来
         var isComeFromRuleList = false; //是否由规则列表点进去的
         var comeFromRuleListData = ''; //存放已选组卷规则的变量
-        var zsdgZsdArr = []; //存放所有知识大纲知识点的数组
+        var zsdgZsdArr = []; //存放所有知识大纲专业的数组
         var qryTiKuUrl =  baseMtAPIUrl + 'chaxun_tiku?token=' + token + '&caozuoyuan=' + caozuoyuan +
             '&jigouid=' + jigouid + '&lingyuid=' + tiKuLingYuId; //查询题库
         var qryMoRenDgUrl = baseMtAPIUrl + 'chaxun_zhishidagang?token=' + token + '&caozuoyuan=' + caozuoyuan + '&jigouid='
@@ -219,7 +219,7 @@ define(['angular', 'config', 'mathjax', 'jquery', 'underscore'],
         $http.get(qryDgUrl).success(function(data){
           var newDgList = [];
           zsdgZsdArr = [];
-          //得到知识大纲知识点的递归函数
+          //得到知识大纲专业的递归函数
           function _do(item) {
             zsdgZsdArr.push(item.ZHISHIDIAN_ID);
             if(item.ZIJIEDIAN && item.ZIJIEDIAN.length > 0){
@@ -231,12 +231,12 @@ define(['angular', 'config', 'mathjax', 'jquery', 'underscore'],
               if(mrDg && mrDg.length > 0){
                 newDgList = mrDg;
                 $scope.dgList = newDgList;
-                //获取大纲知识点
+                //获取大纲专业
                 qryKnowledge = qryKnowledgeBaseUrl + newDgList[0].ZHISHIDAGANG_ID;
                 $http.get(qryKnowledge).success(function(zsddata){
                   if(zsddata.length){
                     $scope.kowledgeList = zsddata;
-                    //得到知识大纲知识点id的函数
+                    //得到知识大纲专业id的函数
                     _.each(zsddata, _do);
                   }
                   else{
@@ -309,7 +309,7 @@ define(['angular', 'config', 'mathjax', 'jquery', 'underscore'],
         };
 
         /**
-         点击checkbox得到checkbox的值(既是大纲知识点的值)
+         点击checkbox得到checkbox的值(既是大纲专业的值)
          */
         $scope.toggleSelection = function(zsdId) {
           var onSelect = '.select' + zsdId,
@@ -977,8 +977,8 @@ define(['angular', 'config', 'mathjax', 'jquery', 'underscore'],
         $scope.addRuleCondition = function(){
           var targetTx = {
               NANDU: '', // 难度系数
-              ZHISHIDIAN: [], //知识点ID, 数组
-              zsdNameArr: [], //知识点名称, 数组
+              ZHISHIDIAN: [], //专业ID, 数组
+              zsdNameArr: [], //专业名称, 数组
               PIPEIDU: 0.7, //匹配度
               TIXING: [{
                 TIXING_ID: '',
@@ -1004,7 +1004,7 @@ define(['angular', 'config', 'mathjax', 'jquery', 'underscore'],
                     }
                   });
                   txNumClass.val(''); //重置题目数量
-                  $('input[name=point]:checked').prop('checked', false);//重置知识点
+                  $('input[name=point]:checked').prop('checked', false);//重置专业
                   selectZsd = [];
                   selectZsdName = [];
                   $('.zj-style-star li').removeClass('active');
@@ -1024,7 +1024,7 @@ define(['angular', 'config', 'mathjax', 'jquery', 'underscore'],
             }
           }
           else{
-            DataService.alertInfFun('pmt', '请选择知识点！');
+            DataService.alertInfFun('pmt', '请选择专业！');
           }
         };
 
@@ -1420,7 +1420,7 @@ define(['angular', 'config', 'mathjax', 'jquery', 'underscore'],
             }
             else{
               $scope.loadingImgShow = false;
-              DataService.alertInfFun('pmt', '请高抬贵手选择一个知识点！');
+              DataService.alertInfFun('pmt', '请高抬贵手选择一个专业！');
             }
           }
           else{
@@ -1466,7 +1466,7 @@ define(['angular', 'config', 'mathjax', 'jquery', 'underscore'],
                 distAutoMakePaperDataArr.push(distAutoMakePaperData);
               }
               else{
-                DataService.alertInfFun('pmt', '请选择知识点！');
+                DataService.alertInfFun('pmt', '请选择专业！');
                 break;
               }
             }
@@ -2526,25 +2526,25 @@ define(['angular', 'config', 'mathjax', 'jquery', 'underscore'],
             dati.TIMUARR.splice(index, 1);
             dati.TIMUARR.splice(toIndex, 0, item);
           }
-          var reloadFun = function(){
-            MathJax.Hub.Queue(["Typeset", MathJax.Hub, "testList"]);
-          };
-          $timeout(reloadFun, 500);
+          //var reloadFun = function(){
+          //  MathJax.Hub.Queue(["Typeset", MathJax.Hub, "testList"]);
+          //};
+          //$timeout(reloadFun, 500);
         };
 
-        /**
-         * 重新加载 mathjax
-         */
-        $scope.$on('onRepeatLast', function(scope, element, attrs){
-          MathJax.Hub.Config({
-            tex2jax: {inlineMath: [["#$", "$#"]], displayMath: [['#$$','$$#']]},
-            messageStyle: "none",
-            showMathMenu: false,
-            processEscapes: true
-          });
-          MathJax.Hub.Queue(["Typeset", MathJax.Hub, "daGangList"]);
-          MathJax.Hub.Queue(["Typeset", MathJax.Hub, "testList"]);
-        });
+        ///**
+        // * 重新加载 mathjax
+        // */
+        //$scope.$on('onRepeatLast', function(scope, element, attrs){
+        //  MathJax.Hub.Config({
+        //    tex2jax: {inlineMath: [["#$", "$#"]], displayMath: [['#$$','$$#']]},
+        //    messageStyle: "none",
+        //    showMathMenu: false,
+        //    processEscapes: true
+        //  });
+        //  MathJax.Hub.Queue(["Typeset", MathJax.Hub, "daGangList"]);
+        //  MathJax.Hub.Queue(["Typeset", MathJax.Hub, "testList"]);
+        //});
 
         /**
          * 当离开本页的时候触发事件，删除无用的临时模板

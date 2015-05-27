@@ -1,4 +1,4 @@
-define(['angular', 'config', 'jquery', 'underscore'], function (angular, config, $, _) {
+define(['angular', 'config', 'jquery', 'underscore', 'lazy'], function (angular, config, $, _, lazy) {
   'use strict';
 
   /**
@@ -29,16 +29,16 @@ define(['angular', 'config', 'jquery', 'underscore'], function (angular, config,
         var chaXunJiGouYongHuUrl = baseRzAPIUrl + 'query_student'; //查询机构下面的用户
         var xiuGaiYongHu = baseRzAPIUrl + 'xiugai_yonghu';//修改用户
         var modifyJgYh = baseRzAPIUrl + 'jigou_yonghu'; //修改用户的机构
-        var modifyKxhYh = baseRzAPIUrl + 'kexuhao_yonghu'; //修改用户的课序号
-        var kxhManageUrl = baseRzAPIUrl + 'kexuhao'; //课序号管理的url
+        var modifyKxhYh = baseRzAPIUrl + 'kexuhao_yonghu'; //修改用户的专业
+        var kxhManageUrl = baseRzAPIUrl + 'kexuhao'; //专业管理的url
         var importUser = baseRzAPIUrl + 'import_users2'; //大批新增用户
         var paginationLength = 7; //分页部分，页码的长度，目前设定为11
         var totalWkPage; //符合条件的员工数据一共有多少页
 
         $scope.guanliParams = { //学生controller参数
           tabActive: '',
-          addNewKxh: '', //添加课序号
-          modifyKxh: '',  //修改课序号
+          addNewKxh: '', //添加专业
+          modifyKxh: '',  //修改专业
           singleWorkName: '', //添加单个员工姓名
           singleWorkID: '', //添加单个员工身份证
           addNewBm: '', //添加新部门
@@ -55,9 +55,9 @@ define(['angular', 'config', 'jquery', 'underscore'], function (angular, config,
         $scope.glSelectData = ''; //存放需要传入的数据
         $scope.buMenPages = []; //部门分页
         $scope.worksPages = []; //员工分页
-        $scope.keXuHaoPages = []; //课序号分页
+        $scope.keXuHaoPages = []; //专业分页
         $scope.originBuMenData = ''; //存放部门的原始数据
-        $scope.selectBmOrKxh = ''; //选中的课序号或者部门的数据
+        $scope.selectBmOrKxh = ''; //选中的专业或者部门的数据
         $scope.renYuanAddType = ''; //人员管理的添加人员的类型
         $scope.workersData = ''; //存放人员信息的变量
 
@@ -67,7 +67,7 @@ define(['angular', 'config', 'jquery', 'underscore'], function (angular, config,
         var getJgList = function(){
           $scope.originBuMenData = '';
           $scope.loadingImgShow = true;
-          var dataLength = ''; //所以二级知识点长度
+          var dataLength = ''; //所以二级专业长度
           var lastPage = ''; //最后一页
           $scope.lastBmPageNum = '';
           $scope.buMenPages = [];
@@ -93,7 +93,7 @@ define(['angular', 'config', 'jquery', 'underscore'], function (angular, config,
         };
 
         /**
-         * 获得课序号数据
+         * 获得专业数据
          */
         var getKeXuHaoData = function(parm){
           var chaXunKxh = kxhManageUrl + '?token=' + token + '&jigouid=' + jigouid;
@@ -102,7 +102,7 @@ define(['angular', 'config', 'jquery', 'underscore'], function (angular, config,
             if(kxh && kxh.length > 0){
               $scope.keXuHaoData = kxh;
               if(parm == 'dist'){
-                var dataLength = kxh.length; //所以二级知识点长度
+                var dataLength = kxh.length; //所以二级专业长度
                 var lastPage = Math.ceil(dataLength/numPerPage); //最后一页
                 $scope.lastKxhPageNum = lastPage;
                 $scope.keXuHaoPages = [];
@@ -444,7 +444,7 @@ define(['angular', 'config', 'jquery', 'underscore'], function (angular, config,
         };
 
         /**
-         * 课序号分页数据
+         * 专业分页数据
          */
         $scope.getKeXuHaoDist = function(pg){
           var startPage = (pg-1) * numPerPage;
@@ -454,22 +454,33 @@ define(['angular', 'config', 'jquery', 'underscore'], function (angular, config,
         };
 
         /**
-         * 删除员工课序号的关系
+         * 删除员工专业的关系
          */
         $scope.deleteKxhYh = function(yh){
           if(yh){
             var obj = {
               token: token,
               kexuhaoid: '',
-              users: [{uid: yh.UID, zhuangtai: -1}]
+              users: ''
             };
+            if(yh == 'all'){
+              obj.users = [];
+              Lazy($scope.workersData).each(function(wk){
+                var wkObj = {uid: wk.UID, zhuangtai: -1};
+                obj.users.push(wkObj);
+              });
+            }
+            else{
+              obj.users = [{uid: yh.UID, zhuangtai: -1}];
+            }
             if($scope.selectBmOrKxh){
               obj.kexuhaoid = $scope.selectBmOrKxh.KEXUHAO_ID;
-              if(confirm('确定要删除此员工吗？')){
+              if(confirm('确定要删除员工吗？')){
                 $http.post(modifyKxhYh, obj).success(function(data){
                   if(data.result){
                     $scope.workersData = _.reject($scope.workersData, function(wk){ return wk.UID == yh.UID; });
                     $scope.workersDistData = _.reject($scope.workersDistData, function(wk){ return wk.UID == yh.UID; });
+                    $scope.chaXunKxhYongHu($scope.selectBmOrKxh);
                     DataService.alertInfFun('suc', '删除成功！');
                     $scope.showKeXuHaoManage = false;
                   }
@@ -480,7 +491,7 @@ define(['angular', 'config', 'jquery', 'underscore'], function (angular, config,
               }
             }
             else{
-              DataService.alertInfFun('pmt', '请选择要删除员工的课序号！');
+              DataService.alertInfFun('pmt', '请选择要删除员工的专业！');
             }
           }
           else{
@@ -489,12 +500,12 @@ define(['angular', 'config', 'jquery', 'underscore'], function (angular, config,
         };
 
         /**
-         * 保存课序号修改
+         * 保存专业修改
          */
         $scope.saveKeXuHaoModify = function(){
           var saveType = $scope.glEditBoxShow;
           var keXuHaoObj;
-          if(saveType == 'addKeXuHao'){ //新增课序号
+          if(saveType == 'addKeXuHao'){ //新增专业
             if($scope.guanliParams.addNewKxh){
               keXuHaoObj = {
                 token: token,
@@ -509,18 +520,18 @@ define(['angular', 'config', 'jquery', 'underscore'], function (angular, config,
               $http.post(kxhManageUrl, keXuHaoObj).success(function(data){
                 if(data.result){
                   $scope.glEditBoxShow = ''; //弹出层显示那一部分内容重置
-                  $scope.guanliParams.addNewKxh = ''; //课序号重置
-                  $scope.showKeXuHaoManage = false; //课序号重置
-                  DataService.alertInfFun('suc', '新增课序号成功！');
+                  $scope.guanliParams.addNewKxh = ''; //专业重置
+                  $scope.showKeXuHaoManage = false; //专业重置
+                  DataService.alertInfFun('suc', '新增专业成功！');
                   getKeXuHaoData('dist');
                 }
               });
             }
             else{
-              DataService.alertInfFun('pmt', '新课序号为空！');
+              DataService.alertInfFun('pmt', '新专业为空！');
             }
           }
-          if(saveType == 'modifyKeXuHao'){ //修改课序号
+          if(saveType == 'modifyKeXuHao'){ //修改专业
             if($scope.guanliParams.modifyKxh){
               keXuHaoObj = {
                 token: token,
@@ -537,8 +548,8 @@ define(['angular', 'config', 'jquery', 'underscore'], function (angular, config,
                 $http.post(kxhManageUrl, keXuHaoObj).success(function(data){
                   if(data.result){
                     $scope.glEditBoxShow = ''; //弹出层显示那一部分内容重置
-                    $scope.guanliParams.addNewKxh = ''; //课序号重置
-                    $scope.showKeXuHaoManage = false; //课序号重置
+                    $scope.guanliParams.addNewKxh = ''; //专业重置
+                    $scope.showKeXuHaoManage = false; //专业重置
                     $scope.glSelectData = '';
                     DataService.alertInfFun('suc', '修改成功！');
                     getKeXuHaoData('dist');
@@ -578,7 +589,7 @@ define(['angular', 'config', 'jquery', 'underscore'], function (angular, config,
                       });
                     }
                     else{
-                      DataService.alertInfFun('pmt', '课序号ID为空！');
+                      DataService.alertInfFun('pmt', '专业ID为空！');
                     }
                   }
                   else{
@@ -625,13 +636,13 @@ define(['angular', 'config', 'jquery', 'underscore'], function (angular, config,
               });
             }
             else{
-              DataService.alertInfFun('pmt', '请选择课序号！');
+              DataService.alertInfFun('pmt', '请选择专业！');
             }
           }
         };
 
         /**
-         * 查询课序号下面的员工
+         * 查询专业下面的员工
          */
         $scope.chaXunKxhYongHu = function(kxh){
           $scope.workersData = '';
@@ -650,12 +661,12 @@ define(['angular', 'config', 'jquery', 'underscore'], function (angular, config,
             });
           }
           else{
-            DataService.alertInfFun('pmt', '缺少课序号ID！');
+            DataService.alertInfFun('pmt', '缺少专业ID！');
           }
         };
 
         /**
-         * 删除课序号
+         * 删除专业
          */
         $scope.deleteKeXuHao = function(kxh){
           var keXuHaoObj = {
@@ -667,7 +678,7 @@ define(['angular', 'config', 'jquery', 'underscore'], function (angular, config,
           };
           if(kxh){
             keXuHaoObj.shuju.KEXUHAO_ID = kxh.KEXUHAO_ID;
-            if(confirm('确定要此删除课序号吗？')){
+            if(confirm('确定要此删除专业吗？')){
               $http.delete(kxhManageUrl, {params: keXuHaoObj}).success(function(data){
                 if(data.result){
                   DataService.alertInfFun('suc', '删除成功！');
@@ -682,12 +693,12 @@ define(['angular', 'config', 'jquery', 'underscore'], function (angular, config,
         };
 
         /**
-         * 关闭课序号的弹出层
+         * 关闭专业的弹出层
          */
         $scope.closeKeXuHaoManage = function(){
           $scope.showKeXuHaoManage = false;
           $scope.glEditBoxShow = ''; //弹出层显示那一部分重置
-          $scope.guanliParams.addNewKxh = ''; //课序号重置
+          $scope.guanliParams.addNewKxh = ''; //专业重置
         };
 
         /**
@@ -696,7 +707,7 @@ define(['angular', 'config', 'jquery', 'underscore'], function (angular, config,
         $scope.saveBuMenModify = function(){
           var saveType = $scope.glEditBoxShow;
           var bmParam = $scope.glSelectData;
-          if(saveType == 'addBuMen'){ //新增课序号
+          if(saveType == 'addBuMen'){ //新增专业
             var newBuMeData = {
               token: token,
               caozuoyuan: caozuoyuan,
@@ -783,7 +794,7 @@ define(['angular', 'config', 'jquery', 'underscore'], function (angular, config,
                       });
                     }
                     else{
-                      DataService.alertInfFun('pmt', '课序号ID为空！');
+                      DataService.alertInfFun('pmt', '专业ID为空！');
                     }
                   }
                   else{
@@ -831,7 +842,7 @@ define(['angular', 'config', 'jquery', 'underscore'], function (angular, config,
                 });
             }
             else{
-              DataService.alertInfFun('pmt', '请选择课序号！');
+              DataService.alertInfFun('pmt', '请选择专业！');
             }
           }
         };
@@ -905,18 +916,28 @@ define(['angular', 'config', 'jquery', 'underscore'], function (angular, config,
         };
 
         /**
-         * 删除员工机构的关系
+         * 删除员工机构的关系 $scope.workersData
          */
         $scope.deleteBmYh = function(yh){
           if(yh){
             var obj = {
               token: token,
               jigouid: '',
-              users: [{uid: yh.UID, zhuangtai: -1}]
+              users: ''
             };
+            if(yh == 'all'){
+              obj.users = [];
+              Lazy($scope.workersData).each(function(wk){
+                var wkObj = {uid: wk.UID, zhuangtai: -1};
+                obj.users.push(wkObj);
+              });
+            }
+            else{
+              obj.users = [{uid: yh.UID, zhuangtai: -1}];
+            }
             if($scope.selectBmOrKxh){
               obj.jigouid = $scope.selectBmOrKxh.JIGOU_ID;
-              if(confirm('确定要删除此员工吗？')){
+              if(confirm('确定要删除员工吗？')){
                 $http.post(modifyJgYh, obj).success(function(data){
                   if(data.result){
                     $scope.workersData = _.reject($scope.workersData, function(wk){ return wk.UID == yh.UID; });

@@ -1,20 +1,18 @@
 /*jshint unused: vars */
 require.config({
   paths: {
-    angular: '../../bower_components/angular/angular',
-    'angular-cookies': '../../bower_components/angular-cookies/angular-cookies',
-    'angular-resource': '../../bower_components/angular-resource/angular-resource',
-    'angular-route': '../../bower_components/angular-route/angular-route',
-    'angular-sanitize': '../../bower_components/angular-sanitize/angular-sanitize',
-    bootstrap: '../../bower_components/bootstrap/dist/js/bootstrap',
-    jquery: '../../bower_components/jquery/jquery.min',
-    underscore: '../../bower_components/underscore/underscore',
-    charts: '../../bower_components/echarts/echarts-plain',
-    markitup: '../../bower_components/markitup/jquery.markitup-1.1.14.min',
-    setJs: '../../bower_components/markitup/set.min',
-    mathjax: '../../bower_components/markitup/MathJax.js?config=TeX-AMS_HTML-full',
-    datepicker: '../../bower_components/intimidatetime/intimidatetime',
-    lazy: '../../bower_components/lazy/lazy'
+    angular: '../bower_components/angular/angular',
+    'angular-cookies': '../bower_components/angular-cookies/angular-cookies',
+    'angular-resource': '../bower_components/angular-resource/angular-resource',
+    'angular-route': '../bower_components/angular-route/angular-route',
+    'angular-sanitize': '../bower_components/angular-sanitize/angular-sanitize',
+    bootstrap: '../bower_components/bootstrap/dist/js/bootstrap',
+    jquery: '../bower_components/jquery/jquery.min',
+    underscore: '../bower_components/underscore/underscore',
+    charts: '../bower_components/echarts/echarts-plain',
+    intimidatetime: '../bower_components/intimidatetime/intimidatetime',
+    lazy: '../bower_components/lazy/lazy',
+    moment: '../bower_components/moment/moment'
 
     //angular: '../../bower_components/angular/angular',
     //'angular-cookies': '../../bower_components/angular-cookies/angular-cookies',
@@ -25,11 +23,11 @@ require.config({
     //jquery: '../../bower_components/jquery/jquery.min',
     //underscore: '../../bower_components/underscore/underscore',
     //charts: '../../bower_components/echarts/echarts-plain',
-    //markitup: '../../bower_components/markitup/jquery.markitup-1.1.14.min',
-    //setJs: '../../bower_components/markitup/set.min',
-    //mathjax: '../../bower_components/markitup/MathJax.js?config=TeX-AMS_HTML-full',
-    //datepicker: '../../bower_components/intimidatetime/intimidatetime',
-    //lazy: '../../bower_components/lazy/lazy'
+    //intimidatetime: '../../bower_components/intimidatetime/intimidatetime',
+    //lazy: '../../bower_components/lazy/lazy',
+    //moment: '../../bower_components/moment/moment',
+    //'angular-mocks': '../../bower_components/angular-mocks/angular-mocks',
+    //'angular-scenario': '../../bower_components/angular-scenario/angular-scenario'
   },
   shim: {
     angular: {
@@ -56,26 +54,11 @@ require.config({
       ],
       exports: 'underscore'
     },
-    markitup: {
-      deps: [
-        'jquery'
-      ],
-      exports: 'markitup'
-    },
-    setJs: {
-      deps: [
-        'markitup'
-      ],
-      exports: 'setJs'
-    },
     charts: {
       exports: 'charts'
     },
-    mathjax: {
-      exports: 'mathjax'
-    },
-    datepicker: {
-      exports: 'datepicker'
+    intimidatetime: {
+      exports: 'intimidatetime'
     },
     lazy: {
       exports: 'lazy'

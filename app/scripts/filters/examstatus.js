@@ -39,6 +39,12 @@ define(['angular'], function (angular) {
           case 6:
             txtStatus = "已公布成绩";
             break;
+          case 10:
+            txtStatus = "考试发布中";
+            break;
+          case 20:
+            txtStatus = "考试发布失败";
+            break;
         }
         return txtStatus;
       };

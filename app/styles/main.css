@@ -2272,6 +2272,11 @@ label.checkbox {
   display: none; }
 .studentWrapper .tiShiBox {
   cursor: pointer; }
+.studentWrapper .ar-tzs .labelStu {
+  font-size: 18px;
+  font-weight: normal; }
+.studentWrapper .ar-tzs .pl40 {
+  padding-left: 50px; }
 
 .guanLiWrapper .fixed-top {
   left: 80px; }

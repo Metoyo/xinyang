@@ -1,5 +1,5 @@
-define(['angular', 'config', 'charts', 'mathjax', 'jquery', 'underscore', 'lazy'],
-  function (angular, config, charts, mathjax, $, _, lazy) {
+define(['angular', 'config', 'charts','jquery', 'underscore', 'lazy'],
+  function (angular, config, charts, $, _, lazy) {
   'use strict';
 
   /**
@@ -32,7 +32,7 @@ define(['angular', 'config', 'charts', 'mathjax', 'jquery', 'underscore', 'lazy'
         var queryShiJuan = baseTjAPIUrl + 'query_shijuan?token=' + token + '&caozuoyuan=' + caozuoyuan
           + '&jigouid=' + jigouid + '&lingyuid=' + lingyuid; //查询试卷数据
         var queryKaoShengBase = baseTjAPIUrl + 'query_kaosheng?token=' + token; //查询考生数据
-        var queryZsdBase = baseTjAPIUrl + 'query_zhishidian?token=' + token; //查询带分数的知识点
+        var queryZsdBase = baseTjAPIUrl + 'query_zhishidian?token=' + token; //查询带分数的专业
         var queryTiMuBase = baseTjAPIUrl + 'query_timu?token=' + token; //查询题目数据
         var qryKaoShiByXueHaoBase = baseTjAPIUrl + 'query_kaoshi_by_xuehao?token=' + token + '&jigouid=' + jigouid
           + '&lingyuid=' + lingyuid + '&xuehao='; //查询考试通过考生学号
@@ -77,7 +77,7 @@ define(['angular', 'config', 'charts', 'mathjax', 'jquery', 'underscore', 'lazy'
             banJiIdx: 0
           }, //最后选中的班级
           allStudents: '',
-          zsdOriginData: '', //统计——存放知识点原始数据的变量
+          zsdOriginData: '', //统计——存放专业原始数据的变量
           zsdIdArr: '',
           selectedKaoShi: [], //统计时存放已选择的考试
           studentUid: '', //存放考生UID的字段，用于考生统计
@@ -340,7 +340,7 @@ define(['angular', 'config', 'charts', 'mathjax', 'jquery', 'underscore', 'lazy'
                 $scope.tjParas.classCount = true;
               }
               break;
-            case 'kexuhao' : //课序号排序
+            case 'kexuhao' : //专业排序
               if($scope.tjParas.stuIdCount){
                 $scope.studentData = _.sortBy($scope.studentData, function(stu){
                   return stu.KEXUHAO;
@@ -381,13 +381,12 @@ define(['angular', 'config', 'charts', 'mathjax', 'jquery', 'underscore', 'lazy'
               data: ''
             },
             ksArr = [];
-          ksArr.push({col1: '学号', col2: '姓名', col3: '班级', col4: '成绩'});
+          ksArr.push({col1: '身份证', col2: '姓名', col3: '成绩'});
           _.each(stuData, function(ks){
-            var ksObj = {YONGHUHAO: '', XINGMING: '', BANJI: '', ZUIHOU_PINGFEN: ''};
+            var ksObj = {YONGHUHAO: '', XINGMING: '', ZUIHOU_PINGFEN: ''};
             ksObj.YONGHUHAO = ks.YONGHUHAO;
             ksObj.XINGMING = ks.XINGMING;
-            ksObj.BANJI = ks.BANJI;
-            ksObj.ZUIHOU_PINGFEN = ks.ZUIHOU_PINGFEN;
+            ksObj.ZUIHOU_PINGFEN = ks.ZUIHOU_PINGFEN.toFixed(0);
             ksArr.push(ksObj);
           });
           ksData.data = JSON.stringify(ksArr);
@@ -695,7 +694,7 @@ define(['angular', 'config', 'charts', 'mathjax', 'jquery', 'underscore', 'lazy'
         };
 
         /**
-         * 整理班级或者课序号的数据
+         * 整理班级或者专业的数据
          */
         var tidyDivideData = function(originData){
           var totalScore = 0; //考试总分
@@ -739,10 +738,10 @@ define(['angular', 'config', 'charts', 'mathjax', 'jquery', 'underscore', 'lazy'
         };
 
         /**
-         * 查询知识点
+         * 查询专业
          */
         var tjQryZsd = function(lx){
-          var zsdAllArr = []; //存放所有知识点数组
+          var zsdAllArr = []; //存放所有专业数组
           var queryZsd = queryZsdBase + '&kaoshiid=' + tjKaoShiIds.toString() + '&qrytype=' + lx;
           var allBanJi;
           DataService.getData(queryZsd).then(function(zsdData) {
@@ -793,11 +792,11 @@ define(['angular', 'config', 'charts', 'mathjax', 'jquery', 'underscore', 'lazy'
         };
 
         /**
-         * 统计，以课序号为准
+         * 统计，以专业为准
          */
         var keXuHaoDateManage = function(data){
-          var disByKeXuHao; //按课序号分组obj
-          /* 按课序号分组统计数据，用在按课序号统计柱状图中 */
+          var disByKeXuHao; //按专业分组obj
+          /* 按专业分组统计数据，用在按专业统计柱状图中 */
           disByKeXuHao = Lazy(data).groupBy(function(stu){
             if(!stu.KEXUHAO){
               stu.KEXUHAO = '空';
@@ -805,7 +804,7 @@ define(['angular', 'config', 'charts', 'mathjax', 'jquery', 'underscore', 'lazy'
             return stu.KEXUHAO;
           });
           tidyDivideData(disByKeXuHao);
-          //查询知识点
+          //查询专业
           tjQryZsd('kexuhao');
         };
 
@@ -822,7 +821,7 @@ define(['angular', 'config', 'charts', 'mathjax', 'jquery', 'underscore', 'lazy'
             return stu.BANJI;
           });
           tidyDivideData(disByBanJi);
-          //查询知识点
+          //查询专业
           tjQryZsd('banji');
         };
 
@@ -881,7 +880,7 @@ define(['angular', 'config', 'charts', 'mathjax', 'jquery', 'underscore', 'lazy'
               $scope.tjParas.allStudents = data;
               /* 饼图用到的数据，全部班级 */
               tjParaObj.pieDataAll = pieDataDealFun(data); //饼图统计数据，全部班级考生
-              /* 按课序号分组统计数据，用在按课序号统计柱状图中 */
+              /* 按专业分组统计数据，用在按专业统计柱状图中 */
               $scope.tjParas.tongJiType = 'keXuHao';
               $scope.switchTongJiType('keXuHao');
               /* 按分数分组统计数据，用在按分数和人数统计的折线图 */
@@ -948,7 +947,7 @@ define(['angular', 'config', 'charts', 'mathjax', 'jquery', 'underscore', 'lazy'
             pageNum: $scope.tjParas.tjBjPgOn,
             banJiIdx: ''
           };
-          //知识点数据,初始化班级数据
+          //专业数据,初始化班级数据
           _.each($scope.tjZsdDataUd, function(zsd, idx, lst){
             zsd.zsd_dfl_bj = '';
             zsd.zsd_timu_num_bj = 0;
@@ -979,7 +978,7 @@ define(['angular', 'config', 'charts', 'mathjax', 'jquery', 'underscore', 'lazy'
               chartShowFun();
             };
             $timeout(addActiveFun, 100);
-            //知识点数据
+            //专业数据
             if($scope.tjParas.tongJiType && $scope.tjParas.tongJiType == 'banJi'){
               disByBj = _.groupBy($scope.tjParas.zsdOriginData, function(zsd){
                 if(!zsd.BANJI){
@@ -998,7 +997,7 @@ define(['angular', 'config', 'charts', 'mathjax', 'jquery', 'underscore', 'lazy'
             }
             banJiZsd = disByBj[bj.bjName];
             if(banJiZsd){
-              disByZsd = _.groupBy(banJiZsd, function(zsd){ return zsd.ZHISHIDIANMINGCHENG; }); //用知识点把数据分组
+              disByZsd = _.groupBy(banJiZsd, function(zsd){ return zsd.ZHISHIDIANMINGCHENG; }); //用专业把数据分组
               _.each(disByZsd, function(v, k, l) {
                 posIdx = _.indexOf($scope.tjParas.zsdIdArr, v[0].ZHISHIDIAN_ID);
                 $scope.tjZsdDataUd[posIdx].zsd_timu_num_bj = v[0].TIMUSHULIANG;
@@ -1014,7 +1013,7 @@ define(['angular', 'config', 'charts', 'mathjax', 'jquery', 'underscore', 'lazy'
         };
 
         /**
-         * 考试统计类型切换（班级和课序号）
+         * 考试统计类型切换（班级和专业）
          */
         $scope.switchTongJiType = function(tjType){
           if(tjType == 'keXuHao'){
@@ -1094,31 +1093,31 @@ define(['angular', 'config', 'charts', 'mathjax', 'jquery', 'underscore', 'lazy'
         };
 
         /**
-         * 点击更多，查看更多知识点
+         * 点击更多，查看更多专业
          */
         $scope.getMoreZsd = function(){
           $scope.tjZsdData = $scope.tjZsdDataUd;
         };
 
         /**
-         * 点击收起，收起更多知识点
+         * 点击收起，收起更多专业
          */
         $scope.closeMoreZsd = function(){
           $scope.tjZsdData = $scope.tjZsdDataUd.slice(0, 5);
         };
 
-        /**
-         * 重新加载mathjax
-         */
-        $scope.$on('onRepeatLast', function(scope, element, attrs){
-          MathJax.Hub.Config({
-            tex2jax: {inlineMath: [["#$", "$#"]], displayMath: [['#$$','$$#']]},
-            messageStyle: "none",
-            showMathMenu: false,
-            processEscapes: true
-          });
-          MathJax.Hub.Queue(["Typeset", MathJax.Hub, "answerReappearShiJuan"]);
-          MathJax.Hub.Queue(["Typeset", MathJax.Hub, "testList1"]);
-        });
+        ///**
+        // * 重新加载mathjax
+        // */
+        //$scope.$on('onRepeatLast', function(scope, element, attrs){
+        //  MathJax.Hub.Config({
+        //    tex2jax: {inlineMath: [["#$", "$#"]], displayMath: [['#$$','$$#']]},
+        //    messageStyle: "none",
+        //    showMathMenu: false,
+        //    processEscapes: true
+        //  });
+        //  MathJax.Hub.Queue(["Typeset", MathJax.Hub, "answerReappearShiJuan"]);
+        //  MathJax.Hub.Queue(["Typeset", MathJax.Hub, "testList1"]);
+        //});
     }]);
 });

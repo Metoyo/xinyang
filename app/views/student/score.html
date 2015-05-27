@@ -4,7 +4,7 @@
     <ul class="list-unstyled plr10">
       <li class="ptb5 bdbd" ng-repeat="ks in kssDistData">
         <span ng-bind="ks.KAOSHI_MINGCHENG"></span>
-        <span class="pull-right" ng-bind="ks.ZUIHOU_PINGFEN"></span>
+        <span class="pull-right" ng-bind="ks.ZUIHOU_PINGFEN.toFixed(0) + '分'"></span>
       </li>
     </ul>
     <div class="paging text-right" ng-if="kssPages.length>0">

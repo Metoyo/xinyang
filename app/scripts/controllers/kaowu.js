@@ -1,5 +1,5 @@
-define(['angular', 'config', 'mathjax', 'datepicker', 'jquery', 'underscore', 'lazy'],
-  function (angular, config, mathjax, datepicker, $, _, lazy) {
+define(['angular', 'config', 'intimidatetime', 'jquery', 'underscore', 'lazy'],
+  function (angular, config, intimidatetime, $, _, lazy) {
   'use strict';
 
   /**
@@ -67,7 +67,7 @@ define(['angular', 'config', 'mathjax', 'datepicker', 'jquery', 'underscore', 'l
         var totalKaoChangPage; //符合条件的考场一共有多少页
         var uploadKsUrl = baseMtAPIUrl + 'excel_to_json'; //上传考生信息
         var operateJgUrl = baseRzAPIUrl + 'jigou'; //操作机构基础url
-        var kxhManageUrl = baseRzAPIUrl + 'kexuhao'; //课序号管理的url
+        var kxhManageUrl = baseRzAPIUrl + 'kexuhao'; //专业管理的url
         var chaXunJiGouYongHuUrl = baseRzAPIUrl + 'query_student'; //查询机构下面的用户
 
         $scope.tiXingNameArr = config.tiXingNameArr; //题型名称数组
@@ -81,7 +81,7 @@ define(['angular', 'config', 'mathjax', 'datepicker', 'jquery', 'underscore', 'l
           saveKaoShiBtnStat: false,
           isAllKeGuanTi: false, //判断全部是否为客观题
           selected_bm: '', //选择的部门ID
-          selected_zy: '' //选择的课序号ID
+          selected_zy: '' //选择的专业ID
         };
         $scope.startDateIsNull = false;
         $scope.endDateIsNull = false;
@@ -106,7 +106,7 @@ define(['angular', 'config', 'mathjax', 'datepicker', 'jquery', 'underscore', 'l
         };
 
         /**
-         * 获得课序号数据
+         * 获得专业数据
          */
         var getKeXuHaoData = function(){
           var chaXunKxh = kxhManageUrl + '?token=' + token + '&jigouid=' + jigouid;
@@ -374,7 +374,7 @@ define(['angular', 'config', 'mathjax', 'datepicker', 'jquery', 'underscore', 'l
         };
 
         /**
-         * 查询课序号下面的员工
+         * 查询专业下面的员工
          */
         $scope.chaXunKxhYongHu = function(kxh){
           $scope.kxhWorkersData = '';
@@ -408,7 +408,7 @@ define(['angular', 'config', 'mathjax', 'datepicker', 'jquery', 'underscore', 'l
             });
           }
           else{
-            DataService.alertInfFun('pmt', '缺少课序号ID！');
+            DataService.alertInfFun('pmt', '缺少专业ID！');
           }
         };
 
@@ -1139,13 +1139,13 @@ define(['angular', 'config', 'mathjax', 'datepicker', 'jquery', 'underscore', 'l
         /**
          * 重新加载 mathjax
          */
-        $scope.$on('onRepeatLast', function(scope, element, attrs){
-          MathJax.Hub.Config({
-            tex2jax: {inlineMath: [["#$", "$#"]], displayMath: [['#$$','$$#']]},
-            messageStyle: "none",
-            showMathMenu: false,processEscapes: true
-          });
-          MathJax.Hub.Queue(["Typeset", MathJax.Hub, "kaoWuPaperDetail"]);
-        });
+        //$scope.$on('onRepeatLast', function(scope, element, attrs){
+        //  MathJax.Hub.Config({
+        //    tex2jax: {inlineMath: [["#$", "$#"]], displayMath: [['#$$','$$#']]},
+        //    messageStyle: "none",
+        //    showMathMenu: false,processEscapes: true
+        //  });
+        //  MathJax.Hub.Queue(["Typeset", MathJax.Hub, "kaoWuPaperDetail"]);
+        //});
     }]);
 });

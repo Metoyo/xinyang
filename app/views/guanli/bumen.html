@@ -58,8 +58,9 @@
       <span ng-bind="selectBmOrKxh.JIGOUMINGCHENG"></span>
       <span ng-bind="'(' + workersData.length + '人' + ')'"></span>
       <span class="pull-right fz14">
-          <a href="javascript:void(0)" class="mr10" ng-click="showKeXuHaoPop('addSingleWork')">新增员工</a>
-          <a href="javascript:void(0)" ng-click="showKeXuHaoPop('addBatchWorks')">批量新增</a>
+        <a href="javascript:void(0)" class="mr10" ng-click="deleteBmYh('all')">清空</a>
+        <a href="javascript:void(0)" class="mr10" ng-click="showKeXuHaoPop('addSingleWork')">新增员工</a>
+        <a href="javascript:void(0)" ng-click="showKeXuHaoPop('addBatchWorks')">批量新增</a>
       </span>
     </h4>
     <div ng-show="workersData.length">

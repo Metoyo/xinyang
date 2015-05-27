@@ -105,9 +105,9 @@
               </div>
             </div>
           </div>
-          <!--通过部门或者课序号添加考生-->
+          <!--通过部门或者专业添加考生-->
           <div class="addKsSelectStu">
-            <h4 class="bdb ptb5 text-center">通过部门或者课序号选择考生</h4>
+            <h4 class="bdb ptb5 text-center">通过部门或者专业选择考生</h4>
             <div class="form-group">
               <label class="col-sm-2 control-label">部门</label>
               <div class="col-sm-8">
@@ -119,7 +119,7 @@
               </div>
             </div>
             <div class="form-group">
-              <label class="col-sm-2 control-label">课序号</label>
+              <label class="col-sm-2 control-label">专业</label>
               <div class="col-sm-8">
                 <select class="form-control" ng-model="kwParams.selected_zy"
                         ng-change="chaXunKxhYongHu(kwParams.selected_zy)"
@@ -171,8 +171,8 @@
               <em>
                 请选择上传考生信息的文件，格式为Excel格式
               </em>
-              <input type="file" file-upload multiple class="pull-left hide addFileBtn"/>
-              <button ng-click="addMyFile()" class="btn btn-default pull-left">添加文件</button>
+              <input type="file" file-upload multiple class="pull-left addFileBtn mt10"/>
+              <!--<button ng-click="addMyFile()" class="btn btn-default pull-left">添加文件</button>-->
             </form>
           </div>
           <div class="form-group">
@@ -254,13 +254,6 @@
               </a>
             </div>
             <div class="pull-right paper-operate">
-              <button type="button" class="btn btn-primary" ng-click="showShiJuanInfo(pld.SHIJUAN_ID)">
-                详情
-              </button>
-              <button type="button" class="btn btn-primary gaiYao" bn-slide-show slid-show-tapon="gaiYao"
-                      slide-show-target="more-info" slide-show-text="概要" slide-show-idx="{{$index}}">
-                概要
-              </button>
               <button type="button" class="btn btn-primary" ng-click="addToKaoShi(pld)">
                 添加到考试
               </button>

@@ -1,5 +1,5 @@
-define(['angular', 'config', 'jquery', 'underscore', 'mathjax', 'markitup', 'setJs'],
-  function (angular, config, $, _, mathjax, markitup, setJs) {
+define(['angular', 'config', 'jquery', 'underscore'],
+  function (angular, config, $, _) {
   'use strict';
 
   /**
@@ -33,21 +33,21 @@ define(['angular', 'config', 'jquery', 'underscore', 'mathjax', 'markitup', 'set
         var qryKmTx = baseMtAPIUrl + 'chaxun_kemu_tixing?token=' + token + '&caozuoyuan=' + caozuoyuan + '&jigouid=' +
             jigouid + '&lingyuid='; //查询科目包含什么题型的url
         var qryKnowledgeBaseUrl = baseMtAPIUrl + 'chaxun_zhishidagang_zhishidian?token=' + token + '&caozuoyuan=' +
-            caozuoyuan + '&jigouid=' + jigouid + '&lingyuid=' + lingyuid + '&zhishidagangid='; //查询知识点基础url
+            caozuoyuan + '&jigouid=' + jigouid + '&lingyuid=' + lingyuid + '&zhishidagangid='; //查询专业基础url
         var xgtmUrl = baseMtAPIUrl + 'xiugai_timu'; //保存添加题型的url
-        var qryKnowledge = ''; //定义一个空的查询知识点的url
+        var qryKnowledge = ''; //定义一个空的查询专业的url
         var tixing_id = ''; //用于根据题型id查询题目的字符串
         var nandu_id = ''; //用于根据难度查询题目的字符串
-        var zhishidian_id = ''; //用于根据知识点查询题目的字符串
+        var zhishidian_id = ''; //用于根据专业查询题目的字符串
         var checkSchoolTiKu = caozuoyuan; //查看学校题库需要传的参数
-        var zsdgZsdArr = []; //存放所有知识大纲知识点的数组
+        var zsdgZsdArr = []; //存放所有知识大纲专业的数组
         var qryTiKuUrl =  baseMtAPIUrl + 'chaxun_tiku?token=' + token + '&caozuoyuan=' + caozuoyuan +
             '&jigouid=' + jigouid + '&lingyuid=' + tiKuLingYuId; //查询题库
         var qrytimuliebiaoBase = baseMtAPIUrl + 'chaxun_timuliebiao?token=' + token + '&caozuoyuan=' + caozuoyuan +
             '&jigouid=' + jigouid + '&lingyuid=' + lingyuid; //查询题目列表的url
         var qrytimuxiangqingBase = baseMtAPIUrl + 'chaxun_timuxiangqing?token=' + token + '&caozuoyuan=' + caozuoyuan +
             '&jigouid=' + jigouid + '&lingyuid=' + lingyuid; //查询题目详情基础url
-        var selectZsd = []; //定义一个选中知识点的变量（数组)
+        var selectZsd = []; //定义一个选中专业的变量（数组)
         var timu_data = { //题目类型的数据格式公共部分
             token: config.token,
             caozuoyuan: userInfo.UID,
@@ -98,7 +98,7 @@ define(['angular', 'config', 'jquery', 'underscore', 'mathjax', 'markitup', 'set
         var totalPage; //符合条件的数据一共有多少页
         var itemNumPerPage = 10; //每页显示多少条数据
         var paginationLength = 11; //分页部分，页码的长度，目前设定为11
-        var testListStepZst; //用了保存查询试题阶段的知识点
+        var testListStepZst; //用了保存查询试题阶段的专业
         var isEditItemStep = true; //是否是编辑阶段
         var getUserNameBase = baseRzAPIUrl + 'get_user_name?token=' + token + '&uid='; //得到用户名的URL
         var isDanXuanType = false; //判断是否出单选题
@@ -141,7 +141,7 @@ define(['angular', 'config', 'jquery', 'underscore', 'mathjax', 'markitup', 'set
          */
         var getDaGangData = function(){
           zsdgZsdArr = [];
-          //得到知识大纲知识点的递归函数
+          //得到知识大纲专业的递归函数
           function _do(item) {
             zsdgZsdArr.push(item.ZHISHIDIAN_ID);
             if(item.ZIJIEDIAN && item.ZIJIEDIAN.length > 0){
@@ -151,12 +151,12 @@ define(['angular', 'config', 'jquery', 'underscore', 'mathjax', 'markitup', 'set
           $http.get(qryMoRenDgUrl).success(function(mrDg){
             if(mrDg && mrDg.length > 0){
               $scope.dgList = mrDg;
-              //获取大纲知识点
+              //获取大纲专业
               qryKnowledge = qryKnowledgeBaseUrl + mrDg[0].ZHISHIDAGANG_ID;
               $http.get(qryKnowledge).success(function(zsddata){
                 if(zsddata.length){
                   $scope.kowledgeList = zsddata;
-                  //得到知识大纲知识点id的函数
+                  //得到知识大纲专业id的函数
                   _.each(zsddata, _do);
                   //查询题目
                   $scope.qryTestFun();
@@ -203,7 +203,7 @@ define(['angular', 'config', 'jquery', 'underscore', 'mathjax', 'markitup', 'set
         /**
          点击checkbox得到checkbox的值
          */
-        var selectZsdFun = function(){ //用于将选择的知识点变成字符串
+        var selectZsdFun = function(){ //用于将选择的专业变成字符串
           selectZsd = [];
           var cbArray = $('input[name=point]'),
             cbl = cbArray.length,
@@ -687,7 +687,7 @@ define(['angular', 'config', 'jquery', 'underscore', 'mathjax', 'markitup', 'set
                 break;
             }
           });
-          testListStepZst = selectZsd; //保存选题阶段的知识点
+          testListStepZst = selectZsd; //保存选题阶段的专业
           isEditItemStep = true;
           $scope.patternListToggle = true;
           $scope.newShiTiTiXing = newShiTiTiXingArr;
@@ -771,7 +771,7 @@ define(['angular', 'config', 'jquery', 'underscore', 'mathjax', 'markitup', 'set
                     });
                   }
                   else{
-                    DataService.alertInfFun('pmt', '请选择知识点！');
+                    DataService.alertInfFun('pmt', '请选择专业！');
                     deferred.reject();
                   }
                 }
@@ -866,7 +866,7 @@ define(['angular', 'config', 'jquery', 'underscore', 'mathjax', 'markitup', 'set
                 }
               }
               else{
-                DataService.alertInfFun('pmt', '请选择知识点！');
+                DataService.alertInfFun('pmt', '请选择专业！');
               }
             }
             else{
@@ -882,7 +882,7 @@ define(['angular', 'config', 'jquery', 'underscore', 'mathjax', 'markitup', 'set
          * 添加题干编辑器
          */
         $scope.addTiGanEditor = function(){
-          $('.formulaEditTiGan').markItUp(mySettings);
+          //$('.formulaEditTiGan').markItUp(mySettings);
           DataService.tiMuContPreview();
         };
 
@@ -890,7 +890,7 @@ define(['angular', 'config', 'jquery', 'underscore', 'mathjax', 'markitup', 'set
          * 添加题支编辑器
          */
         $scope.addTiZhiEditor = function(){
-          $('.formulaEditTiZhi').markItUp(mySettings);
+          //$('.formulaEditTiZhi').markItUp(mySettings);
           DataService.tiZhiContPreview();
         };
 
@@ -898,7 +898,7 @@ define(['angular', 'config', 'jquery', 'underscore', 'mathjax', 'markitup', 'set
          * 移除题干编辑器
          */
         $scope.removeTiGanEditor = function(){
-          $('.formulaEditTiGan').markItUp('remove');
+          //$('.formulaEditTiGan').markItUp('remove');
         };
 
         /**
@@ -906,10 +906,10 @@ define(['angular', 'config', 'jquery', 'underscore', 'mathjax', 'markitup', 'set
          */
         $scope.removeTiZhiEditor = function(tx){
           if(tx >= 9){
-            $('.formulaEditTiZhi').markItUp('remove');
+            //$('.formulaEditTiZhi').markItUp('remove');
           }
           else{
-            $('.formulaEditTiZhi').markItUp('remove').val('');
+            //$('.formulaEditTiZhi').markItUp('remove').val('');
             $('#prevTiZhiDoc').html('');
             $('input[name=fuzhi]').prop('checked', false);
           }
@@ -919,7 +919,7 @@ define(['angular', 'config', 'jquery', 'underscore', 'mathjax', 'markitup', 'set
          * 显示单选题题干编辑器
          */
         $scope.showDanXuanTiGanEditor = function(){
-          $('.formulaEditTiGan').markItUp(mySettings);
+          //$('.formulaEditTiGan').markItUp(mySettings);
           DataService.tiMuContPreview();
         };
 
@@ -927,7 +927,7 @@ define(['angular', 'config', 'jquery', 'underscore', 'mathjax', 'markitup', 'set
          * 显示单选题题支编辑器
          */
         $scope.showDanXuanTiZhiEditor = function(){
-          $('.formulaEditTiZhi').markItUp(mySettings);
+          //$('.formulaEditTiZhi').markItUp(mySettings);
         };
 
         /**
@@ -959,7 +959,7 @@ define(['angular', 'config', 'jquery', 'underscore', 'mathjax', 'markitup', 'set
          * 显示多选题题干编辑器
          */
         $scope.showDuoXuanTiGanEditor = function(){
-          $('.formulaEditTiGan').markItUp(mySettings);
+          //$('.formulaEditTiGan').markItUp(mySettings);
           DataService.tiMuContPreview();
         };
 
@@ -967,7 +967,7 @@ define(['angular', 'config', 'jquery', 'underscore', 'mathjax', 'markitup', 'set
          * 显示多选题题支编辑器
          */
         $scope.showDuoXuanTiZhiEditor = function(){
-          $('.formulaEditTiZhi').markItUp(mySettings);
+          //$('.formulaEditTiZhi').markItUp(mySettings);
         };
 
         /**
@@ -985,7 +985,7 @@ define(['angular', 'config', 'jquery', 'underscore', 'mathjax', 'markitup', 'set
          * 显示计算题干编辑器
          */
         $scope.showJiSuanTiGanEditor = function(){
-          $('.formulaEditTiGan').markItUp(mySettings);
+          //$('.formulaEditTiGan').markItUp(mySettings);
           DataService.tiMuContPreview();
         };
 
@@ -993,7 +993,7 @@ define(['angular', 'config', 'jquery', 'underscore', 'mathjax', 'markitup', 'set
          * 显示计算题答案编辑器
          */
         $scope.showJiSuanDaAnEditor = function(){
-          $('.formulaEditTiZhi').markItUp(mySettings);
+          //$('.formulaEditTiZhi').markItUp(mySettings);
           DataService.tiZhiContPreview();
         };
 
@@ -1102,10 +1102,10 @@ define(['angular', 'config', 'jquery', 'underscore', 'mathjax', 'markitup', 'set
           tiankong_data.shuju.TIMULEIXING_ID = 4;
           $scope.tianKongData = tiankong_data;
           $scope.loadingImgShow = false; //panduan.html
-          var addTianKongFun = function() {
-            $('.formulaEditTiGan').markItUp(mySettings);
-          };
-          $timeout(addTianKongFun, 500);
+          //var addTianKongFun = function() {
+          //  $('.formulaEditTiGan').markItUp(mySettings);
+          //};
+          //$timeout(addTianKongFun, 500);
         };
 
         /**
@@ -1250,7 +1250,7 @@ define(['angular', 'config', 'jquery', 'underscore', 'mathjax', 'markitup', 'set
                 }
               }
               else{
-                DataService.alertInfFun('pmt', '请选择知识点！'); //
+                DataService.alertInfFun('pmt', '请选择专业！'); //
               }
             }
             else{
@@ -1328,7 +1328,7 @@ define(['angular', 'config', 'jquery', 'underscore', 'mathjax', 'markitup', 'set
         $scope.editItem = function(tmxq){
           var tpl, editDaAnArr = [],
             nanDuClass;
-          testListStepZst = selectZsd; //保存选题阶段的知识点
+          testListStepZst = selectZsd; //保存选题阶段的专业
           selectZsd = []; //new add
           $scope.selectZsdStr = '';
           isEditItemStep = false;
@@ -1455,10 +1455,10 @@ define(['angular', 'config', 'jquery', 'underscore', 'mathjax', 'markitup', 'set
             tiankong_data.shuju.REMARK = tmxq.REMARK;
             $scope.alterTiMuTiXing = '填空题';
             renderTpl(tpl); //render 修改过模板
-            var addTianKongFun = function() {
-              $('.formulaEditTiGan').markItUp(mySettings);
-            };
-            $timeout(addTianKongFun, 500);
+            //var addTianKongFun = function() {
+            //  $('.formulaEditTiGan').markItUp(mySettings);
+            //};
+            //$timeout(addTianKongFun, 500);
           }
           //计算题
           if(tmxq.TIXING_ID == 9){
@@ -1511,7 +1511,7 @@ define(['angular', 'config', 'jquery', 'underscore', 'mathjax', 'markitup', 'set
             $scope.mingTiParam.isConvertTiXing = true;
             renderTpl(tpl); //render 修改过模板
           }
-          //反选知识点
+          //反选专业
           makeZsdSelect(tmxq);
           //难度反向选择代码
           var nanDuSelectFun = function() {
@@ -1693,19 +1693,19 @@ define(['angular', 'config', 'jquery', 'underscore', 'mathjax', 'markitup', 'set
                     isAudio = _.contains(config.audioType, findFileType),
                     src = showFileUrl + result.data[i]; //媒体文件路径
                   if(isImg){
-                    $.markItUp(
-                      { replaceWith:'<img src="'+src+'" alt=""(!( class="[![Class]!]")!) />' }
-                    );
+                    //$.markItUp(
+                    //  { replaceWith:'<img src="'+src+'" alt=""(!( class="[![Class]!]")!) />' }
+                    //);
                   }
                   if(isAudio){
-                    $.markItUp(
-                      { replaceWith:'<audio src="'+src+'" controls="controls" (!( class="[![Class]!]")!)></audio>' }
-                    );
+                    //$.markItUp(
+                    //  { replaceWith:'<audio src="'+src+'" controls="controls" (!( class="[![Class]!]")!)></audio>' }
+                    //);
                   }
                   if(isVideo){
-                    $.markItUp(
-                      { replaceWith:'<video src="'+src+'" controls="controls" (!( class="[![Class]!]")!)></video>' }
-                    );
+                    //$.markItUp(
+                    //  { replaceWith:'<video src="'+src+'" controls="controls" (!( class="[![Class]!]")!)></video>' }
+                    //);
                   }
                 }
                 $('#mediaPlugin').hide();
@@ -1726,7 +1726,7 @@ define(['angular', 'config', 'jquery', 'underscore', 'mathjax', 'markitup', 'set
           var tgCont = $('.formulaEditTiGan').val();
           tgCont = tgCont.replace(/\n/g, '<br/>');
           $('#prevDoc').html(tgCont);
-          MathJax.Hub.Queue(["Typeset", MathJax.Hub, "prevDoc"]);
+          //MathJax.Hub.Queue(["Typeset", MathJax.Hub, "prevDoc"]);
         };
 
         /**
@@ -1736,21 +1736,21 @@ define(['angular', 'config', 'jquery', 'underscore', 'mathjax', 'markitup', 'set
           var tzCont = $('.formulaEditTiZhi').val();
           tzCont = tzCont.replace(/\n/g, '<br/>');
           $('#prevTiZhiDoc').html(tzCont);
-          MathJax.Hub.Queue(["Typeset", MathJax.Hub, "prevTiZhiDoc"]);
+          //MathJax.Hub.Queue(["Typeset", MathJax.Hub, "prevTiZhiDoc"]);
         };
 
         /**
          * 重新加载mathjax
          */
-        $scope.$on('onRepeatLast', function(scope, element, attrs){
-          MathJax.Hub.Config({
-            tex2jax: {inlineMath: [["#$", "$#"]], displayMath: [['#$$','$$#']]},
-            messageStyle: "none",
-            showMathMenu: false,
-            processEscapes: true
-          });
-          MathJax.Hub.Queue(["Typeset", MathJax.Hub, "testList"]);
-          MathJax.Hub.Queue(["Typeset", MathJax.Hub, "daGangList"]);
-        });
+        //$scope.$on('onRepeatLast', function(scope, element, attrs){
+        //  MathJax.Hub.Config({
+        //    tex2jax: {inlineMath: [["#$", "$#"]], displayMath: [['#$$','$$#']]},
+        //    messageStyle: "none",
+        //    showMathMenu: false,
+        //    processEscapes: true
+        //  });
+        //  MathJax.Hub.Queue(["Typeset", MathJax.Hub, "testList"]);
+        //  MathJax.Hub.Queue(["Typeset", MathJax.Hub, "daGangList"]);
+        //});
     }]);
 });

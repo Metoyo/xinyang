@@ -103,7 +103,7 @@ define( "config", [], function () {
         qxArr: ['2006', '2007'],
         targetUrl: '/dagang',
         navName : 'dagang',
-        hanName: '大纲'
+        hanName: '专业'
       },
       {
         qxArr: ['2010', '2011', '2012', '2013', '2031', '2032'],

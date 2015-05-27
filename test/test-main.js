@@ -22,11 +22,9 @@ requirejs.config({
     jquery: '../../bower_components/jquery/jquery.min',
     underscore: '../../bower_components/underscore/underscore',
     charts: '../../bower_components/echarts/echarts-plain',
-    markitup: '../../bower_components/markitup/jquery.markitup-1.1.14.min',
-    setJs: '../../bower_components/markitup/set.min',
-    mathjax: '../../bower_components/markitup/MathJax',
-    datepicker: '../../bower_components/intimidatetime/intimidatetime',
+    intimidatetime: '../../bower_components/intimidatetime/intimidatetime',
     lazy: '../../bower_components/lazy/lazy',
+    moment: '../../bower_components/moment/moment',
     'angular-mocks': '../../bower_components/angular-mocks/angular-mocks',
     'angular-scenario': '../../bower_components/angular-scenario/angular-scenario'
   },

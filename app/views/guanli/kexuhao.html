@@ -1,8 +1,8 @@
 <div class="row">
   <div class="col-md-5">
     <h4 class="bdb pb10">
-      <span>信阳电力公司课序号</span>
-      <a href="javascript:void(0)" class="fz14 pull-right" ng-click="showKeXuHaoPop('addKeXuHao')">新增课序号</a>
+      <span>信阳电力公司专业</span>
+      <a href="javascript:void(0)" class="fz14 pull-right" ng-click="showKeXuHaoPop('addKeXuHao')">新增专业</a>
     </h4>
     <div>
       <ul class="list-unstyled" id="keXuHaoManage">
@@ -46,8 +46,9 @@
       <span ng-bind="selectBmOrKxh.KEXUHAO_MINGCHENG"></span>
       <span ng-bind="'(' + workersData.length + '人' + ')'"></span>
       <span class="pull-right fz14">
-          <a href="javascript:void(0)" class="mr10" ng-click="showKeXuHaoPop('addSingleWork')">新增员工</a>
-          <a href="javascript:void(0)" ng-click="showKeXuHaoPop('addBatchWorks')">批量新增</a>
+        <a href="javascript:void(0)" class="mr10" ng-click="deleteKxhYh('all')">清空</a>
+        <a href="javascript:void(0)" class="mr10" ng-click="showKeXuHaoPop('addSingleWork')">新增员工</a>
+        <a href="javascript:void(0)" ng-click="showKeXuHaoPop('addBatchWorks')">批量新增</a>
       </span>
     </h4>
     <div ng-show="workersData.length>0">
@@ -90,25 +91,25 @@
 <div class="popup-wrap" ng-if="showKeXuHaoManage == true">
   <div class="popup-wrap-inner">
     <div class="pwi-header plr10 text-center">
-      <span class="title">课序号管理</span>
+      <span class="title">专业管理</span>
     </div>
     <div class="pwi-body plr10">
-      <!--添加新课序号-->
+      <!--添加新专业-->
       <div class="row mt15" ng-if="glEditBoxShow=='addKeXuHao'">
         <div class="col-md-2 text-right">
-          <span class="mt5 dpb">课序号</span>
+          <span class="mt5 dpb">专业</span>
         </div>
         <div class="col-md-8">
-          <input type="text" class="form-control" placeholder="课序号" ng-model="guanliParams.addNewKxh"/>
+          <input type="text" class="form-control" placeholder="专业" ng-model="guanliParams.addNewKxh"/>
         </div>
       </div>
-      <!--修改课序号-->
+      <!--修改专业-->
       <div class="row mt15" ng-if="glEditBoxShow=='modifyKeXuHao'">
         <div class="col-md-2 text-right">
-          <span class="mt5 dpb">课序号</span>
+          <span class="mt5 dpb">专业</span>
         </div>
         <div class="col-md-8">
-          <input type="text" class="form-control" placeholder="课序号" ng-model="guanliParams.modifyKxh"/>
+          <input type="text" class="form-control" placeholder="专业" ng-model="guanliParams.modifyKxh"/>
         </div>
       </div>
       <!--添加单个员工-->

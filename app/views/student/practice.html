@@ -2,7 +2,7 @@
   <div class="col-md-12">
     <select class="form-control" ng-model="stuParams.zsdId"
             ng-options="zsd.ZHISHIDIAN_ID as zsd.ZHISHIDIANMINGCHENG for zsd in kowledgeList">
-      <option value="">请选择知识点</option>
+      <option value="">请选择专业</option>
     </select>
   </div>
   <div class="col-md-12 mt10">
@@ -73,41 +73,50 @@
         <ul class="list-unstyled">
           <li class="ptb5" ng-repeat="xtm in tm.tiMu">
             <h4 class="ar-tiGan itemHasImg">
-              <span ng-bind-html="($index + 1) + '、' + xtm.TIGAN.tiGan"></span>
+              <!--<span ng-bind-html="($index + 1) + '、' + xtm.TIGAN.tiGan"></span>-->
+              <span ng-bind-html="((stuParams.tmNumPerPage * (currentTmPageVal - 1)) + $index + 1) + '、' + xtm.TIGAN.tiGan"></span>
               <span class="tiShiBox cBlue" ng-click="showDaAn($event, xtm.DAAN, xtm.TIXING_ID)">提示</span>
               <span class="standardAnswer cBlue">正确答案：<strong></strong></span>
             </h4>
             <!-- 单选题 -->
             <div class="ar-tzs" ng-if="xtm.TIXING_ID == 1">
               <div class="ar-tz" ng-repeat="tznr in xtm.TIGAN.tiZhiNeiRong track by $index">
-                <p class="positionAb">
-                  <input type="radio" name="{{'radio' + $parent.$index}}" value="{{$index}}" ng-model="xtm.ksKsDa"
-                         ng-click="lianXiDaTi(xtm, $index, xtm.ksKsDa)"/> {{'(' + stuParams.letterArr[$index] + ')'}}
-                </p>
-                <p class="pl40" ng-bind-html="tznr"></p>
+                <label class="labelStu">
+                  <p class="positionAb">
+                    <input type="radio" name="{{'radio' + $parent.$index}}" value="{{$index}}" ng-model="xtm.ksKsDa"
+                           ng-click="lianXiDaTi(xtm, $index, xtm.ksKsDa)"/> {{'(' + stuParams.letterArr[$index] + ')'}}
+                  </p>
+                  <p class="pl40" ng-bind-html="tznr"></p>
+                </label>
               </div>
             </div>
             <!-- 双选选题和多选 -->
             <div class="ar-tzs" ng-if="xtm.TIXING_ID == 2 || xtm.TIXING_ID == 3">
               <div class="ar-tz" ng-repeat="tznr in xtm.TIGAN.tiZhiNeiRong track by $index">
-                <p class="positionAb">
-                  <input type="checkbox" name="{{'checkbox' + $parent.$index}}" ng-model="ksKsDa.$index"
-                         ng-click="lianXiDaTi(xtm, $index, ksKsDa.$index)"
-                         ng-checked="xtm.ksKsDa.indexOf($index) > -1"/> {{'(' + tjParas.letterArr[$index] + ')'}}
-                </p>
-                <p class="pl40" ng-bind-html="tznr"></p>
+                <label class="labelStu">
+                  <p class="positionAb">
+                    <input type="checkbox" name="{{'checkbox' + $parent.$index}}" ng-model="ksKsDa.$index"
+                           ng-click="lianXiDaTi(xtm, $index, ksKsDa.$index)"
+                           ng-checked="xtm.ksKsDa.indexOf($index) > -1"/> {{'(' + stuParams.letterArr[$index] + ')'}}
+                  </p>
+                  <p class="pl40" ng-bind-html="tznr"></p>
+                </label>
               </div>
             </div>
             <!-- 判断题 -->
             <div class="ar-tzs" ng-if="xtm.TIXING_ID == 4">
-              <span>
-                <input type="radio" name="{{'pdRadio' + $parent.$index}}" value="1" ng-model="xtm.ksKsDa"
-                       ng-click="lianXiDaTi(xtm, 1, xtm.ksKsDa)"/>  对
-              </span>
-              <span>
-                <input type="radio" name="{{'pdRadio' + $parent.$index}}" value="0" style="margin: 0 0 0 20px"
-                       ng-model="xtm.ksKsDa" ng-click="lianXiDaTi(xtm, 0, xtm.ksKsDa)"/>  错
-              </span>
+              <label class="labelStu">
+                <span>
+                  <input type="radio" name="{{'pdRadio' + $parent.$index}}" value="1" ng-model="xtm.ksKsDa"
+                         ng-click="lianXiDaTi(xtm, 1, xtm.ksKsDa)"/>  对
+                </span>
+              </label>
+              <label class="labelStu">
+                <span>
+                  <input type="radio" name="{{'pdRadio' + $parent.$index}}" value="0" style="margin: 0 0 0 20px"
+                         ng-model="xtm.ksKsDa" ng-click="lianXiDaTi(xtm, 0, xtm.ksKsDa)"/>  错
+                </span>
+              </label>
             </div>
           </li>
         </ul>
@@ -118,24 +127,24 @@
   <div class="paging text-right" ng-if="tiMuPage.length>0">
     <ul class="pagination pagination-sm">
       <li ng-class="{disabled: currentTmPageVal == 1}">
-        <a href ng-click="getTiMuDetail(1)">首页</a>
+        <a href="javascript:scroll(0,0)" ng-click="getTiMuDetail(1)">首页</a>
       </li>
       <li ng-class="{disabled: currentTmPageVal == 1}">
-        <a href ng-click="getTiMuDetail(prevPg = currentTmPageVal > 1 ? currentTmPageVal - 1 : 1)">
+        <a href="javascript:scroll(0,0)" ng-click="getTiMuDetail(prevPg = currentTmPageVal > 1 ? currentTmPageVal - 1 : 1)">
           上一页
         </a>
       </li>
       <li ng-repeat="pg in tiMuDistPage" ng-class="{active: currentTmPageVal == pg}">
-        <a href ng-click="getTiMuDetail(pg)">{{pg}}</a>
+        <a href="javascript:scroll(0,0)" ng-click="getTiMuDetail(pg)">{{pg}}</a>
       </li>
       <li ng-class="{disabled: currentTmPageVal == lastTmPageNum}">
-        <a href
+        <a href="javascript:scroll(0,0)"
            ng-click="getTiMuDetail(nextPg = currentTmPageVal < lastTmPageNum ? currentTmPageVal + 1 : lastTmPageNum)">
           下一页
         </a>
       </li>
       <li ng-class="{disabled: currentTmPageVal == lastTmPageNum}">
-        <a href ng-click="getTiMuDetail(lastTmPageNum)">尾页</a>
+        <a href="javascript:scroll(0,0)" ng-click="getTiMuDetail(lastTmPageNum)">尾页</a>
       </li>
     </ul>
   </div>

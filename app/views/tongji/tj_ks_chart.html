@@ -49,7 +49,7 @@
       <h4 class="title">
         <label class="radio-inline">
           <input type="radio" name="tongJiType" ng-model="tjParas.tongJiType" value="keXuHao"
-                 ng-change="switchTongJiType(tjParas.tongJiType)"> 按课序号统计
+                 ng-change="switchTongJiType(tjParas.tongJiType)"> 按专业统计
         </label>
         <label class="radio-inline">
           <input type="radio" name="tongJiType" ng-model="tjParas.tongJiType" value="banJi"
@@ -131,7 +131,7 @@
               </td>
               <td ng-bind="ksd.BANJI">
               </td>
-              <td ng-bind="ksd.ZUIHOU_PINGFEN">
+              <td ng-bind="ksd.ZUIHOU_PINGFEN.toFixed(0)">
               </td>
               <td>
                 <a href="javascript:void(0)">改分</a>
@@ -145,7 +145,7 @@
   <div class="row">
     <div class="tj-ks-box wp48">
       <h4 class="title">
-        <span>知识点统计<em>(得分率顺序)</em></span>
+        <span>专业统计<em>(得分率顺序)</em></span>
         <span class="explain pl40">
           <span class="all ml15 plr10"> </span>  全部 <span class="bj ml15 plr10"> </span>  本班
         </span>
@@ -154,7 +154,7 @@
         <ul class="list-unstyled zsd-list">
           <li class="row">
             <div class="col-sm-3">
-              知识点名称
+              专业名称
             </div>
             <div class="col-sm-3">
               题目数量

@@ -1,4 +1,4 @@
-define(['angular','config', 'mathjax', 'jquery', 'underscore'], function (angular, config, mathjax, $, _) {
+define(['angular','config', 'jquery', 'underscore'], function (angular, config, $, _) {
   'use strict';
 
   /**
@@ -40,10 +40,10 @@ define(['angular','config', 'mathjax', 'jquery', 'underscore'], function (angula
           },//定义一个空的object用来存放需要保存的数据；根据api需求设定的字段名称
           daGangJieDianData = [], //定义一个大纲节点的数据
           qryPubZsdUrl = baseMtAPIUrl + 'chaxun_zhishidian?token=' + token + '&caozuoyuan=' + caozuoyuan + '&jigouid='
-            + jigouid + '&lingyuid=' + lingyuid + '&leixing=', //查询公共知识点的url
-          publicKnowledgeData = '', //存放领域下的公共知识点
-          publicZsdArr = [], //存放公共知识点id的数组
-          zsdgZsdArr = []; //大纲管理页面，选择自建知识大纲，存放选中的知识大纲知识点id
+            + jigouid + '&lingyuid=' + lingyuid + '&leixing=', //查询公共专业的url
+          publicKnowledgeData = '', //存放领域下的公共专业
+          publicZsdArr = [], //存放公共专业id的数组
+          zsdgZsdArr = []; //大纲管理页面，选择自建知识大纲，存放选中的知识大纲专业id
 
         $rootScope.isRenZheng = false; //判读页面是不是认证
         $scope.prDgBtnDisabled = true; //自建大纲的保存和用作默认大纲按钮是否可点
@@ -55,7 +55,7 @@ define(['angular','config', 'mathjax', 'jquery', 'underscore'], function (angula
           showDaGangAsNew: false,
           defaultDaGangId: '', //获得默认知识大纲的ID
           defaultDaGangLeiXing: '', //获得默认知识大纲类型
-          zsdKind: '', //知识点类型
+          zsdKind: '', //专业类型
           activeIdx: 2 //激活标签
         };
 
@@ -94,15 +94,15 @@ define(['angular','config', 'mathjax', 'jquery', 'underscore'], function (angula
         };
 
         /**
-         * 删除共有知识点
+         * 删除共有专业
          */
         var deleteTheSameZsd = function(){
-          var differentArr, //从已有的公共知识点ID中减去知识大纲知识点ID
-            needPubZsd, //从已有的公共知识点中找到对应知识点详情
+          var differentArr, //从已有的公共专业ID中减去知识大纲专业ID
+            needPubZsd, //从已有的公共专业中找到对应专业详情
             diffPubZsdArr = []; //存放删除已使用的知识大纲后公共知识大纲
-          //从已有的公共知识点中减去知识大纲知识点
+          //从已有的公共专业中减去知识大纲专业
           differentArr = _.difference(publicZsdArr, zsdgZsdArr);
-          //得到相对应的公共知识大纲知识点
+          //得到相对应的公共知识大纲专业
           _.each(differentArr, function(sgzsd, idx, lst){
             needPubZsd = _.findWhere(publicKnowledgeData, { ZHISHIDIAN_ID: sgzsd });
             diffPubZsdArr.push(needPubZsd);
@@ -111,7 +111,7 @@ define(['angular','config', 'mathjax', 'jquery', 'underscore'], function (angula
         };
 
         /**
-         * 查询该领域的在公共知识点或者私有知识点, 最新方法!!!!
+         * 查询该领域的在公共专业或者私有专业, 最新方法!!!!
          */
         $scope.getThisOrgPublicZsd = function(){
           publicKnowledgeData = '';
@@ -123,7 +123,7 @@ define(['angular','config', 'mathjax', 'jquery', 'underscore'], function (angula
               if(ggzsd && ggzsd.length > 0){
                 $scope.loadingImgShow = false; //daGangPublic.html & daGangPrivate.html
                 publicKnowledgeData = ggzsd;
-                //得到公共知识点id的数组
+                //得到公共专业id的数组
                 publicZsdArr = _.map(ggzsd, function(szsd){
                   return szsd.ZHISHIDIAN_ID;
                 });
@@ -136,7 +136,7 @@ define(['angular','config', 'mathjax', 'jquery', 'underscore'], function (angula
               }
               else{
                 $scope.loadingImgShow = false; //daGangPublic.html & daGangPrivate.html
-                DataService.alertInfFun('pmt', '此领域下没有此类型的知识点！');
+                DataService.alertInfFun('pmt', '此领域下没有此类型的专业！');
                 publicKnowledgeData = '';
               }
             });
@@ -178,14 +178,14 @@ define(['angular','config', 'mathjax', 'jquery', 'underscore'], function (angula
         $scope.renderDgPage('2');
 
         /**
-         * 获得自建知识大纲获知识点
+         * 获得自建知识大纲获专业
          */
         $scope.getPrivateDgZsd = function(dgId){
           $scope.selectZjDgId = dgId;
           $scope.loadingImgShow = true; //daGangPublic.html & daGangPrivate.html
-          zsdgZsdArr = []; //存放知识大纲知识点
+          zsdgZsdArr = []; //存放知识大纲专业
 
-          //得到知识大纲知识点的递归函数
+          //得到知识大纲专业的递归函数
           function _do(item) {
             zsdgZsdArr.push(item.ZHISHIDIAN_ID);
             if(item.ZIJIEDIAN && item.ZIJIEDIAN.length > 0){
@@ -204,13 +204,13 @@ define(['angular','config', 'mathjax', 'jquery', 'underscore'], function (angula
             dgdata.shuju.LEIXING = 2; //自建知识大纲
             dgdata.shuju.ZHUANGTAI = privateDg.ZHUANGTAI;
             dgdata.shuju.JIEDIAN = [];
-            //查询大纲知识点
+            //查询大纲专业
             var qryDgZsdUrl = qryKnowledgeBaseUrl + dgId;
             $http.get(qryDgZsdUrl).success(function(data) {
               if(data.length){
                 $scope.loadingImgShow = false; //daGangPublic.html & daGangPrivate.html
                 $scope.knowledgePr = data;
-                //得到知识大纲知识点id的函数
+                //得到知识大纲专业id的函数
                 _.each(data, _do);
                 $scope.publicKnowledge = deleteTheSameZsd();
                 $scope.prDgBtnDisabled = false;
@@ -234,11 +234,11 @@ define(['angular','config', 'mathjax', 'jquery', 'underscore'], function (angula
         };
 
         /**
-         * 获得公共知识大纲知识点
+         * 获得公共知识大纲专业
          */
         $scope.getPublicDgZsd = function(dgId){
           if(dgId){
-            //查询大纲知识点
+            //查询大纲专业
             $scope.currentDgId = dgId;
             var qryDgZsdUrl = qryKnowledgeBaseUrl + dgId;
             $http.get(qryDgZsdUrl).success(function(data) {
@@ -297,7 +297,7 @@ define(['angular','config', 'mathjax', 'jquery', 'underscore'], function (angula
           dgdata.shuju.JIEDIAN = [];
 
           //保存大纲是用到的第一级子节点
-          $scope.knowledgePr = ''; //重置公共知识大纲知识点
+          $scope.knowledgePr = ''; //重置公共知识大纲专业
           daGangJieDianData = []; //定义一个大纲节点的数据
           jieDianObj.JIEDIAN_ID = '';
           jieDianObj.ZHISHIDIAN_ID = '';
@@ -359,7 +359,7 @@ define(['angular','config', 'mathjax', 'jquery', 'underscore'], function (angula
         };
 
         /**
-         * 添加知识点
+         * 添加专业
          */
         $scope.addNd = function(event, nd) {
           var newNd = {};
@@ -381,7 +381,7 @@ define(['angular','config', 'mathjax', 'jquery', 'underscore'], function (angula
         };
 
         /**
-         * 删除知识点
+         * 删除专业
          */
         $scope.removeNd = function(parentNd, nd, idx) {
           function getPubZsd(item) {
@@ -410,11 +410,11 @@ define(['angular','config', 'mathjax', 'jquery', 'underscore'], function (angula
         };
 
         /**
-         * 将公共知识点添加到知识大纲
+         * 将公共专业添加到知识大纲
          */
         $scope.addToZjDaGang = function(zsd, idx){
           if(targetNd){ //判断聚焦的是那个输入框
-            if(targetNd.ZHISHIDIAN_ID){ //判断输入框中是否有知识点
+            if(targetNd.ZHISHIDIAN_ID){ //判断输入框中是否有专业
               var originData = _.find(publicKnowledgeData, function(pkd){
                 return pkd.ZHISHIDIAN_ID == targetNd.ZHISHIDIAN_ID;
               });
@@ -432,7 +432,7 @@ define(['angular','config', 'mathjax', 'jquery', 'underscore'], function (angula
         };
 
         /**
-         * 当输入介绍后检查公共知识大纲中是否已经存在知识点
+         * 当输入介绍后检查公共知识大纲中是否已经存在专业
          */
         $scope.compareZjInputVal = function(nd){
           var str  = nd.ZHISHIDIANMINGCHENG;
@@ -507,7 +507,7 @@ define(['angular','config', 'mathjax', 'jquery', 'underscore'], function (angula
             }
             else{
               $scope.loadingImgShow = false; //rz_setDaGang.html
-              DataService.alertInfFun('pmt', '知识点名称不能为空！');
+              DataService.alertInfFun('pmt', '专业名称不能为空！');
               $scope.prDgBtnDisabled = false;
             }
           }
