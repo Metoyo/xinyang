@@ -85,6 +85,9 @@ body {
 .w200 {
   width: 200px; }
 
+.w300 {
+  width: 300px; }
+
 .h20 {
   height: 20px; }
 
@@ -2251,32 +2254,47 @@ label.checkbox {
     .tongjiWrapper .zsd-list li p .zsd-bj {
       background-color: #DFCC6D; }
 
-.studentWrapper .baoMingTable th, .studentWrapper .baoMingTable td {
-  text-align: center; }
-.studentWrapper .fixed-top {
-  left: 80px; }
-.studentWrapper .tab-content {
-  padding: 60px 15px 15px 15px; }
-.studentWrapper .modifyMiMa {
-  background-color: #fff;
-  position: absolute;
-  border: 1px solid #cfcfcf;
-  border-top: 1px solid #fff;
-  padding: 10px;
-  top: 42px;
-  right: 10px;
-  width: 300px;
-  font-size: 14px;
-  z-index: 10; }
-.studentWrapper .standardAnswer {
-  display: none; }
-.studentWrapper .tiShiBox {
-  cursor: pointer; }
-.studentWrapper .ar-tzs .labelStu {
-  font-size: 18px;
-  font-weight: normal; }
-.studentWrapper .ar-tzs .pl40 {
-  padding-left: 50px; }
+.studentWrapper {
+  font-size: 24px; }
+  .studentWrapper .baoMingTable th, .studentWrapper .baoMingTable td {
+    text-align: center; }
+  .studentWrapper .fixed-top {
+    left: 80px; }
+  .studentWrapper .tab-content {
+    padding: 75px 15px 15px 15px; }
+  .studentWrapper .modifyMiMa {
+    background-color: #fff;
+    position: absolute;
+    border: 1px solid #cfcfcf;
+    border-top: 1px solid #fff;
+    padding: 10px;
+    top: 42px;
+    right: 10px;
+    width: 300px;
+    font-size: 14px;
+    z-index: 10; }
+  .studentWrapper .standardAnswer {
+    display: none; }
+  .studentWrapper .tiShiBox {
+    cursor: pointer; }
+  .studentWrapper .ar-tzs .labelStu {
+    font-weight: normal; }
+  .studentWrapper .ar-tzs .pl40 {
+    padding-left: 60px; }
+  .studentWrapper .sub-nav ul {
+    height: 60px;
+    background-color: #fff; }
+  .studentWrapper .select24 {
+    font-size: 24px; }
+  .studentWrapper h4 {
+    font-size: 24px; }
+  .studentWrapper .nav-tabs {
+    border-bottom: 1px solid #000; }
+  .studentWrapper .tab_content_color {
+    background-color: #DAD7A7; }
+  .studentWrapper .kaoShiDeFen {
+    font-size: 40px;
+    margin-top: 200px; }
 
 .guanLiWrapper .fixed-top {
   left: 80px; }

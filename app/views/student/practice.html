@@ -1,11 +1,11 @@
 <div class="row col-md-6" ng-hide="stuParams.startLianXiState">
   <div class="col-md-12">
-    <select class="form-control" ng-model="stuParams.zsdId"
+    <select class="form-control select24" ng-model="stuParams.zsdId"
             ng-options="zsd.ZHISHIDIAN_ID as zsd.ZHISHIDIANMINGCHENG for zsd in kowledgeList">
       <option value="">请选择专业</option>
     </select>
   </div>
-  <div class="col-md-12 mt10">
+  <div class="col-md-12 mt30">
     <label class="radio-inline">
       <input type="radio" name="tiXingId" value="1" ng-model="stuParams.lxTiMuId"> 单选题
     </label>
@@ -16,49 +16,58 @@
       <input type="radio" name="tiXingId" value="4" ng-model="stuParams.lxTiMuId"> 判读题
     </label>
   </div>
-  <div class="col-md-12 mt10">
+  <div class="col-md-12 mt30">
+    <label class="radio-inline">
+      <input type="radio" name="itemNum" value="30" ng-model="stuParams.lxItemNum"> 30题
+    </label>
+    <label class="radio-inline">
+      <input type="radio" name="itemNum" value="60" ng-model="stuParams.lxItemNum"> 60题
+    </label>
     <label class="radio-inline">
       <input type="radio" name="itemNum" value="100" ng-model="stuParams.lxItemNum"> 100题
     </label>
     <label class="radio-inline">
-      <input type="radio" name="itemNum" value="200" ng-model="stuParams.lxItemNum"> 200题
+      <input type="radio" name="itemNum" value="150" ng-model="stuParams.lxItemNum"> 150题
     </label>
     <label class="radio-inline">
       <input type="radio" name="itemNum" value="99999" ng-model="stuParams.lxItemNum"> 所有试题
     </label>
   </div>
-  <div class="col-md-12 mt10">
+  <div class="col-md-12 mt30">
     <label class="radio-inline">
-      <input type="radio" name="practiceTime" value="60" ng-model="stuParams.lxTime"> 60分钟
+      <input type="radio" name="practiceTime" value="20" ng-model="stuParams.lxTime"> 20分钟
     </label>
     <label class="radio-inline">
-      <input type="radio" name="practiceTime" value="120" ng-model="stuParams.lxTime"> 120分钟
+      <input type="radio" name="practiceTime" value="40" ng-model="stuParams.lxTime"> 40分钟
+    </label>
+    <label class="radio-inline">
+      <input type="radio" name="practiceTime" value="60" ng-model="stuParams.lxTime"> 60分钟
     </label>
     <label class="radio-inline">
       <input type="radio" name="practiceTime" value="999999" ng-model="stuParams.lxTime"> 不限时
     </label>
   </div>
-  <div class="col-md-12 mt10">
+  <div class="col-md-12 mt30">
     <button type="button" class="btn btn-primary pull-right" ng-click="lianXiChouTi()">确定</button>
   </div>
 </div>
 <!--具体的题目-->
 <div class="row" ng-show="stuParams.startLianXiState">
-  <div class="numPerPage">
-    <span>每页题目数量：</span>
-    <label class="radio-inline">
-      <input type="radio" name="tiMuNum" value="10" ng-model="stuParams.tmNumPerPage" ng-click="changeNumPerPage(10)"> 10
-    </label>
-    <label class="radio-inline">
-      <input type="radio" name="tiMuNum" value="20" ng-model="stuParams.tmNumPerPage" ng-click="changeNumPerPage(20)"> 20
-    </label>
-    <label class="radio-inline">
-      <input type="radio" name="tiMuNum" value="50" ng-model="stuParams.tmNumPerPage" ng-click="changeNumPerPage(50)"> 50
-    </label>
-    <label class="radio-inline">
-      <input type="radio" name="tiMuNum" value="100" ng-model="stuParams.tmNumPerPage" ng-click="changeNumPerPage(100)"> 100
-    </label>
-  </div>
+  <!--<div class="numPerPage">-->
+    <!--<span>每页题目数量：</span>-->
+    <!--<label class="radio-inline">-->
+      <!--<input type="radio" name="tiMuNum" value="10" ng-model="stuParams.tmNumPerPage" ng-click="changeNumPerPage(10)"> 10-->
+    <!--</label>-->
+    <!--<label class="radio-inline">-->
+      <!--<input type="radio" name="tiMuNum" value="20" ng-model="stuParams.tmNumPerPage" ng-click="changeNumPerPage(20)"> 20-->
+    <!--</label>-->
+    <!--<label class="radio-inline">-->
+      <!--<input type="radio" name="tiMuNum" value="50" ng-model="stuParams.tmNumPerPage" ng-click="changeNumPerPage(50)"> 50-->
+    <!--</label>-->
+    <!--<label class="radio-inline">-->
+      <!--<input type="radio" name="tiMuNum" value="100" ng-model="stuParams.tmNumPerPage" ng-click="changeNumPerPage(100)"> 100-->
+    <!--</label>-->
+  <!--</div>-->
   <!--题目容器-->
   <div class="answerReappearWrap">
     <h2 class="text-center">

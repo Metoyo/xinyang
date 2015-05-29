@@ -12,10 +12,14 @@
       <td ng-bind="ks.SHICHANG"></td>
       <td ng-bind="ks.KAISHISHIJIAN | myLocalDateWithWeek"></td>
       <td>
-        <a href="javascript:void(0)" ng-click="startKaoShi(ks)">开始考试</a>
+        <a href="javascript:void(0)" ng-click="startKaoShi(ks)" ng-hide="ifClickStartExam">开始考试</a>
       </td>
     </tr>
   </table>
+</div>
+<div class="loading-box text-center" ng-show="loadingImgShow">
+  <img src="/images/loading.gif" alt="" width="64" height="64"/>
+  <p>数据加载中，请耐心等待……</p>
 </div>
 <!--具体的题目-->
 <div class="row" ng-show="stuParams.startKaoShiState">
@@ -119,5 +123,22 @@
         <a href="javascript:scroll(0,0)" ng-click="getTiMuDetail(lastTmPageNum)">尾页</a>
       </li>
     </ul>
+  </div>
+</div>
+<!--最后得分-->
+<div class="popup-wrap" ng-show="stuParams.tuiChuKaoShi">
+  <div class="popup-wrap-inner no-header">
+    <div class="pwi-body plr10">
+      <div class="form-horizontal">
+        <div class="form-group">
+          <p class="kaoShiDeFen text-center">
+            最后得分：<span class="clRed">{{stuParams.kaoShiDeFen.toFixed()}}</span> 分
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="pwi-footer plr10 text-center">
+      <button type="button" class="btn btn-primary mt5" ng-click="kaoShiJieShuConfirm()">确定</button>
+    </div>
   </div>
 </div>

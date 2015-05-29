@@ -27,59 +27,75 @@
       <file leaf-file-name="main.scss" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/styles/main.scss">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-17.16" vertical-offset="36419" max-vertical-offset="37136">
-              <caret line="2935" column="21" selection-start-line="2935" selection-start-column="21" selection-end-line="2935" selection-end-column="21" />
+            <state vertical-scroll-proportion="-7.68" vertical-offset="0" max-vertical-offset="38816">
+              <caret line="12" column="14" selection-start-line="12" selection-start-column="14" selection-end-line="12" selection-end-column="14" />
               <folding>
-                <element signature="e#5398#6462#0" expanded="false" />
-                <element signature="e#12160#12306#0" expanded="false" />
-                <element signature="e#12356#13972#0" expanded="false" />
-                <element signature="e#14011#14094#0" expanded="false" />
-                <element signature="e#14104#16067#0" expanded="false" />
-                <element signature="e#18108#18309#0" expanded="false" />
-                <element signature="e#18334#19555#0" expanded="false" />
-                <element signature="e#19579#19682#0" expanded="false" />
-                <element signature="e#19693#19740#0" expanded="false" />
-                <element signature="e#19766#19849#0" expanded="false" />
-                <element signature="e#19863#19895#0" expanded="false" />
-                <element signature="e#19909#19959#0" expanded="false" />
-                <element signature="e#19978#20016#0" expanded="false" />
-                <element signature="e#20045#20178#0" expanded="false" />
-                <element signature="e#20212#21144#0" expanded="false" />
-                <element signature="e#21244#21656#0" expanded="false" />
-                <element signature="e#21675#21774#0" expanded="false" />
-                <element signature="e#33696#33947#0" expanded="false" />
-                <element signature="e#41161#41493#0" expanded="false" />
-                <element signature="e#41581#41701#0" expanded="false" />
-                <element signature="e#41718#41836#0" expanded="false" />
-                <element signature="e#41857#43775#0" expanded="false" />
-                <element signature="e#41868#41890#0" expanded="false" />
-                <element signature="e#41894#41939#0" expanded="false" />
-                <element signature="e#41950#41976#0" expanded="false" />
-                <element signature="e#41995#42158#0" expanded="false" />
-                <element signature="e#42173#42346#0" expanded="false" />
-                <element signature="e#42562#42632#0" expanded="false" />
-                <element signature="e#42646#43094#0" expanded="false" />
-                <element signature="e#43104#43177#0" expanded="false" />
-                <element signature="e#43192#43377#0" expanded="false" />
-                <element signature="e#43411#43475#0" expanded="false" />
-                <element signature="e#43491#43541#0" expanded="false" />
-                <element signature="e#43556#43583#0" expanded="false" />
-                <element signature="e#43599#43643#0" expanded="false" />
-                <element signature="e#43656#43678#0" expanded="false" />
-                <element signature="e#49121#49395#0" expanded="false" />
-                <element signature="e#49419#49638#0" expanded="false" />
-                <element signature="e#49651#50135#0" expanded="false" />
+                <element signature="e#12186#12332#0" expanded="false" />
+                <element signature="e#12382#13998#0" expanded="false" />
+                <element signature="e#14037#14120#0" expanded="false" />
+                <element signature="e#14130#16093#0" expanded="false" />
+                <element signature="e#18134#18335#0" expanded="false" />
+                <element signature="e#18360#19581#0" expanded="false" />
+                <element signature="e#19605#19708#0" expanded="false" />
+                <element signature="e#19719#19766#0" expanded="false" />
+                <element signature="e#19792#19875#0" expanded="false" />
+                <element signature="e#19889#19921#0" expanded="false" />
+                <element signature="e#19935#19985#0" expanded="false" />
+                <element signature="e#20004#20042#0" expanded="false" />
+                <element signature="e#20071#20204#0" expanded="false" />
+                <element signature="e#20238#21170#0" expanded="false" />
+                <element signature="e#21270#21682#0" expanded="false" />
+                <element signature="e#21701#21800#0" expanded="false" />
+                <element signature="e#33722#33973#0" expanded="false" />
+                <element signature="e#41187#41519#0" expanded="false" />
+                <element signature="e#41607#41727#0" expanded="false" />
+                <element signature="e#41744#41862#0" expanded="false" />
+                <element signature="e#41883#43801#0" expanded="false" />
+                <element signature="e#41894#41916#0" expanded="false" />
+                <element signature="e#41920#41965#0" expanded="false" />
+                <element signature="e#41976#42002#0" expanded="false" />
+                <element signature="e#42021#42184#0" expanded="false" />
+                <element signature="e#42199#42372#0" expanded="false" />
+                <element signature="e#42588#42658#0" expanded="false" />
+                <element signature="e#42672#43120#0" expanded="false" />
+                <element signature="e#43130#43203#0" expanded="false" />
+                <element signature="e#43218#43403#0" expanded="false" />
+                <element signature="e#43437#43501#0" expanded="false" />
+                <element signature="e#43517#43567#0" expanded="false" />
+                <element signature="e#43582#43609#0" expanded="false" />
+                <element signature="e#43625#43669#0" expanded="false" />
+                <element signature="e#43682#43704#0" expanded="false" />
+                <element signature="e#49750#49969#0" expanded="false" />
+                <element signature="e#49982#50466#0" expanded="false" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="main.js" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/app/scripts/main.js">
+      <file leaf-file-name="exam.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/views/student/exam.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.33038348" vertical-offset="0" max-vertical-offset="2048">
-              <caret line="14" column="47" selection-start-line="14" selection-start-column="47" selection-end-line="14" selection-end-column="47" />
-              <folding />
+            <state vertical-scroll-proportion="-2.56" vertical-offset="0" max-vertical-offset="496">
+              <caret line="21" column="22" selection-start-line="21" selection-start-column="22" selection-end-line="21" selection-end-column="22" />
+              <folding>
+                <element signature="n#div#0;n#!!top" expanded="false" />
+                <element signature="n#div#2;n#!!top" expanded="false" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="student.js" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app/scripts/controllers/student.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.44661653" vertical-offset="9399" max-vertical-offset="12176">
+              <caret line="612" column="31" selection-start-line="612" selection-start-column="31" selection-end-line="612" selection-end-column="31" />
+              <folding>
+                <element signature="e#12646#12789#0" expanded="false" />
+                <element signature="e#25958#28494#0" expanded="false" />
+                <element signature="e#28624#30218#0" expanded="false" />
+                <element signature="e#30314#31059#0" expanded="false" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -89,10 +105,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/../kaoshi/app/views/partials/nav.html" />
-        <option value="$PROJECT_DIR$/app/scripts/controllers/nav.js" />
-        <option value="$PROJECT_DIR$/app/views/guanli/guanli.html" />
-        <option value="$PROJECT_DIR$/app/views/dagang/dagang.html" />
         <option value="$PROJECT_DIR$/app/scripts/controllers/lingyu.js" />
         <option value="$PROJECT_DIR$/app/views/mingti/danxuanedit.html" />
         <option value="$PROJECT_DIR$/app/views/mingti/duoxuan.html" />
@@ -108,38 +120,42 @@
         <option value="$PROJECT_DIR$/app/views/kaowu/editKaoChang.html" />
         <option value="$PROJECT_DIR$/app/views/kaowu/kaoShiList.html" />
         <option value="$PROJECT_DIR$/app/views/zujuan/zj_paperList.html" />
-        <option value="$PROJECT_DIR$/app/views/zujuan/zj_ruleMakePaper.html" />
         <option value="$USER_HOME$/Documents/TAT/xinyang/KaoWu/routes/router.js" />
         <option value="$PROJECT_DIR$/app/views/kaowu/kaoChangList.html" />
         <option value="$PROJECT_DIR$/app/views/example.html" />
         <option value="$PROJECT_DIR$/app/scripts/filters/mylocaldate.js" />
         <option value="$PROJECT_DIR$/app/scripts/controllers/renzheng.js" />
-        <option value="$PROJECT_DIR$/app/views/student/student.html" />
         <option value="$PROJECT_DIR$/app/views/renzheng/renzheng.html" />
-        <option value="$PROJECT_DIR$/app/scripts/config.js" />
-        <option value="$PROJECT_DIR$/app/views/dagang/daGangPrivate.html" />
         <option value="$PROJECT_DIR$/app/views/renzheng/rz_setDaGang.html" />
-        <option value="$PROJECT_DIR$/app/views/mingti/testList.html" />
         <option value="$PROJECT_DIR$/app/views/mingti/mingti.html" />
-        <option value="$PROJECT_DIR$/app/views/kaowu/editKaoShi.html" />
         <option value="$PROJECT_DIR$/app/views/guanli/bumen.html" />
         <option value="$PROJECT_DIR$/app/views/guanli/kexuhao.html" />
-        <option value="$PROJECT_DIR$/app/styles/main.scss" />
         <option value="$PROJECT_DIR$/app/views/student/score.html" />
-        <option value="$PROJECT_DIR$/app/views/student/practice.html" />
-        <option value="$PROJECT_DIR$/app/views/student/exam.html" />
         <option value="$PROJECT_DIR$/app/views/partials/nav.html" />
         <option value="$PROJECT_DIR$/app/scripts/filters/examstatus.js" />
-        <option value="$PROJECT_DIR$/app/views/tongji/tj_ks_chart.html" />
         <option value="$PROJECT_DIR$/app/scripts/controllers/guanli.js" />
         <option value="$PROJECT_DIR$/app/views/guanli/renyuan.html" />
-        <option value="$PROJECT_DIR$/app/scripts/controllers/student.js" />
         <option value="$PROJECT_DIR$/app/scripts/controllers/dagang.js" />
         <option value="$PROJECT_DIR$/app/scripts/controllers/zujuan.js" />
-        <option value="$PROJECT_DIR$/app/scripts/controllers/tongji.js" />
-        <option value="$PROJECT_DIR$/app/scripts/controllers/mingti.js" />
-        <option value="$PROJECT_DIR$/app/scripts/controllers/kaowu.js" />
         <option value="$PROJECT_DIR$/app/scripts/main.js" />
+        <option value="$PROJECT_DIR$/app/views/dagang/daGangPrivate.html" />
+        <option value="$PROJECT_DIR$/app/views/zujuan/zj_testList.html" />
+        <option value="$PROJECT_DIR$/app/views/tongji/tj_ks.html" />
+        <option value="$PROJECT_DIR$/app/views/zujuan/zj_ruleMakePaper.html" />
+        <option value="$PROJECT_DIR$/app/views/tongji/tj_student.html" />
+        <option value="$PROJECT_DIR$/app/scripts/controllers/tongji.js" />
+        <option value="$PROJECT_DIR$/app/views/tongji/tj_stud_detail.html" />
+        <option value="$PROJECT_DIR$/app/views/tongji/tj_ks_chart.html" />
+        <option value="$PROJECT_DIR$/app/views/kaowu/editKaoShi.html" />
+        <option value="$PROJECT_DIR$/app/scripts/controllers/kaowu.js" />
+        <option value="$PROJECT_DIR$/app/views/student/practice.html" />
+        <option value="$PROJECT_DIR$/app/views/student/student.html" />
+        <option value="$PROJECT_DIR$/app/styles/main.scss" />
+        <option value="$PROJECT_DIR$/app/views/mingti/testList.html" />
+        <option value="$PROJECT_DIR$/app/scripts/controllers/mingti.js" />
+        <option value="$PROJECT_DIR$/app/scripts/config.js" />
+        <option value="$PROJECT_DIR$/app/views/student/exam.html" />
+        <option value="$PROJECT_DIR$/app/scripts/controllers/student.js" />
       </list>
     </option>
   </component>
@@ -155,9 +171,9 @@
     <detection-done>true</detection-done>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="26" />
+    <option name="x" value="23" />
     <option name="y" value="23" />
-    <option name="width" value="1258" />
+    <option name="width" value="1257" />
     <option name="height" value="775" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="false">
@@ -183,7 +199,6 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -212,7 +227,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="bower_components" />
+              <option name="myItemId" value="app" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -227,6 +242,10 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="views" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -248,12 +267,35 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="xinyang" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="xinyang" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="scripts" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="controllers" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../kaoshi" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="WebServerToolWindowFactoryState" value="true" />
     <property name="HbShouldOpenHtmlAsHb" value="" />
     <property name="editorconfig.notification" value="Applied .editorconfig settings" />
@@ -327,7 +369,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="26" y="23" width="1258" height="775" extended-state="0" />
+    <frame x="23" y="23" width="1257" height="775" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -342,14 +384,14 @@
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24562798" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24502784" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3286119" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
   <component name="Vcs.Log.UiProperties">
@@ -377,18 +419,11 @@
           <option name="timeStamp" value="34" />
         </line-breakpoint>
       </breakpoints>
-      <option name="time" value="45" />
+      <option name="time" value="48" />
     </breakpoint-manager>
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$USER_HOME$/Documents/TAT/xinyang/KaoWu/routes/router.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.2841782" vertical-offset="167" max-vertical-offset="1008">
-          <caret line="22" column="50" selection-start-line="22" selection-start-column="40" selection-end-line="22" selection-end-column="50" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$USER_HOME$/Documents/TAT/xinyang/KaoWu/routes/api.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.23909774" vertical-offset="14513" max-vertical-offset="49712">
@@ -410,19 +445,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/scripts/controllers/nav.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="278" max-vertical-offset="4336">
-          <caret line="24" column="36" selection-start-line="24" selection-start-column="36" selection-end-line="24" selection-end-column="36" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/scripts/controllers/user.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="27649" max-vertical-offset="39472">
           <caret line="1743" column="32" selection-start-line="1743" selection-start-column="21" selection-end-line="1743" selection-end-column="32" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -437,7 +463,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.51875" vertical-offset="1060" max-vertical-offset="1872">
           <caret line="87" column="107" selection-start-line="87" selection-start-column="73" selection-end-line="87" selection-end-column="107" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -455,19 +480,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/tongji/tj_stud_detail.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-1.08" vertical-offset="1093" max-vertical-offset="1792">
-          <caret line="70" column="108" selection-start-line="70" selection-start-column="67" selection-end-line="70" selection-end-column="108" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/scripts/filters/mylocaldatewithweek.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-0.038348082" vertical-offset="218" max-vertical-offset="976">
           <caret line="12" column="32" selection-start-line="12" selection-start-column="13" selection-end-line="12" selection-end-column="32" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -475,28 +491,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.09439528" vertical-offset="0" max-vertical-offset="678">
           <caret line="4" column="18" selection-start-line="4" selection-start-column="18" selection-end-line="4" selection-end-column="18" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/scripts/controllers/renzheng.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="2759" max-vertical-offset="4976">
-          <caret line="186" column="26" selection-start-line="186" selection-start-column="26" selection-end-line="186" selection-end-column="26" />
-          <folding>
-            <element signature="e#4315#4411#0" expanded="false" />
-            <element signature="e#5295#5395#0" expanded="false" />
-            <element signature="e#8985#9058#0" expanded="false" />
-            <element signature="e#9098#9177#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/scripts/services/dataservice.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-0.109144546" vertical-offset="4154" max-vertical-offset="5328">
-          <caret line="255" column="72" selection-start-line="255" selection-start-column="72" selection-end-line="255" selection-end-column="72" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -504,7 +498,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="678">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -512,7 +505,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-2.055639" vertical-offset="1367" max-vertical-offset="2832">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -520,7 +512,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.26952526" vertical-offset="0" max-vertical-offset="752">
           <caret line="11" column="37" selection-start-line="11" selection-start-column="37" selection-end-line="11" selection-end-column="37" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -528,31 +519,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.375" vertical-offset="1328" max-vertical-offset="1968">
           <caret line="98" column="22" selection-start-line="98" selection-start-column="22" selection-end-line="98" selection-end-column="22" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/dagang/daGangPrivate.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.31393567" vertical-offset="627" max-vertical-offset="1280">
-          <caret line="52" column="39" selection-start-line="52" selection-start-column="35" selection-end-line="52" selection-end-column="39" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/zujuan/zj_testList.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-3.72" vertical-offset="1267" max-vertical-offset="2512">
-          <caret line="85" column="20" selection-start-line="85" selection-start-column="20" selection-end-line="85" selection-end-column="20" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/mingti/testList.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-14.72" vertical-offset="0" max-vertical-offset="2000">
-          <caret line="23" column="17" selection-start-line="23" selection-start-column="17" selection-end-line="23" selection-end-column="17" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -560,15 +526,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-94.08" vertical-offset="0" max-vertical-offset="3216">
           <caret line="147" column="123" selection-start-line="147" selection-start-column="123" selection-end-line="147" selection-end-column="123" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/kaowu/editKaoShi.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.025" vertical-offset="2352" max-vertical-offset="6160">
-          <caret line="148" column="18" selection-start-line="148" selection-start-column="18" selection-end-line="148" selection-end-column="18" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -576,15 +533,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.6125574" vertical-offset="32" max-vertical-offset="752">
           <caret line="27" column="13" selection-start-line="27" selection-start-column="13" selection-end-line="27" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/student/practice.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-2.56" vertical-offset="0" max-vertical-offset="2512">
-          <caret line="4" column="28" selection-start-line="4" selection-start-column="28" selection-end-line="4" selection-end-column="28" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -592,9 +540,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-7.4" vertical-offset="407" max-vertical-offset="2544">
           <caret line="40" column="11" selection-start-line="40" selection-start-column="11" selection-end-line="40" selection-end-column="11" />
-          <folding>
-            <element signature="n#h4#0;n#div#0;n#div#0;n#!!top" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -602,15 +547,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.122511484" vertical-offset="0" max-vertical-offset="3200">
           <caret line="5" column="69" selection-start-line="5" selection-start-column="69" selection-end-line="5" selection-end-column="69" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/student/exam.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-13.44" vertical-offset="192" max-vertical-offset="2064">
-          <caret line="33" column="117" selection-start-line="33" selection-start-column="101" selection-end-line="33" selection-end-column="117" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -618,7 +554,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-9.6" vertical-offset="304" max-vertical-offset="2128">
           <caret line="34" column="62" selection-start-line="34" selection-start-column="52" selection-end-line="34" selection-end-column="62" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -626,23 +561,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.7876106" vertical-offset="186" max-vertical-offset="928">
           <caret line="45" column="31" selection-start-line="45" selection-start-column="31" selection-end-line="45" selection-end-column="31" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/tongji/tj_ks_chart.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-0.15" vertical-offset="2224" max-vertical-offset="5408">
-          <caret line="133" column="56" selection-start-line="133" selection-start-column="56" selection-end-line="133" selection-end-column="56" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/student/score.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.024502298" vertical-offset="80" max-vertical-offset="1216">
-          <caret line="6" column="70" selection-start-line="6" selection-start-column="60" selection-end-line="6" selection-end-column="70" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -650,7 +568,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.22556391" vertical-offset="394" max-vertical-offset="17760">
           <caret line="34" column="41" selection-start-line="34" selection-start-column="41" selection-end-line="34" selection-end-column="41" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -658,15 +575,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-1.5138662" vertical-offset="1120" max-vertical-offset="2832">
           <caret line="12" column="64" selection-start-line="12" selection-start-column="62" selection-end-line="12" selection-end-column="64" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/student/student.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="1.25" vertical-offset="0" max-vertical-offset="1024">
-          <caret line="50" column="29" selection-start-line="50" selection-start-column="29" selection-end-line="50" selection-end-column="29" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -674,17 +582,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="49856">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="n#!!doc" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/scripts/config.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="1.2887218" vertical-offset="823" max-vertical-offset="2560">
-          <caret line="105" column="20" selection-start-line="105" selection-start-column="20" selection-end-line="105" selection-end-column="20" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -692,20 +589,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.48545176" vertical-offset="1827" max-vertical-offset="3152">
           <caret line="134" column="6" selection-start-line="134" selection-start-column="6" selection-end-line="134" selection-end-column="6" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/scripts/controllers/student.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-5.6666665" vertical-offset="1303" max-vertical-offset="13152">
-          <caret line="120" column="20" selection-start-line="120" selection-start-column="20" selection-end-line="120" selection-end-column="20" />
-          <folding>
-            <element signature="e#3832#4877#0" expanded="false" />
-            <element signature="e#4158#4865#0" expanded="false" />
-            <element signature="e#29524#30084#0" expanded="false" />
-            <element signature="e#30187#30239#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -713,7 +596,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.05799373" vertical-offset="27" max-vertical-offset="9552">
           <caret line="4" column="20" selection-start-line="4" selection-start-column="20" selection-end-line="4" selection-end-column="20" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -721,88 +603,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-7.851852" vertical-offset="40348" max-vertical-offset="41264">
           <caret line="2535" column="25" selection-start-line="2535" selection-start-column="18" selection-end-line="2535" selection-end-column="25" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/scripts/controllers/tongji.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.7241379" vertical-offset="17426" max-vertical-offset="18064">
-          <caret line="1118" column="19" selection-start-line="1118" selection-start-column="12" selection-end-line="1118" selection-end-column="19" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/scripts/controllers/mingti.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.02507837" vertical-offset="0" max-vertical-offset="28192">
-          <caret line="1" column="33" selection-start-line="1" selection-start-column="33" selection-end-line="1" selection-end-column="33" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/scripts/controllers/kaowu.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.13383459" vertical-offset="14167" max-vertical-offset="14832">
-          <caret line="1099" column="42" selection-start-line="1099" selection-start-column="42" selection-end-line="1099" selection-end-column="42" />
-          <folding>
-            <element signature="e#4739#5280#0" expanded="false" />
-            <element signature="e#5364#5874#0" expanded="false" />
-            <element signature="e#18165#20521#0" expanded="false" />
-            <element signature="e#34472#36174#0" expanded="false" />
-            <element signature="e#36263#37511#0" expanded="false" />
-            <element signature="e#37598#39677#0" expanded="false" />
-            <element signature="e#40451#40588#0" expanded="false" />
-            <element signature="e#40980#41812#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/styles/main.scss">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-17.16" vertical-offset="36419" max-vertical-offset="37136">
-          <caret line="2935" column="21" selection-start-line="2935" selection-start-column="21" selection-end-line="2935" selection-end-column="21" />
-          <folding>
-            <element signature="e#5398#6462#0" expanded="false" />
-            <element signature="e#12160#12306#0" expanded="false" />
-            <element signature="e#12356#13972#0" expanded="false" />
-            <element signature="e#14011#14094#0" expanded="false" />
-            <element signature="e#14104#16067#0" expanded="false" />
-            <element signature="e#18108#18309#0" expanded="false" />
-            <element signature="e#18334#19555#0" expanded="false" />
-            <element signature="e#19579#19682#0" expanded="false" />
-            <element signature="e#19693#19740#0" expanded="false" />
-            <element signature="e#19766#19849#0" expanded="false" />
-            <element signature="e#19863#19895#0" expanded="false" />
-            <element signature="e#19909#19959#0" expanded="false" />
-            <element signature="e#19978#20016#0" expanded="false" />
-            <element signature="e#20045#20178#0" expanded="false" />
-            <element signature="e#20212#21144#0" expanded="false" />
-            <element signature="e#21244#21656#0" expanded="false" />
-            <element signature="e#21675#21774#0" expanded="false" />
-            <element signature="e#33696#33947#0" expanded="false" />
-            <element signature="e#41161#41493#0" expanded="false" />
-            <element signature="e#41581#41701#0" expanded="false" />
-            <element signature="e#41718#41836#0" expanded="false" />
-            <element signature="e#41857#43775#0" expanded="false" />
-            <element signature="e#41868#41890#0" expanded="false" />
-            <element signature="e#41894#41939#0" expanded="false" />
-            <element signature="e#41950#41976#0" expanded="false" />
-            <element signature="e#41995#42158#0" expanded="false" />
-            <element signature="e#42173#42346#0" expanded="false" />
-            <element signature="e#42562#42632#0" expanded="false" />
-            <element signature="e#42646#43094#0" expanded="false" />
-            <element signature="e#43104#43177#0" expanded="false" />
-            <element signature="e#43192#43377#0" expanded="false" />
-            <element signature="e#43411#43475#0" expanded="false" />
-            <element signature="e#43491#43541#0" expanded="false" />
-            <element signature="e#43556#43583#0" expanded="false" />
-            <element signature="e#43599#43643#0" expanded="false" />
-            <element signature="e#43656#43678#0" expanded="false" />
-            <element signature="e#49121#49395#0" expanded="false" />
-            <element signature="e#49419#49638#0" expanded="false" />
-            <element signature="e#49651#50135#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -810,7 +610,275 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.33038348" vertical-offset="0" max-vertical-offset="2048">
           <caret line="14" column="47" selection-start-line="14" selection-start-column="47" selection-end-line="14" selection-end-column="47" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/zujuan/zj_testList.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.6" vertical-offset="96" max-vertical-offset="2512">
+          <caret line="30" column="115" selection-start-line="30" selection-start-column="115" selection-end-line="30" selection-end-column="115" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/tongji/tj_ks.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.22052068" vertical-offset="0" max-vertical-offset="1120">
+          <caret line="9" column="12" selection-start-line="9" selection-start-column="12" selection-end-line="9" selection-end-column="12" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/zujuan/zj_ruleMakePaper.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-12.16" vertical-offset="592" max-vertical-offset="1664">
+          <caret line="56" column="30" selection-start-line="56" selection-start-column="30" selection-end-line="56" selection-end-column="30" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/tongji/tj_ks_chart.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.459375" vertical-offset="1882" max-vertical-offset="5408">
+          <caret line="136" column="82" selection-start-line="136" selection-start-column="82" selection-end-line="136" selection-end-column="82" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/tongji/tj_stud_detail.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.425" vertical-offset="160" max-vertical-offset="848">
+          <caret line="27" column="92" selection-start-line="27" selection-start-column="92" selection-end-line="27" selection-end-column="92" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/kaowu/editKaoShi.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.15" vertical-offset="3552" max-vertical-offset="6160">
+          <caret line="228" column="57" selection-start-line="228" selection-start-column="57" selection-end-line="228" selection-end-column="57" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/tongji/tj_student.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.22052068" vertical-offset="0" max-vertical-offset="1312">
+          <caret line="9" column="12" selection-start-line="9" selection-start-column="8" selection-end-line="9" selection-end-column="12" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/dagang/daGangPrivate.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.34303215" vertical-offset="0" max-vertical-offset="1280">
+          <caret line="14" column="10" selection-start-line="11" selection-start-column="4" selection-end-line="14" selection-end-column="10" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.12" vertical-offset="3" max-vertical-offset="656">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/scripts/services/dataservice.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="1018" max-vertical-offset="5328">
+          <caret line="255" column="72" selection-start-line="255" selection-start-column="72" selection-end-line="255" selection-end-column="72" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/scripts/controllers/nav.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-11.666667" vertical-offset="3685" max-vertical-offset="4336">
+          <caret line="250" column="11" selection-start-line="250" selection-start-column="11" selection-end-line="250" selection-end-column="11" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/student/student.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.775" vertical-offset="384" max-vertical-offset="1024">
+          <caret line="55" column="97" selection-start-line="55" selection-start-column="87" selection-end-line="55" selection-end-column="97" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/dagang/dagang.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.26493108" vertical-offset="643" max-vertical-offset="1296">
+          <caret line="51" column="64" selection-start-line="51" selection-start-column="37" selection-end-line="51" selection-end-column="64" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/scripts/controllers/tongji.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.49557522" vertical-offset="1728" max-vertical-offset="5440">
+          <caret line="376" column="26" selection-start-line="376" selection-start-column="26" selection-end-line="376" selection-end-column="26" />
+          <folding>
+            <element signature="e#3772#6481#0" expanded="false" />
+            <element signature="e#6572#6760#0" expanded="false" />
+            <element signature="e#6955#9497#0" expanded="false" />
+            <element signature="e#9592#9725#0" expanded="false" />
+            <element signature="e#9815#10054#0" expanded="false" />
+            <element signature="e#10138#10904#0" expanded="false" />
+            <element signature="e#10996#13759#0" expanded="false" />
+            <element signature="e#13860#14905#0" expanded="false" />
+            <element signature="e#15003#16656#0" expanded="false" />
+            <element signature="e#16893#17992#0" expanded="false" />
+            <element signature="e#18525#23440#0" expanded="false" />
+            <element signature="e#23539#25028#0" expanded="false" />
+            <element signature="e#25106#27260#0" expanded="false" />
+            <element signature="e#27353#27711#0" expanded="false" />
+            <element signature="e#27802#28147#0" expanded="false" />
+            <element signature="e#28231#28425#0" expanded="false" />
+            <element signature="e#28474#30905#0" expanded="false" />
+            <element signature="e#31011#31441#0" expanded="false" />
+            <element signature="e#31532#32289#0" expanded="false" />
+            <element signature="e#32373#35188#0" expanded="false" />
+            <element signature="e#35292#35753#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/scripts/controllers/kaowu.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="1.2646617" vertical-offset="10263" max-vertical-offset="14688">
+          <caret line="777" column="39" selection-start-line="777" selection-start-column="39" selection-end-line="777" selection-end-column="39" />
+          <folding>
+            <element signature="e#4739#5280#0" expanded="false" />
+            <element signature="e#5364#5874#0" expanded="false" />
+            <element signature="e#18165#20521#0" expanded="false" />
+            <element signature="e#33919#35621#0" expanded="false" />
+            <element signature="e#35710#36958#0" expanded="false" />
+            <element signature="e#37045#39124#0" expanded="false" />
+            <element signature="e#39898#40035#0" expanded="false" />
+            <element signature="e#40427#41259#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/scripts/config.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="1655" max-vertical-offset="2560">
+          <caret line="117" column="21" selection-start-line="117" selection-start-column="21" selection-end-line="117" selection-end-column="21" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/scripts/controllers/renzheng.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="2.4781954" vertical-offset="1328" max-vertical-offset="5104">
+          <caret line="186" column="26" selection-start-line="186" selection-start-column="26" selection-end-line="186" selection-end-column="26" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/scripts/controllers/mingti.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="6.681203" vertical-offset="69" max-vertical-offset="28192">
+          <caret line="282" column="11" selection-start-line="282" selection-start-column="11" selection-end-line="282" selection-end-column="11" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/mingti/testList.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.125" vertical-offset="448" max-vertical-offset="2000">
+          <caret line="33" column="40" selection-start-line="33" selection-start-column="29" selection-end-line="33" selection-end-column="40" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/student/practice.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.45" vertical-offset="576" max-vertical-offset="2656">
+          <caret line="54" column="52" selection-start-line="54" selection-start-column="26" selection-end-line="54" selection-end-column="52" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/student/score.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-0.31852987" vertical-offset="304" max-vertical-offset="1216">
+          <caret line="6" column="70" selection-start-line="6" selection-start-column="60" selection-end-line="6" selection-end-column="70" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/styles/main.scss">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-7.68" vertical-offset="0" max-vertical-offset="38816">
+          <caret line="12" column="14" selection-start-line="12" selection-start-column="14" selection-end-line="12" selection-end-column="14" />
+          <folding>
+            <element signature="e#12186#12332#0" expanded="false" />
+            <element signature="e#12382#13998#0" expanded="false" />
+            <element signature="e#14037#14120#0" expanded="false" />
+            <element signature="e#14130#16093#0" expanded="false" />
+            <element signature="e#18134#18335#0" expanded="false" />
+            <element signature="e#18360#19581#0" expanded="false" />
+            <element signature="e#19605#19708#0" expanded="false" />
+            <element signature="e#19719#19766#0" expanded="false" />
+            <element signature="e#19792#19875#0" expanded="false" />
+            <element signature="e#19889#19921#0" expanded="false" />
+            <element signature="e#19935#19985#0" expanded="false" />
+            <element signature="e#20004#20042#0" expanded="false" />
+            <element signature="e#20071#20204#0" expanded="false" />
+            <element signature="e#20238#21170#0" expanded="false" />
+            <element signature="e#21270#21682#0" expanded="false" />
+            <element signature="e#21701#21800#0" expanded="false" />
+            <element signature="e#33722#33973#0" expanded="false" />
+            <element signature="e#41187#41519#0" expanded="false" />
+            <element signature="e#41607#41727#0" expanded="false" />
+            <element signature="e#41744#41862#0" expanded="false" />
+            <element signature="e#41883#43801#0" expanded="false" />
+            <element signature="e#41894#41916#0" expanded="false" />
+            <element signature="e#41920#41965#0" expanded="false" />
+            <element signature="e#41976#42002#0" expanded="false" />
+            <element signature="e#42021#42184#0" expanded="false" />
+            <element signature="e#42199#42372#0" expanded="false" />
+            <element signature="e#42588#42658#0" expanded="false" />
+            <element signature="e#42672#43120#0" expanded="false" />
+            <element signature="e#43130#43203#0" expanded="false" />
+            <element signature="e#43218#43403#0" expanded="false" />
+            <element signature="e#43437#43501#0" expanded="false" />
+            <element signature="e#43517#43567#0" expanded="false" />
+            <element signature="e#43582#43609#0" expanded="false" />
+            <element signature="e#43625#43669#0" expanded="false" />
+            <element signature="e#43682#43704#0" expanded="false" />
+            <element signature="e#49750#49969#0" expanded="false" />
+            <element signature="e#49982#50466#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/student/exam.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-2.56" vertical-offset="0" max-vertical-offset="496">
+          <caret line="21" column="22" selection-start-line="21" selection-start-column="22" selection-end-line="21" selection-end-column="22" />
+          <folding>
+            <element signature="n#div#0;n#!!top" expanded="false" />
+            <element signature="n#div#2;n#!!top" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/scripts/controllers/student.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.44661653" vertical-offset="9399" max-vertical-offset="12176">
+          <caret line="612" column="31" selection-start-line="612" selection-start-column="31" selection-end-line="612" selection-end-column="31" />
+          <folding>
+            <element signature="e#12646#12789#0" expanded="false" />
+            <element signature="e#25958#28494#0" expanded="false" />
+            <element signature="e#28624#30218#0" expanded="false" />
+            <element signature="e#30314#31059#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>

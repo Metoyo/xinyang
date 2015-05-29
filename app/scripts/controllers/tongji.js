@@ -22,6 +22,7 @@ define(['angular', 'config', 'charts','jquery', 'underscore', 'lazy'],
          */
         var userInfo = $rootScope.session.userInfo;
         var baseTjAPIUrl = config.apiurl_tj; //统计的api
+        var baseKwAPIUrl = config.apiurl_kw; //考务的api
         var token = config.token;
         var caozuoyuan = userInfo.UID;//登录的用户的UID
         var jigouid = userInfo.JIGOU[0].JIGOU_ID;
@@ -59,6 +60,7 @@ define(['angular', 'config', 'charts','jquery', 'underscore', 'lazy'],
         var tjKaoShiIds = []; //查询考试数据用到的存放考试ID的数组
         var qryItemDeFenLvBase = baseTjAPIUrl + 'query_timu_defenlv?token=' + token + '&kaoshiid='; //查询每道题目的得分率
         var itemDeFenLv = ''; //存放考生得分率的变量
+        var chaXunKaoShiUrl = baseKwAPIUrl + 'chaxun_kaoshi_of_kaosheng'; // 查询考生考试
 
         $scope.tjKaoShiList = []; //试卷列表
         $scope.tjParas = { //统计用到的参数
@@ -1035,17 +1037,27 @@ define(['angular', 'config', 'charts','jquery', 'underscore', 'lazy'],
         };
 
         /**
-         * 查询考试通过考生UID
+         * 查询考试通过考生身份证
          */
-        $scope.qryKaoShiByXueHao = function(){
+        $scope.qryKaoShiByZJH = function(){
           if($scope.tjParas.studentUid){
-            var qryKaoShiByXueHaoUrl = qryKaoShiByXueHaoBase + $scope.tjParas.studentUid;
-            DataService.getData(qryKaoShiByXueHaoUrl).then(function(data) {
+            var stuObj = {
+              token: token,
+              shuju: {
+                ZHENGJIANHAO: $scope.tjParas.studentUid,
+                JIGOU_ID: 1
+              }
+            };
+            $http.get(chaXunKaoShiUrl, {params: stuObj}).success(function(data){
               if(data && data.length > 0){
                 $scope.tjKaoShiData = data;
                 $scope.studentData = '';
                 $scope.showKaoShengList = true;
                 $scope.tjSubTpl = 'views/tongji/tj_stud_detail.html';
+              }
+              else{
+                $scope.kaoShiList = '';
+                //DataService.alertInfFun('err', data.error);
               }
             });
           }
@@ -1104,6 +1116,20 @@ define(['angular', 'config', 'charts','jquery', 'underscore', 'lazy'],
          */
         $scope.closeMoreZsd = function(){
           $scope.tjZsdData = $scope.tjZsdDataUd.slice(0, 5);
+        };
+
+        /**
+         * 修改考生成绩
+         */
+        $scope.changKaoShengScore = function(){
+
+        };
+
+        /**
+         * 重置考试
+         */
+        $scope.resetThisKaoShi = function(){
+
         };
 
         ///**

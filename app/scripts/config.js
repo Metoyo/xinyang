@@ -4,13 +4,13 @@
 define( "config", [], function () {
   return {
     token: '12345',
-    apiurl_rz: "http://192.168.1.10:3000/api/",//认证的url
-    apiurl_mt: "http://192.168.1.10:4000/api/",//命题的url
-    apiurl_kw: "http://192.168.1.10:4100/api/",//考务的url
-    apiurl_tj: "http://192.168.1.10:4300/api/",//统计的url
-    apiurl_tj_ori: "http://192.168.1.10:4300/",//统计的原始url
-    apiurl_bm: "http://192.168.1.10:4400/api/",//报名的url
-    apiurl_gg: "http://192.168.1.10:2000/",//公共接口
+    apiurl_rz: "http://192.168.1.102:3000/api/",//认证的url
+    apiurl_mt: "http://192.168.1.102:4000/api/",//命题的url
+    apiurl_kw: "http://192.168.1.102:4100/api/",//考务的url
+    apiurl_tj: "http://192.168.1.102:4300/api/",//统计的url
+    apiurl_tj_ori: "http://192.168.1.102:4300/",//统计的原始url
+    apiurl_bm: "http://192.168.1.102:4400/api/",//报名的url
+    apiurl_gg: "http://192.168.1.102:2000/",//公共接口
 
     //apiurl_rz: "http://www.yunjiaoshou.com:3000/api/",//认证的url
     //apiurl_mt: "http://www.yunjiaoshou.com:4000/api/",//命题的url
@@ -130,7 +130,7 @@ define( "config", [], function () {
         hanName: '统计'
       },
       {
-        qxArr: ['2006', '2007','2010', '2011', '2012', '2013','2017', '2020', '2021', '2022', '2023', '2030', '2031', '2032','2033', '2034', '4001', '4002'],
+        qxArr: ['2006', '2007', '2017', '2020', '2021', '2022', '2023', '2030', '2033', '2034', '4001', '4002'],
         targetUrl: '/guanli',
         navName : 'guanli',
         hanName: '管理'

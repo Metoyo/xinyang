@@ -41,7 +41,7 @@ define(['angular', 'config', 'jquery', 'underscore', 'lazy', 'moment'], function
           caozuoyuan + '&jigouid=1' + '&lingyuid=2' + '&zhishidagangid='; //查询专业基础url
         var qrytimuxiangqingBase = baseMtAPIUrl + 'chaxun_timuxiangqing?token=' + token + '&caozuoyuan=' + caozuoyuan +
           '&jigouid=1' + '&lingyuid=2' + '&timu_id='; //查询题目详情基础url
-        var numPerPage = 10; //每页显示多少条数据
+        var numPerPage = 20; //每页显示多少条数据
         var paginationLength = 11; //显示多少个页码
         var paginationLengthTwo = 7; //分页部分，页码的长度，目前设定为7; //显示多少个页码
         var lastDxDa = []; //上一个多选题的答案数组
@@ -65,9 +65,12 @@ define(['angular', 'config', 'jquery', 'underscore', 'lazy', 'moment'], function
           startKaoShiState: false, //考试状态
           startLianXiState: false, //练习状态
           kaoShiName: '', //考试名称
-          tmNumPerPage: 10,
+          tmNumPerPage: 20,
           mima: '', //新密码
-          letterArr: config.letterArr //题支的序号
+          letterArr: config.letterArr, //题支的序号
+          addBgColor: false, //加背景颜色
+          kaoShiDeFen: '', //考试最后得分
+          tuiChuKaoShi: false
         };
         $scope.tiMuIdData = ''; //存放题目id的数据
         $scope.tiMuPage = []; //存放题目分页的数据
@@ -77,6 +80,8 @@ define(['angular', 'config', 'jquery', 'underscore', 'lazy', 'moment'], function
         $scope.showXiuGaiMiMa = false; //修改密码显示
         $scope.passwordRegexp = /^.{6,20}$/;//密码的正则表达式
         $scope.isInPracticeOrExam = false; //判读是否在考试或练习中
+        $scope.ifClickStartExam = false; //判读是否点击了考试
+        $scope.loadingImgShow = false;
 
         /**
          * 获得大纲数据
@@ -125,12 +130,21 @@ define(['angular', 'config', 'jquery', 'underscore', 'lazy', 'moment'], function
           };
           $http.get(chaXunKaoShiUrl, {params: stuObj}).success(function(data){
             if(data && data.length > 0){
+              var ksNowMs = moment().add(moment().utcOffset(), 'm'); //错了8个时区
+              Lazy(data).each(function(ks){
+                if(ks.ZHUANGTAI < 3){
+                  var ksJssjMs = moment(ks.JIESHUSHIJIAN); //考试结束时间毫秒数
+                  if(ksNowMs > ksJssjMs){
+                    ks.ZHUANGTAI = 10;
+                  }
+                }
+              });
               $scope.kaoShiList = data;
               kaoShiScorePages(data);
             }
             else{
               $scope.kaoShiList = '';
-              DataService.alertInfFun('err', data.error);
+              //DataService.alertInfFun('err', data.error);
             }
           });
         };
@@ -197,7 +211,7 @@ define(['angular', 'config', 'jquery', 'underscore', 'lazy', 'moment'], function
             }
             else{
               $scope.lianXiList = '';
-              DataService.alertInfFun('err', data.error);
+              //DataService.alertInfFun('err', data.error);
             }
           });
         };
@@ -290,6 +304,7 @@ define(['angular', 'config', 'jquery', 'underscore', 'lazy', 'moment'], function
               $scope.daTiData = [];
               $scope.stuParams.startKaoShiState = false;
               $scope.stuParams.startLianXiState = false;
+              $scope.stuParams.addBgColor = false;
               $scope.stuParams.kaoShiName = '';
               $scope.stuParams.lxTiMuId = '';
               $scope.stuParams.lxItemNum = '';
@@ -304,7 +319,9 @@ define(['angular', 'config', 'jquery', 'underscore', 'lazy', 'moment'], function
               $scope.tiMuDistPage = [];
               $scope.stuParams.startKaoShiState = false;
               $scope.stuParams.startLianXiState = false;
+              $scope.stuParams.addBgColor = false;
               $scope.stuParams.kaoShiName = '';
+              $scope.ifClickStartExam = false; //判读是否点击了考试
               $scope.stuParams.stuTabActive = 'exam';
               $scope.stuTpl = 'views/student/exam.html'
             }
@@ -335,55 +352,71 @@ define(['angular', 'config', 'jquery', 'underscore', 'lazy', 'moment'], function
           $scope.tiMuIdData = '';
           $scope.tiMuPage = [];
           if(ks.KAOSHI_ID){
-            $http.get(startKaoShiUrl, {params: ksObj}).success(function(data){
-              if(data.TIMU && data.TIMU.length > 0){
-                var nt = moment.utc(data.SERVER_TIME).format();
-                var dt = moment.utc(data.DATI_QISHISHIJIAN).format();
-                var ntm = moment(nt).valueOf();
-                var dtm = moment(dt).valueOf();
-                var yiDaShiChang = ntm - dtm;
-                var syTime = (parseInt(data.SHICHANG) * 60 - parseInt(yiDaShiChang) / 1000).toFixed(0); // 剩余时间
-                //var newDate = new Date();
-                //var d = moment(data.SERVER_TIME);
-                //var nowTime = d.getTime();
-                //var dt = new Date(data.DATI_QISHISHIJIAN);
-                //var dtp = dt.getTimezoneOffset();
-                //var dtTime = parseInt(dt.getTime()) + parseInt(dtp * 60 * 1000); //答题开始时间
-                //var yiDaShiChang = parseInt(nowTime) - dtTime; //已考试时间
-                //var syTime = (parseInt(data.SHICHANG) * 60 - yiDaShiChang / 1000).toFixed(0); // 剩余时间
-                if(syTime > 0){
-                  $scope.kaoShiData = data;
-                  $scope.tiMuIdData = data.TIMU;
-                  $scope.stuParams.startKaoShiState = true;
-                  $scope.stuParams.kaoShiName = ks.KAOSHI_MINGCHENG;
-                  kaoshiTime = parseInt(syTime);
-                  timer = $interval(function(){
-                    countDown();
-                  }, 1000);
-                  $scope.isInPracticeOrExam = true;
-                  $scope.changeNumPerPage(100);
+            $scope.loadingImgShow = true;
+            $scope.ifClickStartExam = true;
+            var ksNowMs = moment().add(moment().utcOffset(), 'm'); //错了8个时区
+            var ksKssjMs = moment(ks.KAISHISHIJIAN); //考试开始时间
+            if(ksNowMs >= ksKssjMs){
+              $http.get(startKaoShiUrl, {params: ksObj}).success(function(data){
+                if(data.TIMU && data.TIMU.length > 0){
+                  var nt = moment.utc(data.SERVER_TIME).format();
+                  var dt = moment.utc(data.KAISHISHIJIAN).format();
+                  var ntm = moment(nt).valueOf();
+                  var dtm = moment(dt).valueOf();
+                  var yiDaShiChang = ntm - dtm;
+                  var syTime = (parseInt(data.SHICHANG) * 60 - parseInt(yiDaShiChang) / 1000).toFixed(0); // 剩余时间
+                  if(syTime > 0){
+                    $scope.kaoShiData = data;
+                    $scope.tiMuIdData = data.TIMU;
+                    $scope.stuParams.startKaoShiState = true;
+                    $scope.stuParams.addBgColor = true;
+                    $scope.stuParams.kaoShiName = ks.KAOSHI_MINGCHENG;
+                    kaoshiTime = parseInt(syTime);
+                    timer = $interval(function(){
+                      countDown();
+                    }, 1000);
+                    $scope.isInPracticeOrExam = true;
+                    $scope.changeNumPerPage(20);
+                  }
+                  else{
+                    DataService.alertInfFun('err', '考试已结束！');
+                    $scope.stuParams.startKaoShiState = false;
+                    $scope.stuParams.addBgColor = false;
+                    $scope.stuParams.kaoShiName = '';
+                    $('#timer').html('');
+                    kaoshiTime = '';
+                    timer = '';
+                    $scope.kaoShiData = '';
+                    $scope.tiMuIdData = '';
+                    $scope.ifClickStartExam = false;
+                    $interval.cancel(timer);
+                    localStorage.removeItem('stuDaArr');
+                  }
+                  $scope.loadingImgShow = false;
+                  $scope.ifClickStartExam = false;
                 }
                 else{
-                  DataService.alertInfFun('err', '考试已结束！');
-                  $scope.stuParams.startKaoShiState = false;
-                  $scope.stuParams.kaoShiName = '';
-                  $('#timer').html('');
-                  kaoshiTime = '';
-                  timer = '';
                   $scope.kaoShiData = '';
                   $scope.tiMuIdData = '';
-                  $interval.cancel(timer);
-                  localStorage.removeItem('stuDaArr');
+                  $scope.ifClickStartExam = false;
+                  $scope.stuParams.startKaoShiState = false;
+                  $scope.stuParams.addBgColor = false;
+                  $scope.stuParams.kaoShiName = '';
+                  $scope.loadingImgShow = false;
+                  DataService.alertInfFun('err', data.error);
                 }
-              }
-              else{
-                $scope.kaoShiData = '';
-                $scope.tiMuIdData = '';
-                $scope.stuParams.startKaoShiState = false;
-                $scope.stuParams.kaoShiName = '';
-                DataService.alertInfFun('err', data.error);
-              }
-            });
+              });
+            }
+            else{
+              $scope.kaoShiData = '';
+              $scope.tiMuIdData = '';
+              $scope.ifClickStartExam = false;
+              $scope.stuParams.startKaoShiState = false;
+              $scope.stuParams.addBgColor = false;
+              $scope.stuParams.kaoShiName = '';
+              $scope.loadingImgShow = false;
+              DataService.alertInfFun('pmt', '开始时间还未到！');
+            }
           }
           else{
             DataService.alertInfFun('pmt', '缺少考试ID');
@@ -394,7 +427,7 @@ define(['angular', 'config', 'jquery', 'underscore', 'lazy', 'moment'], function
          * 改变每页题目数量
          */
         $scope.changeNumPerPage = function(num){
-          numPerPage = num || 10;
+          numPerPage = num || 20;
           var lastPageNum;
           var tiMuLen;
           $scope.tiMuPage = [];
@@ -566,6 +599,7 @@ define(['angular', 'config', 'jquery', 'underscore', 'lazy', 'moment'], function
           $http.post(endKaoShiUrl, endObj).success(function(data){
             if(data.result){
               $scope.stuParams.startKaoShiState = false;
+              $scope.stuParams.addBgColor = false;
               $scope.stuParams.kaoShiName = '';
               $interval.cancel(timer);
               $('#timer').html('');
@@ -573,8 +607,11 @@ define(['angular', 'config', 'jquery', 'underscore', 'lazy', 'moment'], function
               timer = '';
               localStorage.removeItem('stuDaArr');
               $scope.isInPracticeOrExam = false;
-              chaXunKaoShi();
-              DataService.alertInfFun('suc', '提交成功！');
+              $scope.ifClickStartExam = false;
+              $scope.stuParams.kaoShiDeFen = data.defen;
+              $scope.stuParams.tuiChuKaoShi = true;
+              //chaXunKaoShi();
+              //DataService.alertInfFun('suc', '提交成功！');
             }
             else{
               DataService.alertInfFun('err', data.error);
@@ -640,6 +677,7 @@ define(['angular', 'config', 'jquery', 'underscore', 'lazy', 'moment'], function
                 $scope.stuParams.zsdId = '';
                 $scope.stuParams.lxItemNum = '';
                 $scope.stuParams.startLianXiState = true;
+                $scope.stuParams.addBgColor = true;
                 if($scope.stuParams.lxTime != 999999){
                   kaoshiTime = parseInt($scope.stuParams.lxTime) * 60;
                   timer = $interval(function(){
@@ -653,6 +691,7 @@ define(['angular', 'config', 'jquery', 'underscore', 'lazy', 'moment'], function
                 $scope.lianXiData = '';
                 $scope.tiMuIdData = '';
                 $scope.stuParams.startLianXiState = false;
+                $scope.stuParams.addBgColor = false;
                 DataService.alertInfFun('err', data.error);
               }
             });
@@ -775,6 +814,7 @@ define(['angular', 'config', 'jquery', 'underscore', 'lazy', 'moment'], function
           $http.post(lianJeShuTiUrl, endObj).success(function(data){
             if(data.result){
               $scope.stuParams.startLianXiState = false;
+              $scope.stuParams.addBgColor = false;
               $scope.stuParams.lxTiMuId = '';
               $scope.stuParams.lxTime = '';
               $scope.stuParams.lxItemNum = '';
@@ -832,7 +872,7 @@ define(['angular', 'config', 'jquery', 'underscore', 'lazy', 'moment'], function
         };
 
         /**
-         * 修改密码//
+         * 修改密码
          */
         $scope.xiuGaiMiMa = function(){
           var userObj = {
@@ -860,6 +900,13 @@ define(['angular', 'config', 'jquery', 'underscore', 'lazy', 'moment'], function
         $scope.closeXiuGaiMiMa = function(){
           $scope.showXiuGaiMiMa = false;
         };
+
+        /**
+         * 考试完退出
+         */
+        $scope.kaoShiJieShuConfirm = function(){
+          DataService.logout();
+        }
 
     }]);
 });

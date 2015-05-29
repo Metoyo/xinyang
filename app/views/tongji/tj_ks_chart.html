@@ -124,17 +124,17 @@
               <th>操作</th>
             </tr>
             <tr ng-repeat="ksd in studentData">
-              <td ng-bind="ksd.YONGHUHAO">
+              <td ng-bind="ksd.ZHENGJIANHAO">
               </td>
               <td>
-                <a href="javascript:void(0)" ng-bind="ksd.XINGMING" ng-click="zuoDaReappear(ksd.KAOSHENG_UID, ksd.KAOSHI_ID)"></a>
+                <a href="javascript:void(0)" ng-bind="ksd.XINGMING"></a>
               </td>
               <td ng-bind="ksd.BANJI">
               </td>
               <td ng-bind="ksd.ZUIHOU_PINGFEN.toFixed(0)">
               </td>
               <td>
-                <a href="javascript:void(0)">改分</a>
+                <a href="javascript:void(0)" ng-click="changKaoShengScore(ksd)">改分</a>
               </td>
             </tr>
           </table>

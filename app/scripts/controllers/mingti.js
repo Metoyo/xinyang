@@ -281,7 +281,7 @@ define(['angular', 'config', 'jquery', 'underscore'],
         };
 
         /**
-         * 查询试题的函数
+         * 查询试题的函数//
          */
         $scope.qryTestFun = function(pg){
           $scope.loadingImgShow = true; //testList.html loading

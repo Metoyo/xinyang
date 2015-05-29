@@ -776,7 +776,6 @@ define(['angular', 'config', 'intimidatetime', 'jquery', 'underscore', 'lazy'],
          * 保存考试
          */
         $scope.saveKaoShi = function(){
-          //$scope.kaoShengErrorInfo = '';
           var inputStartDate = $('.start-date').val();
           var inputEndDate = $('.end-date').val();
           //其他信息判断
@@ -788,58 +787,50 @@ define(['angular', 'config', 'intimidatetime', 'jquery', 'underscore', 'lazy'],
               var kaoShiLong = kaoshi_data.shuju.SHICHANG * 60 * 1000;
               if(difTime > 0 && difTime >= kaoShiLong){
                 if(kaoshi_data.shuju.KAOCHANG && kaoshi_data.shuju.KAOCHANG.length > 0){
-                  if(kaoshi_data.shuju.KAOCHANG[0].USERS &&
-                    kaoshi_data.shuju.KAOCHANG[0].USERS.length){
-                    $scope.startDateIsNull = false;
-                    $scope.endDateIsNull = false;
-                    $scope.kwParams.saveKaoShiBtnStat = true;
-                    var shijuan_info = { //需要同步的试卷数据格式
-                      token: token,
-                      caozuoyuan: caozuoyuan,
-                      jigouid: jigouid,
-                      lingyuid: lingyuid,
-                      shijuanid: []
-                    };
-                    //将已选择的试卷进行数据处理分别添加的同步试卷和考试信息中
-                    if($scope.kwParams.selectShiJuan.length > 0){
-                      _.each($scope.kwParams.selectShiJuan, function(sj){
-                        shijuan_info.shijuanid.push(sj.SHIJUAN_ID);
-                      });
-                    }
-                    kaoshi_data.shuju.KAISHISHIJIAN = inputStartDate;
-                    //kaoshi_data.shuju.JIESHUSHIJIAN = DataService.formatDateZh(endDate);
-                    kaoshi_data.shuju.JIESHUSHIJIAN = inputEndDate;
-                    kaoshi_data.shuju.SHIJUAN_ID = shijuan_info.shijuanid;
-                    $scope.loadingImgShow = true;
-                    $http.post(tongBuShiJuanUrl, shijuan_info).success(function(rst){
-                      if(rst.result){
-                        $http.post(xiuGaiKaoShiUrl, kaoshi_data).success(function(data){
-                          if(data.result){
-                            $scope.showKaoShiList();
-                            $scope.loadingImgShow = false;
-                            DataService.alertInfFun('suc', '考试添加成功！');
-                            $scope.kwParams.selectShiJuan = []; //重置已选择的时间数组
-                            $scope.kwParams.selected_bm = '';
-                            $scope.kwParams.selected_zy = '';
-                          }
-                          else{
-                            DataService.alertInfFun('err', data.error);
-                            $scope.loadingImgShow = false;
-                            //$scope.kaoShengErrorInfo = JSON.parse(data.error);
-                            $scope.kwParams.saveKaoShiBtnStat = false;
-                          }
-                        });
-                      }
-                      else{
-                        $scope.loadingImgShow = false;
-                        DataService.alertInfFun('err', rst.error);
-                        $scope.kwParams.saveKaoShiBtnStat = false;
-                      }
+                  $scope.startDateIsNull = false;
+                  $scope.endDateIsNull = false;
+                  $scope.kwParams.saveKaoShiBtnStat = true;
+                  var shijuan_info = { //需要同步的试卷数据格式
+                    token: token,
+                    caozuoyuan: caozuoyuan,
+                    jigouid: jigouid,
+                    lingyuid: lingyuid,
+                    shijuanid: []
+                  };
+                  //将已选择的试卷进行数据处理分别添加的同步试卷和考试信息中
+                  if($scope.kwParams.selectShiJuan.length > 0){
+                    _.each($scope.kwParams.selectShiJuan, function(sj){
+                      shijuan_info.shijuanid.push(sj.SHIJUAN_ID);
                     });
                   }
-                  else{
-                    DataService.alertInfFun('err', '请添加考生！')
-                  }
+                  kaoshi_data.shuju.KAISHISHIJIAN = inputStartDate;
+                  kaoshi_data.shuju.JIESHUSHIJIAN = inputEndDate;
+                  kaoshi_data.shuju.SHIJUAN_ID = shijuan_info.shijuanid;
+                  $scope.loadingImgShow = true;
+                  $http.post(tongBuShiJuanUrl, shijuan_info).success(function(rst){
+                    if(rst.result){
+                      $http.post(xiuGaiKaoShiUrl, kaoshi_data).success(function(data){
+                        if(data.result){
+                          $scope.showKaoShiList();
+                          $scope.loadingImgShow = false;
+                          DataService.alertInfFun('suc', '考试添加成功！');
+                          $scope.kwParams.selectShiJuan = []; //重置已选择的时间数组
+                          $scope.kwParams.selected_bm = '';
+                          $scope.kwParams.selected_zy = '';
+                        }
+                        else{
+                          DataService.alertInfFun('err', data.error);
+                          $scope.loadingImgShow = false;
+                          $scope.kwParams.saveKaoShiBtnStat = false;
+                        }
+                      });
+                    }
+                    else{
+                      $scope.loadingImgShow = false;
+                      DataService.alertInfFun('err', rst.error);
+                      $scope.kwParams.saveKaoShiBtnStat = false;
+                    }
+                  });
                 }
                 else{
                   DataService.alertInfFun('err', '请选择考场！');

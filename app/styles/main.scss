@@ -86,6 +86,9 @@ body {
 .w200 {
   width: 200px;
 }
+.w300 {
+  width: 300px;
+}
 .h20{
   height: 20px;
 }
@@ -2901,6 +2904,7 @@ label.checkbox{
 }
 //报名样式
 .studentWrapper{
+  font-size: 24px;
   .baoMingTable{
     th,td{
       text-align: center;
@@ -2910,7 +2914,7 @@ label.checkbox{
     left: 80px;
   }
   .tab-content{
-    padding: 60px 15px 15px 15px;
+    padding: 75px 15px 15px 15px;
   }
   .modifyMiMa{
     background-color: #fff;
@@ -2932,12 +2936,31 @@ label.checkbox{
   }
   .ar-tzs{
     .labelStu{
-      font-size: 18px;
       font-weight: normal;
     }
     .pl40{
-      padding-left: 50px;
+      padding-left: 60px;
     }
+  }
+  .sub-nav ul {
+    height: 60px;
+    background-color: #fff;
+  }
+  .select24{
+    font-size: 24px;
+  }
+  h4{
+    font-size: 24px;
+  }
+  .nav-tabs {
+    border-bottom: 1px solid #000;
+  }
+  .tab_content_color{
+    background-color: #DAD7A7;
+  }
+  .kaoShiDeFen{
+    font-size: 40px;
+    margin-top: 200px;
   }
 }
 //管理界面
