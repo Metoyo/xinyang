@@ -204,12 +204,6 @@ body {
 .tagnCent {
   text-align: center; }
 
-.wordBreak {
-  text-overflow: ellipsis;
-  overflow: hidden;
-  white-space: nowrap;
-  width: 300px; }
-
 .btn {
   padding: 3px 12px; }
 
@@ -2253,6 +2247,9 @@ label.checkbox {
       background-color: #95C880; }
     .tongjiWrapper .zsd-list li p .zsd-bj {
       background-color: #DFCC6D; }
+.tongjiWrapper .kaoShiDeFen {
+  font-size: 20px;
+  margin-top: 200px; }
 
 .studentWrapper {
   font-size: 24px; }

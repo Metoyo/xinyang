@@ -206,10 +206,10 @@ body {
   text-align: center;
 }
 .wordBreak{
-  text-overflow: ellipsis;
-  overflow: hidden;
-  white-space: nowrap;
-  width: 300px;
+//  text-overflow: ellipsis;
+//  overflow: hidden;
+//  white-space: nowrap;
+//  width: 300px;
 }
 .btn {
   padding: 3px 12px;
@@ -2900,6 +2900,10 @@ label.checkbox{
         }
       }
     }
+  }
+  .kaoShiDeFen{
+    font-size: 20px;
+    margin-top: 200px;
   }
 }
 //报名样式

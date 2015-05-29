@@ -36,12 +36,25 @@
       </table>
     </div>
     <div ng-if="tjKaoShiData">
-      <ul>
-        <li ng-repeat="ks in tjKaoShiData">
-          <span ng-bind="ks.KAOSHI_MINGCHENG"></span>
-          <a href="javascript:void(0)" ng-click="resetThisKaoShi(ks.KAOSHENG_UID, ks.KAOSHI_ID)"></a>
-        </li>
-      </ul>
+      <table class="table table-bordered">
+        <tr>
+          <th>考试名称</th>
+          <th>操作</th>
+        </tr>
+        <tr ng-repeat="ks in tjKaoShiData">
+          <td ng-bind="ks.KAOSHI_MINGCHENG"></td>
+          <td>
+            <a href="javascript:void(0)" ng-click="resetThisKaoShi(ks.KAOSHI_ID)">重置成绩</a>
+          </td>
+        </tr>
+      </table>
+      <!--<ul>-->
+        <!--<li ng-repeat="ks in tjKaoShiData">-->
+          <!--<span ng-bind="ks.KAOSHI_MINGCHENG"></span>-->
+          <!--<a href="javascript:void(0)" ng-click="resetThisKaoShi(ks.KAOSHI_ID)">重置成绩</a>-->
+        <!--</li>-->
+      <!--</ul>-->
     </div>
+    <!--修改成绩-->
   </div>
 </div>
