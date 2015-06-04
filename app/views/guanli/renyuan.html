@@ -7,9 +7,10 @@
       <button type="submit" class="btn btn-primary" ng-click="chaXunYuanGong(guanliParams.shenFenZheng)">查询</button>
     </div>
   </form>
-  <div class="col-md-2">
+  <div class="col-md-4">
     <a href="javascript:void(0)" class="pull-left mt5" ng-click="renYuanAddShow('singleWork')">新增</a>
     <a href="javascript:void(0)" class="pull-left mt5 ml15" ng-click="renYuanAddShow('plWorks')">批量新增</a>
+    <a href="javascript:void(0)" class="pull-left mt5 ml15" ng-click="renYuanAddShow('addMingTi')">新增命题人</a>
   </div>
 </div>
 <div class="row mt15" ng-show="workersData.length">
@@ -179,6 +180,41 @@
                 ng-options="kxh.KEXUHAO_ID as kxh.KEXUHAO_MINGCHENG for kxh in keXuHaoData">
           <option value="">请选择专业</option>
         </select>
+      </div>
+    </div>
+    <div class="clearfix mt15 text-right">
+      <div class="col-md-8 col-md-offset-2 text-right">
+        <button type="button" class="btn btn-primary" ng-click="saveNewWork()">保存</button>
+        <button type="button" class="btn btn-danger" ng-click="cancelAddRenYuan()">取消</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!--增加命题人员-->
+<div class="row mt15" ng-if="renYuanAddType == 'addMingTi'">
+  <div class="col-md-6">
+    <div class="clearfix">
+      <div class="col-md-2 text-right">
+        <span class="mt5 dpb">姓名</span>
+      </div>
+      <div class="col-md-8">
+        <input type="text" class="form-control" placeholder="姓名" ng-model="guanliParams.mingTiWorkName"/>
+      </div>
+    </div>
+    <div class="clearfix mt15">
+      <div class="col-md-2 text-right">
+        <span class="mt5 dpb">用户名</span>
+      </div>
+      <div class="col-md-8">
+        <input type="text" class="form-control" placeholder="用户名" ng-model="guanliParams.mingTiWorkUserName"/>
+      </div>
+    </div>
+    <div class="clearfix mt15">
+      <div class="col-md-2 text-right">
+        <span class="mt5 dpb">密码</span>
+      </div>
+      <div class="col-md-8">
+        <input type="text" class="form-control" placeholder="密码" ng-model="guanliParams.mingTiWorkPw"/>
       </div>
     </div>
     <div class="clearfix mt15 text-right">

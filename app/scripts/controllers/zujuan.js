@@ -979,7 +979,7 @@ define(['angular', 'config', 'jquery', 'underscore'],
               NANDU: '', // 难度系数
               ZHISHIDIAN: [], //专业ID, 数组
               zsdNameArr: [], //专业名称, 数组
-              PIPEIDU: 0.7, //匹配度
+              PIPEIDU: 1, //匹配度
               TIXING: [{
                 TIXING_ID: '',
                 COUNT: ''

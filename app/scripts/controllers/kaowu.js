@@ -170,7 +170,7 @@ define(['angular', 'config', 'intimidatetime', 'jquery', 'underscore', 'lazy'],
         $scope.showKaoShiList = function(zt){
           var ztArr = [],
             qryKaoShiList;
-          zt = zt || 'ing';
+          zt = zt || 'all';
           $scope.loadingImgShow = true; //kaoShiList.html
           kaoShiPageArr = []; //定义考试页码数组
           kaoShiIdArrRev = []; //存放所有考试ID的数组

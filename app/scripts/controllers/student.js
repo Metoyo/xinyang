@@ -120,14 +120,21 @@ define(['angular', 'config', 'jquery', 'underscore', 'lazy', 'moment'], function
         /**
          * 查询考试
          */
-        var chaXunKaoShi = function(){
+        var chaXunKaoShi = function(cType){
           var stuObj = {
             token: token,
             shuju: {
               UID: caozuoyuan,
-              JIGOU_ID: 1
+              JIGOU_ID: 1,
+              NEW: ''
             }
           };
+          if(cType == 'exam'){
+            stuObj.shuju.NEW = true;
+          }
+          if(cType == 'score'){
+            stuObj.shuju.NEW = false;
+          }
           $http.get(chaXunKaoShiUrl, {params: stuObj}).success(function(data){
             if(data && data.length > 0){
               var ksNowMs = moment().add(moment().utcOffset(), 'm'); //错了8个时区
@@ -144,7 +151,7 @@ define(['angular', 'config', 'jquery', 'underscore', 'lazy', 'moment'], function
             }
             else{
               $scope.kaoShiList = '';
-              //DataService.alertInfFun('err', data.error);
+              DataService.alertInfFun('err', data.error);
             }
           });
         };
@@ -204,14 +211,21 @@ define(['angular', 'config', 'jquery', 'underscore', 'lazy', 'moment'], function
           $http.get(chaCunLianXiFs, {params: stuObj}).success(function(data){
             if(data && data.length > 0){
               Lazy(data).each(function(lx){
-                lx.name = DataService.formatDateUtc(lx.KAISHISHIJIAN) + '练习';
+                //lx.name = DataService.formatDateUtc(lx.KAISHISHIJIAN) + '练习';
+                if(lx.JIESHUSHIJIAN){
+                  var sjc = (moment(lx.JIESHUSHIJIAN).valueOf() - moment(lx.KAISHISHIJIAN).valueOf())/ 1000 / 60;
+                  lx.shichang = sjc.toFixed(0);
+                }
+                else{
+                  lx.shichang = 20;
+                }
               });
               $scope.lianXiList = Lazy(data).reverse().toArray();
               lianXiScorePages($scope.lianXiList);
             }
             else{
               $scope.lianXiList = '';
-              //DataService.alertInfFun('err', data.error);
+              DataService.alertInfFun('err', data.error);
             }
           });
         };
@@ -309,11 +323,12 @@ define(['angular', 'config', 'jquery', 'underscore', 'lazy', 'moment'], function
               $scope.stuParams.lxTiMuId = '';
               $scope.stuParams.lxItemNum = '';
               $scope.stuParams.zsdId = '';
+              chaXunLianXiScore();
               $scope.stuParams.stuTabActive = 'practice';
               $scope.stuTpl = 'views/student/practice.html'
             }
             if(tab == 'exam'){
-              chaXunKaoShi();
+              chaXunKaoShi('exam');
               $scope.daTiData = [];
               $scope.tiMuDetail = [];
               $scope.tiMuDistPage = [];
@@ -326,8 +341,7 @@ define(['angular', 'config', 'jquery', 'underscore', 'lazy', 'moment'], function
               $scope.stuTpl = 'views/student/exam.html'
             }
             if(tab == 'score'){
-              chaXunKaoShi();
-              chaXunLianXiScore();
+              chaXunKaoShi('score');
               $scope.stuParams.stuTabActive = 'score';
               $scope.stuTpl = 'views/student/score.html'
             }
@@ -825,6 +839,7 @@ define(['angular', 'config', 'jquery', 'underscore', 'lazy', 'moment'], function
               timer = '';
               localStorage.removeItem('stuDaArr');
               $scope.isInPracticeOrExam = false;
+              chaXunLianXiScore();
               DataService.alertInfFun('suc', '提交成功！');
             }
             else{

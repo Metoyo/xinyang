@@ -51,22 +51,71 @@
     <button type="button" class="btn btn-primary pull-right" ng-click="lianXiChouTi()">确定</button>
   </div>
 </div>
+<!--练习的成绩-->
+<div class="row col-md-12" ng-hide="stuParams.startLianXiState">
+  <h4 class="bdb p10">练习成绩</h4>
+  <!--<ul class="list-unstyled plr10" ng-repeat="lx in lxDistData">-->
+    <!--<li class="ptb5 bdbd">-->
+      <!--<span ng-bind="lx.name"></span>-->
+      <!--<span class="pull-right">答对：{{lx.DDTS}}  |  答错：{{lx.DCTS}}</span>-->
+    <!--</li>-->
+  <!--</ul>-->
+  <table class="table table-bordered">
+    <tr>
+      <th>日期</th>
+      <th>姓名</th>
+      <th>时长(分)</th>
+      <th>成绩</th>
+    </tr>
+    <tr ng-repeat="lx in lxDistData">
+      <td ng-bind="lx.KAISHISHIJIAN | myLocalDate | date: 'yyyy-MM-dd HH:mm:ss'"></td>
+      <td ng-bind="session.userInfo.XINGMING"></td>
+      <td ng-bind="lx.shichang"></td>
+      <td ng-bind="lx.DDTS"></td>
+    </tr>
+  </table>
+  <div class="paging text-right" ng-if="lxPages.length>0">
+    <ul class="pagination pagination-sm">
+      <li ng-class="{disabled: currentLxPageVal == 1}">
+        <a href ng-click="lxPgDist(1)">首页</a>
+      </li>
+      <li ng-class="{disabled: currentLxPageVal == 1}">
+        <a href
+           ng-click="lxPgDist(prevPg = currentLxPageVal > 1 ? currentLxPageVal - 1 : 1)">
+          上一页
+        </a>
+      </li>
+      <li ng-repeat="pg in lxPages" ng-class="{active: currentLxPageVal == pg}">
+        <a href ng-click="lxPgDist(pg)">{{pg}}</a>
+      </li>
+      <li ng-class="{disabled: currentLxPageVal == lastLxPageNum}">
+        <a href
+           ng-click="lxPgDist(nextPg = currentLxPageVal < lastLxPageNum ? currentLxPageVal + 1 : lastLxPageNum)">
+          下一页
+        </a>
+      </li>
+      <li ng-class="{disabled: currentLxPageVal == lastLxPageNum}">
+        <a href ng-click="lxPgDist(lastLxPageNum)">尾页</a>
+      </li>
+    </ul>
+  </div>
+</div>
 <!--具体的题目-->
 <div class="row" ng-show="stuParams.startLianXiState">
   <!--<div class="numPerPage">-->
-    <!--<span>每页题目数量：</span>-->
-    <!--<label class="radio-inline">-->
-      <!--<input type="radio" name="tiMuNum" value="10" ng-model="stuParams.tmNumPerPage" ng-click="changeNumPerPage(10)"> 10-->
-    <!--</label>-->
-    <!--<label class="radio-inline">-->
-      <!--<input type="radio" name="tiMuNum" value="20" ng-model="stuParams.tmNumPerPage" ng-click="changeNumPerPage(20)"> 20-->
-    <!--</label>-->
-    <!--<label class="radio-inline">-->
-      <!--<input type="radio" name="tiMuNum" value="50" ng-model="stuParams.tmNumPerPage" ng-click="changeNumPerPage(50)"> 50-->
-    <!--</label>-->
-    <!--<label class="radio-inline">-->
-      <!--<input type="radio" name="tiMuNum" value="100" ng-model="stuParams.tmNumPerPage" ng-click="changeNumPerPage(100)"> 100-->
-    <!--</label>-->
+  <!--<span>每页题目数量：</span>-->
+  <!--<label class="radio-inline">-->
+  <!--<input type="radio" name="tiMuNum" value="10" ng-model="stuParams.tmNumPerPage" ng-click="changeNumPerPage(10)"> 10-->
+  <!--</label>-->
+  <!--<label class="radio-inline">-->
+  <!--<input type="radio" name="tiMuNum" value="20" ng-model="stuParams.tmNumPerPage" ng-click="changeNumPerPage(20)"> 20-->
+  <!--</label>-->
+  <!--<label class="radio-inline">-->
+  <!--<input type="radio" name="tiMuNum" value="50" ng-model="stuParams.tmNumPerPage" ng-click="changeNumPerPage(50)"> 50-->
+  <!--</label>-->
+  <!--<label class="radio-inline">-->
+  <!--<input type="radio" name="tiMuNum" value="100" ng-model="stuParams.tmNumPerPage" ng-click="changeNumPerPage(100)"> 100-->
+  <!--</label>-->
   <!--</div>-->
   <!--题目容器-->
   <div class="answerReappearWrap">
@@ -83,7 +132,8 @@
           <li class="ptb5" ng-repeat="xtm in tm.tiMu">
             <h4 class="ar-tiGan itemHasImg">
               <!--<span ng-bind-html="($index + 1) + '、' + xtm.TIGAN.tiGan"></span>-->
-              <span ng-bind-html="((stuParams.tmNumPerPage * (currentTmPageVal - 1)) + $index + 1) + '、' + xtm.TIGAN.tiGan"></span>
+              <span
+                ng-bind-html="((stuParams.tmNumPerPage * (currentTmPageVal - 1)) + $index + 1) + '、' + xtm.TIGAN.tiGan"></span>
               <span class="tiShiBox cBlue" ng-click="showDaAn($event, xtm.DAAN, xtm.TIXING_ID)">提示</span>
               <span class="standardAnswer cBlue">正确答案：<strong></strong></span>
             </h4>
@@ -139,7 +189,8 @@
         <a href="javascript:scroll(0,0)" ng-click="getTiMuDetail(1)">首页</a>
       </li>
       <li ng-class="{disabled: currentTmPageVal == 1}">
-        <a href="javascript:scroll(0,0)" ng-click="getTiMuDetail(prevPg = currentTmPageVal > 1 ? currentTmPageVal - 1 : 1)">
+        <a href="javascript:scroll(0,0)"
+           ng-click="getTiMuDetail(prevPg = currentTmPageVal > 1 ? currentTmPageVal - 1 : 1)">
           上一页
         </a>
       </li>

@@ -7,10 +7,10 @@
   </div>
   <div class="row">
     <table class="table table-bordered bgcFFF wp48 pull-left">
-      <tr ng-init="showMoreKaoShi=false">
+      <tr>
         <th colspan="2" class="info">
           <span>已选考试</span>
-          <button type="button" class="btn btn-primary pull-right" ng-click="showMoreKaoShi=true">选择考试</button>
+          <button type="button" class="btn btn-primary pull-right" ng-click="showMoreKaoShiFun()">选择考试</button>
         </th>
       </tr>
       <tr>
@@ -69,12 +69,12 @@
               <td>
                 <a href="javascript:void(0)" ng-bind="ksd.XINGMING"></a>
               </td>
-              <td ng-bind="ksd.BANJI">
+              <td ng-bind="ksd.JIGOUMINGCHENG">
               </td>
               <td ng-bind="ksd.ZUIHOU_PINGFEN.toFixed(0)">
               </td>
               <td>
-                <a href="javascript:void(0)" ng-click="changKaoShengScore(ksd)">改分</a>
+                <a href="javascript:void(0)" ng-click="changKaoShengScore(ksd)">更多</a>
               </td>
             </tr>
           </table>
@@ -90,25 +90,25 @@
 <div class="popup-wrap" ng-show="showMoreKaoShi">
   <div class="popup-wrap-inner">
     <div class="pwi-header plr10 text-right">
-      <button type="button" class="btn btn-success mt5" ng-click="tjShowKaoShiChart(tjParas.selectedKaoShi);showMoreKaoShi=false">确定</button>
-      <button type="button" class="btn btn-danger mt5 ml10" ng-click="showMoreKaoShi=false">关闭</button>
+      <button type="button" class="btn btn-success mt5" ng-click="tjShowKaoShiChart(tjParas.selectedKaoShi)">确定</button>
+      <button type="button" class="btn btn-danger mt5 ml10" ng-click="closeKsXuanZhe()">关闭</button>
     </div>
     <div class="pwi-body plr10">
       <table class="tj-table">
         <tr>
           <th>考试名称</th>
           <th>试卷名称</th>
-          <th width="120px" class="text-center">考试人数</th>
+          <!--<th width="120px" class="text-center">考试人数</th>-->
           <th width="120px" class="text-center">考试时间</th>
         </tr>
         <tr ng-repeat="ks in tjKaoShiList">
           <td>
-            <input type="checkbox" ng-click="addKaoShiToTj($event, ks)"/> {{ks.KAOSHI_MINGCHENG}}
+            <input type="checkbox" ng-click="addKaoShiToTj($event, ks)" ng-checked="ks.ckd"/> {{ks.KAOSHI_MINGCHENG}}
           </td>
           <td>
             <p class="m0" ng-repeat="kssj in ks.SHIJUAN" ng-bind="kssj.SHIJUAN_MINGCHENG"></p>
           </td>
-          <td class="text-center" ng-bind="ks.KSRS"></td>
+          <!--<td class="text-center" ng-bind="ks.KSRS"></td>-->
           <td class="text-center" ng-bind="ks.KAISHISHIJIAN | myLocalDate | date : 'yyyy-MM-dd'"></td>
         </tr>
       </table>
@@ -150,8 +150,8 @@
       </label>
     </div>
     <div class="pwi-footer plr10 text-center">
-      <button type="button" class="btn btn-danger mt5" ng-click="showMoreShiJuan=false">关闭</button>
-      <button type="button" class="btn btn-success mt5 ml10" ng-click="tjByShiJuan();showMoreKaoShi=false">确定</button>
+      <button type="button" class="btn btn-danger mt5" ng-click="closeKsXuanZhe()">关闭</button>
+      <button type="button" class="btn btn-success mt5 ml10" ng-click="tjByShiJuan()">确定</button>
     </div>
   </div>
 </div>

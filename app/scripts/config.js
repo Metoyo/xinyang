@@ -4,27 +4,22 @@
 define( "config", [], function () {
   return {
     token: '12345',
-    apiurl_rz: "http://192.168.1.102:3000/api/",//认证的url
-    apiurl_mt: "http://192.168.1.102:4000/api/",//命题的url
-    apiurl_kw: "http://192.168.1.102:4100/api/",//考务的url
-    apiurl_tj: "http://192.168.1.102:4300/api/",//统计的url
-    apiurl_tj_ori: "http://192.168.1.102:4300/",//统计的原始url
-    apiurl_bm: "http://192.168.1.102:4400/api/",//报名的url
-    apiurl_gg: "http://192.168.1.102:2000/",//公共接口
+    //apiurl_rz: "http://192.168.67.5:3000/api/",//认证的url
+    //apiurl_mt: "http://192.168.67.5:4000/api/",//命题的url
+    //apiurl_kw: "http://192.168.67.5:4100/api/",//考务的url
+    //apiurl_tj: "http://192.168.67.5:4300/api/",//统计的url
+    //apiurl_tj_ori: "http://192.168.67.5:4300/",//统计的原始url
+    //apiurl_bm: "http://192.168.67.5:4400/api/",//报名的url
+    //apiurl_gg: "http://192.168.67.5:2000/",//公共接口
 
-    //apiurl_rz: "http://www.yunjiaoshou.com:3000/api/",//认证的url
-    //apiurl_mt: "http://www.yunjiaoshou.com:4000/api/",//命题的url
-    //apiurl_kw: "http://www.yunjiaoshou.com:4100/api/",//考务的url
-    //apiurl_tj: "http://www.yunjiaoshou.com:4300/api/",//统计的url
-    //apiurl_tj_ori: "http://www.yunjiaoshou.com:4300/",//统计的原始url
-    //apiurl_bm: "http://www.yunjiaoshou.com:4400/",//报名的url
+    apiurl_rz: "http://192.168.1.10:3000/api/",//认证的url
+    apiurl_mt: "http://192.168.1.10:4000/api/",//命题的url
+    apiurl_kw: "http://192.168.1.10:4100/api/",//考务的url
+    apiurl_tj: "http://192.168.1.10:4300/api/",//统计的url
+    apiurl_tj_ori: "http://192.168.1.10:4300/",//统计的原始url
+    apiurl_bm: "http://192.168.1.10:4400/",//报名的url
+    apiurl_gg: "http://192.168.1.10:2000/",//公共接口
 
-    //apiurl_rz: "/renzheng/",//认证的url
-    //apiurl_mt: "/mingti/",//命题的url
-    //apiurl_kw: "/kaowu/",//考务的url
-    //apiurl_tj: "/tongji/",//统计的url
-    //apiurl_tj_ori: "/tongji/",//统计的原始url
-    //apiurl_bm: "/baoming/",//报名的url
     secret: '076ee61d63aa10a125ea872411e433b9',
     hostname: 'localhost:3000',
     letterArr: ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P',

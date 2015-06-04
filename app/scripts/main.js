@@ -1,18 +1,18 @@
 /*jshint unused: vars */
 require.config({
   paths: {
-    angular: '../bower_components/angular/angular',
-    'angular-cookies': '../bower_components/angular-cookies/angular-cookies',
-    'angular-resource': '../bower_components/angular-resource/angular-resource',
-    'angular-route': '../bower_components/angular-route/angular-route',
-    'angular-sanitize': '../bower_components/angular-sanitize/angular-sanitize',
-    bootstrap: '../bower_components/bootstrap/dist/js/bootstrap',
+    angular: '../bower_components/angular/angular.min',
+    'angular-cookies': '../bower_components/angular-cookies/angular-cookies.min',
+    'angular-resource': '../bower_components/angular-resource/angular-resource.min',
+    'angular-route': '../bower_components/angular-route/angular-route.min',
+    'angular-sanitize': '../bower_components/angular-sanitize/angular-sanitize.min',
+    bootstrap: '../bower_components/bootstrap/dist/js/bootstrap.min',
     jquery: '../bower_components/jquery/jquery.min',
-    underscore: '../bower_components/underscore/underscore',
+    underscore: '../bower_components/underscore/underscore.min',
     charts: '../bower_components/echarts/echarts-plain',
     intimidatetime: '../bower_components/intimidatetime/intimidatetime',
-    lazy: '../bower_components/lazy/lazy',
-    moment: '../bower_components/moment/moment'
+    lazy: '../bower_components/lazy/lazy.min',
+    moment: '../bower_components/moment/min/moment.min'
 
     //angular: '../../bower_components/angular/angular',
     //'angular-cookies': '../../bower_components/angular-cookies/angular-cookies',

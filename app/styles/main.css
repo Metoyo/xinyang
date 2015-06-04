@@ -2274,24 +2274,26 @@ label.checkbox {
     display: none; }
   .studentWrapper .tiShiBox {
     cursor: pointer; }
-  .studentWrapper .ar-tzs .labelStu {
-    font-weight: normal; }
   .studentWrapper .ar-tzs .pl40 {
     padding-left: 60px; }
   .studentWrapper .sub-nav ul {
     height: 60px;
     background-color: #fff; }
   .studentWrapper .select24 {
-    font-size: 24px; }
+    font-size: 24px;
+    height: 40px; }
   .studentWrapper h4 {
-    font-size: 24px; }
+    font-size: 24px;
+    font-weight: bold; }
   .studentWrapper .nav-tabs {
     border-bottom: 1px solid #000; }
   .studentWrapper .tab_content_color {
-    background-color: #DAD7A7; }
+    background-color: #EDEFEC; }
   .studentWrapper .kaoShiDeFen {
     font-size: 40px;
     margin-top: 200px; }
+  .studentWrapper .pagination li a {
+    font-size: 24px; }
 
 .guanLiWrapper .fixed-top {
   left: 80px; }

@@ -2,15 +2,15 @@
 <div class="row" ng-hide="stuParams.startKaoShiState">
   <table class="table table-bordered">
     <tr>
-      <th>考试名称</th>
-      <th>时长(分)</th>
       <th>开始时间</th>
+      <th>考试名称</th>
+      <!--<th>时长(分)</th>-->
       <th>操作</th>
     </tr>
-    <tr ng-repeat="ks in kaoShiList" ng-if="ks.ZHUANGTAI<3">
-      <td ng-bind="ks.KAOSHI_MINGCHENG"></td>
-      <td ng-bind="ks.SHICHANG"></td>
+    <tr ng-repeat="ks in kaoShiList">
       <td ng-bind="ks.KAISHISHIJIAN | myLocalDateWithWeek"></td>
+      <td ng-bind="ks.KAOSHI_MINGCHENG"></td>
+      <!--<td ng-bind="ks.SHICHANG"></td>-->
       <td>
         <a href="javascript:void(0)" ng-click="startKaoShi(ks)" ng-hide="ifClickStartExam">开始考试</a>
       </td>

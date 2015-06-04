@@ -34,6 +34,7 @@ define(['angular', 'config', 'jquery', 'underscore', 'lazy'], function (angular,
         var importUser = baseRzAPIUrl + 'import_users2'; //大批新增用户
         var paginationLength = 7; //分页部分，页码的长度，目前设定为11
         var totalWkPage; //符合条件的员工数据一共有多少页
+        var addMingTiRen = baseRzAPIUrl + 'chuangjian_mingti_jiaoshi'; //增加命题人员
 
         $scope.guanliParams = { //学生controller参数
           tabActive: '',
@@ -47,7 +48,10 @@ define(['angular', 'config', 'jquery', 'underscore', 'lazy'], function (angular,
           select_bm: '' , //添加员工选中的部门ID
           select_bz: '' , //添加员工选中的班组ID
           select_zy: '',  //添加员工选中的专业ID
-          shenFenZheng: ''  //人员管理的身份证号
+          shenFenZheng: '',  //人员管理的身份证号
+          mingTiWorkName: '',  //命题人员的姓名
+          mingTiWorkUserName: '',  //命题人员的用户名
+          mingTiWorkPw: ''  //命题人员的密码
         };
         $scope.showKeXuHaoManage = false;
         $scope.kxhInputShow = false;
@@ -171,7 +175,7 @@ define(['angular', 'config', 'jquery', 'underscore', 'lazy'], function (angular,
           $scope.workersData = '';
           $scope.renYuanAddType = '';
           if(sfz){
-            var chaXunStuUrl = chaXunJiGouYongHuUrl + '?token=' + token + '&jigouid=' + jigouid + '&sfzh=' + sfz;
+            var chaXunStuUrl = chaXunJiGouYongHuUrl + '?token=' + token + '&sfzh=' + sfz;
             $http.get(chaXunStuUrl).success(function(data){
               if(data && data.length){
                 $scope.workersData = data;
@@ -218,6 +222,10 @@ define(['angular', 'config', 'jquery', 'underscore', 'lazy'], function (angular,
           if(item == 'resetPw'){
             $scope.renYuanAddType = 'resetPw';
             $scope.saveNewWork();
+          }
+          if(item == 'addMingTi'){
+            $scope.workersData = '';
+            $scope.renYuanAddType = 'addMingTi';
           }
         };
 
@@ -331,26 +339,32 @@ define(['angular', 'config', 'jquery', 'underscore', 'lazy'], function (angular,
             }
             $http.post(modifyJgYh, singleWordData).success(function(data){
               if(data.result){
-                if($scope.glSelectData){
-                  var originWordData = {
-                    token: token,
-                    jigouid: $scope.glSelectData.JIGOU_ID,
-                    users: [{uid: $scope.glSelectData.UID, zhuangtai: -1}]
-                  };
-                  $http.post(modifyJgYh, originWordData).success(function(del){
-                    if(del.result){
-                      DataService.alertInfFun('suc', '修改机构或专业成功！');
-                      $scope.renYuanAddType = '';
-                      $scope.glSelectData = '';
-                      $scope.guanliParams.selected_bz = '';
-                      $scope.guanliParams.selected_bm = '';
-                      $scope.chaXunYuanGong($scope.guanliParams.shenFenZheng);
-                    }
-                    else{
-                      DataService.alertInfFun('err', del.error);
-                    }
-                  });
-                }
+                $scope.renYuanAddType = '';
+                $scope.glSelectData = '';
+                $scope.guanliParams.selected_bz = '';
+                $scope.guanliParams.selected_bm = '';
+                $scope.chaXunYuanGong($scope.guanliParams.shenFenZheng);
+                DataService.alertInfFun('suc', '修改机构或专业成功！');
+                //if($scope.glSelectData){
+                //  var originWordData = {
+                //    token: token,
+                //    jigouid: $scope.glSelectData.JIGOU_ID,
+                //    users: [{uid: $scope.glSelectData.UID, zhuangtai: 1}]
+                //  };
+                //  $http.post(modifyJgYh, originWordData).success(function(del){
+                //    if(del.result){
+                //      DataService.alertInfFun('suc', '修改机构或专业成功！');
+                //      $scope.renYuanAddType = '';
+                //      $scope.glSelectData = '';
+                //      $scope.guanliParams.selected_bz = '';
+                //      $scope.guanliParams.selected_bm = '';
+                //      $scope.chaXunYuanGong($scope.guanliParams.shenFenZheng);
+                //    }
+                //    else{
+                //      DataService.alertInfFun('err', del.error);
+                //    }
+                //  });
+                //}
               }
               else{
                 DataService.alertInfFun('err', data.error);
@@ -395,6 +409,79 @@ define(['angular', 'config', 'jquery', 'underscore', 'lazy'], function (angular,
                   DataService.alertInfFun('err', data.error);
                 }
               });
+            }
+          }
+          //新增命题人员
+          if($scope.renYuanAddType == 'addMingTi'){
+            if($scope.guanliParams.mingTiWorkName){
+              if($scope.guanliParams.mingTiWorkUserName){
+                if($scope.guanliParams.mingTiWorkPw){
+                  singleWordData = {
+                    token: token,
+                    shuju: {
+                      YONGHUMING: $scope.guanliParams.mingTiWorkUserName,
+                      XINGMING: $scope.guanliParams.mingTiWorkName,
+                      MIMA: $scope.guanliParams.mingTiWorkPw
+                    }
+                  };
+                  $http.post(addMingTiRen, singleWordData).success(function(data){
+                    if(data.result){
+                      $scope.renYuanAddType = '';
+                      $scope.guanliParams.singleWorkName = '';
+                      $scope.guanliParams.singleWorkID = '';
+                      $scope.originBuMenData = '';
+                      $scope.banZuData = '';
+                      $scope.kowledgeList = '';
+                      $scope.guanliParams.selected_bz = '';
+                      $scope.guanliParams.selected_bm = '';
+                      $scope.guanliParams.selected_zy = '';
+                      $scope.guanliParams.mingTiWorkName = '';
+                      $scope.guanliParams.mingTiWorkUserName = '';
+                      $scope.guanliParams.mingTiWorkPw = '';
+                      DataService.alertInfFun('suc', '添加成功！');
+                    }
+                    else{
+                      DataService.alertInfFun('err', data.error);
+                    }
+                  });
+                }
+                else{
+                  DataService.alertInfFun('pmt', '缺少密码！');
+                }
+                singleWordData = {
+                  token: token,
+                  UID: '',
+                  MIMA: '123456',
+                  YONGHULEIBIE: 2,
+                  XINGMING: $scope.guanliParams.singleWorkName,
+                  ZHUANGTAI: 1,
+                  ZHENGJIANHAO: $scope.guanliParams.singleWorkID,
+                  JIGOU: [{JIGOU_ID: '', ZHUANGTAI: 1}]
+                };
+                if($scope.guanliParams.selected_bm){
+                  if($scope.guanliParams.selected_bz){
+                    singleWordData.JIGOU[0].JIGOU_ID = $scope.guanliParams.selected_bz;
+                  }
+                  else{
+                    singleWordData.JIGOU[0].JIGOU_ID = $scope.guanliParams.selected_bm;
+                  }
+                }
+                else{
+                  singleWordData.JIGOU[0].JIGOU_ID = 1;
+                }
+                if($scope.guanliParams.selected_zy){
+                  singleWordData.KEXUHAO = [];
+                  var kxhObj = {KEXUHAO_ID: $scope.guanliParams.selected_zy, ZHUANGTAI: 1};
+                  singleWordData.KEXUHAO.push(kxhObj);
+                }
+
+              }
+              else{
+                DataService.alertInfFun('pmt', '缺少用户名！');
+              }
+            }
+            else{
+              DataService.alertInfFun('pmt', '缺少姓名！');
             }
           }
         };

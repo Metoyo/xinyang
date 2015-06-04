@@ -2939,9 +2939,6 @@ label.checkbox{
     cursor: pointer;
   }
   .ar-tzs{
-    .labelStu{
-      font-weight: normal;
-    }
     .pl40{
       padding-left: 60px;
     }
@@ -2952,19 +2949,28 @@ label.checkbox{
   }
   .select24{
     font-size: 24px;
+    height: 40px;
   }
   h4{
     font-size: 24px;
+    font-weight: bold;
   }
   .nav-tabs {
     border-bottom: 1px solid #000;
   }
   .tab_content_color{
-    background-color: #DAD7A7;
+    background-color: #EDEFEC;
   }
   .kaoShiDeFen{
     font-size: 40px;
     margin-top: 200px;
+  }
+  .pagination{
+    li{
+      a{
+        font-size: 24px;
+      }
+    }
   }
 }
 //管理界面

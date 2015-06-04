@@ -1,0 +1,419 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+  "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>国家电网河南信阳电力公司</title>
+    <link rel="stylesheet" href="/styles/ie.css"/>
+    <script type="text/javascript" src="/bower_components/jquery/jquery-1.4.min.js"></script>
+    <script type="text/javascript" src="/bower_components/lazy/lazy.min.js"></script>
+    <script type="text/javascript" src="/bower_components/moment/min/moment.min.js"></script>
+    <script type="text/javascript" src="/bower_components/artTpl/template.js"></script>
+    <!--练习分数模板-->
+    <script id="lxScoreTpl" type="text/html">
+      <table class="tableBd">
+        <tr>
+          <th>日期</th>
+          <th>姓名</th>
+          <th>时长(分)</th>
+          <th>成绩</th>
+        </tr>
+        {{each lxScore}}
+          <tr>
+            <td>{{$value.KAISHISHIJIAN}}</td>
+            <td>余尚学</td>
+            <td>20</td>
+            <td>{{$value.DDTS}}</td>
+          </tr>
+        {{/each}}
+      </table>
+    </script>
+    <!--专业模板-->
+    <script id="zyTpl" type="text/html">
+      <select name="zyList" id="zyList" class="fz24">
+        <option value="">请选择专业</option>
+        {{each zys}}
+          <option value="{{$value.ZHISHIDIAN_ID}}">{{$value.ZHISHIDIANMINGCHENG}}</option>
+        {{/each}}
+      </select>
+    </script>
+    <!--单选题模板-->
+    <script id="danXuanTpl" type="text/html">
+      <h3 class="fz24">{{daTi}}</h3>
+      <ul>
+        {{each tiMu as tigan i}}
+          <li>
+            <h4 class="ar-tiGan">{{tigan.TIMU_XUHAO}}、{{tigan.TIGAN.tiGan}}</h4>
+              <div>
+                {{if daTi=='单选题'}}
+                  {{each tigan.TIGAN.tiZhiNeiRong as tznr j}}
+                    <div class="ar-tz">
+                      <input type="radio" name="{{'radio' + tigan.TIMU_ID}}" value="{{j}}" id="{{'radio' + tigan.TIMU_ID + '_' + j}}"/>
+                      <label for="{{'radio' + tigan.TIMU_ID + '_' + j}}"> ({{letterArr[j]}}) {{tznr}} </label>
+                    </div>
+                  {{/each}}
+                {{/if}}
+                {{if daTi=='多选题'}}
+                  {{each tigan.TIGAN.tiZhiNeiRong as tznr j}}
+                    <div class="ar-tz">
+                      <input type="checkbox" name="{{'checkbox' + tigan.TIMU_ID}}" value="{{j}}" id="{{'checkbox' + tigan.TIMU_ID + '_' + j}}"/>
+                      <label for="{{'checkbox' + tigan.TIMU_ID + '_' + j}}"> ({{letterArr[j]}}) {{tznr}} </label>
+                    </div>
+                  {{/each}}
+                {{/if}}
+                {{if daTi=='判断题'}}
+                  <div class="ar-tz">
+                    <input type="radio" name="{{'pdRadio' + tigan.TIMU_ID}}" value="1" id="{{'pdRadio' + tigan.TIMU_ID + '_' + 1}}"/>
+                    <label for="{{'pdRadio' + tigan.TIMU_ID + '_' + 1}}"> 对 </label>
+                  </div>
+                  <div class="ar-tz">
+                    <input type="radio" name="{{'pdRadio' + tigan.TIMU_ID}}" value="1" id="{{'pdRadio' + tigan.TIMU_ID + '_' + 0}}"/>
+                    <label for="{{'pdRadio' + tigan.TIMU_ID + '_' + 0}}"> 错 </label>
+                  </div>
+                {{/if}}
+              </div>
+          </li>
+        {{/each}}
+      </ul>
+    </script>
+    <!--多选题模板-->
+
+    <!--判断题模板-->
+
+    <!--题目分页模板-->
+    <script id="pagingTpl" type="text/html">
+      <ul class="pagination pagination-sm">
+        <li>
+          <a href="javascript:scroll(0,0)">首页</a>
+        </li>
+        <li>
+          <a href="javascript:scroll(0,0)">上一页</a>
+        </li>
+        <li>
+          <a href="javascript:scroll(0,0)">{{pg}}</a>
+        </li>
+        <li>
+          <a href="javascript:scroll(0,0)">下一页</a>
+        </li>
+        <li>
+          <a href="javascript:scroll(0,0)">尾页</a>
+        </li>
+      </ul>
+    </script>
+  </head>
+  <body>
+    <div class="container">
+      <div>
+        <span class="">余尚学</span>
+        <span class="">修改密码</span>
+        <span id="timer"></span>
+      </div>
+      <div>
+        <div id="zyCont" class="mt15"></div>
+        <div class="mt15">
+          <label for="itemType1">
+            <input type="radio" name="itemType" value="1" id="itemType1"/> 单选题
+          </label>
+          <label for="itemType2">
+            <input type="radio" name="itemType" value="2" id="itemType2"/> 多选题
+          </label>
+          <label for="itemType3">
+            <input type="radio" name="itemType" value="4" id="itemType3"/> 判断题
+          </label>
+        </div>
+        <div class="mt15">
+          <label for="itemNum1">
+            <input type="radio" name="itemNum" value="30" id="itemNum1"/> 30题
+          </label>
+          <label for="itemNum2">
+            <input type="radio" name="itemNum" value="60" id="itemNum2"/> 60题
+          </label>
+          <label for="itemNum3">
+            <input type="radio" name="itemNum" value="100" id="itemNum3"/> 100题
+          </label>
+          <label for="itemNum4">
+            <input type="radio" name="itemNum" value="150" id="itemNum4"/> 150题
+          </label>
+          <label for="itemNum5">
+            <input type="radio" name="itemNum" value="99999" id="itemNum5"/> 所有试题
+          </label>
+        </div>
+        <div class="mt15">
+          <label for="lxTime1">
+            <input type="radio" name="lxTime" value="20" id="lxTime1"/> 20分钟
+          </label>
+          <label for="lxTime2">
+            <input type="radio" name="lxTime" value="40" id="lxTime2"/> 40分钟
+          </label>
+          <label for="lxTime3">
+            <input type="radio" name="lxTime" value="60" id="lxTime3"/> 60分钟
+          </label>
+          <label for="lxTime4">
+            <input type="radio" name="lxTime" value="999999" id="lxTime4"/> 不限时
+          </label>
+        </div>
+        <div class="mt15">
+          <input type="button" value="确定" class="btn btn-blue getLianXiTi"/>
+        </div>
+      </div>
+      <div id="lxScoreCont">
+      </div>
+      <div id="lianXiCont"></div>
+      <div id="paging" class="paging">
+      </div>
+    </div>
+    <!--<script type="text/javascript" src="/scripts/ie6/ie6.js"></script>-->
+    <script type="text/javascript">
+      var baseKwUrl = 'http://192.168.1.10:4100/api/'; //考务的url
+      var baseMtUrl = 'http://192.168.1.10:4000/api/'; //命题的url
+      var uId = '1023';
+      var token = '12345';
+      var timer; //计时器
+      var kaoshiTime; //计时器的时间
+      var lianXiData = ''; //查出的练习的数据
+      var tiMuIdData = ''; //查出的练习的题目的ID数组
+      var lastTmPageNum; //分页的最后一页
+      var currentTmPageVal; //目前是那一页
+      var tiMuPage = []; //存放所有分页的数组
+      var tiMuDistPage = []; //存放分页的数组
+      var paginationLength = 11; //显示多少个页码
+      var numPerPage = 200000; //每页20道题
+      var stuHasAnsewer = []; //考生已答题
+      var ziMu =  ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P',
+        'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']; //英文字母序号数组
+      /**
+       * 获得大纲数据
+       */
+      var getDaGangData = function(){
+        var qryMoRenDgUrl = baseMtUrl + 'chaxun_zhishidagang?token=' + token + '&caozuoyuan=' + uId + '&jigouid=1'
+          + '&lingyuid=2' + '&chaxunzilingyu=true' + '&moren=1'; //查询默认知识大纲的url
+        var qryKnowledgeBaseUrl = baseMtUrl + 'chaxun_zhishidagang_zhishidian?token=' + token + '&caozuoyuan=' +
+          uId + '&jigouid=1' + '&lingyuid=2' + '&zhishidagangid='; //查询专业基础url
+        $.get(qryMoRenDgUrl, function(mrDg) {
+          if(mrDg && mrDg.length > 0){
+            //获取大纲专业
+            var qryKnowledge = qryKnowledgeBaseUrl + mrDg[0].ZHISHIDAGANG_ID;
+            $.get(qryKnowledge, function(zsddata){
+              if(zsddata.length){
+                var zyObj = {
+                  zys: zsddata[0].ZIJIEDIAN
+                };
+                var html = template('zyTpl', zyObj);
+                $('#zyCont').html(html);
+              }
+            });
+          }
+        });
+      };
+      getDaGangData();
+      /**
+       * 得到练习分数的函数
+       */
+      var getLianXiScore = function(){
+        var scoreUrl = baseKwUrl + 'chaxun_lianxichengji';
+        $.get(scoreUrl, {token: token, uid: uId}, function(data) {
+          if(data && data.length > 0){
+            Lazy(data).each(function(lxs){
+              var joinDate = moment.utc(lxs.KAISHISHIJIAN).format('YYYY-MM-DD HH:mm');
+              lxs.KAISHISHIJIAN = joinDate;
+            });
+            var lianXiObj = {
+              name: '余尚学',
+              lxScore: data
+            };
+            var html = template('lxScoreTpl', lianXiObj);
+            $('#lxScoreCont').html(html);
+          }
+        });
+      };
+      /**
+       * timer计时器
+       */
+      var countDown = function(){
+        if(kaoshiTime >= 0){
+          var minutes = Math.floor(kaoshiTime / 60);
+          var seconds = Math.floor(kaoshiTime % 60);
+          var msg = "距离练习结束还有 "+ minutes + " 分 " + seconds + " 秒";
+          $('#timer').html(msg);
+          -- kaoshiTime;
+        }
+        else{
+          clearInterval(timer);
+        }
+      };
+      /**
+       * 查询题目详情
+       */
+      var getTiMuDetail = function(pg){
+        var startPage = (pg-1) * numPerPage;
+        var endPage = pg * numPerPage;
+        var lastPageNum = lastTmPageNum;
+        currentTmPageVal = pg;
+        //得到分页数组的代码
+        var currentPageNum = pg ? pg : 1;
+        if(lastPageNum <= paginationLength){
+          tiMuDistPage = tiMuPage;
+        }
+        if(lastPageNum > paginationLength){
+          if(currentPageNum > 0 && currentPageNum <= 6 ){
+            tiMuDistPage = tiMuPage.slice(0, paginationLength);
+          }
+          else if(currentPageNum > lastPageNum - 5 && currentPageNum <= lastPageNum){
+            tiMuDistPage = tiMuPage.slice(lastPageNum - paginationLength);
+          }
+          else{
+            tiMuDistPage = tiMuPage.slice(currentPageNum - 5, currentPageNum + 5);
+          }
+        }
+        var distTiMuId = tiMuIdData.slice(startPage, endPage);
+        var distTiMuIdArr = Lazy(distTiMuId).map(function(tm){
+          return tm.TIMU_ID;
+        }).toArray();
+        var qrytimuxiangqing = baseMtUrl + 'chaxun_timuxiangqing?token=' + token + '&caozuoyuan=' + uId +
+          '&jigouid=1' + '&lingyuid=2' + '&timu_id=' + distTiMuIdArr;
+        $.get(qrytimuxiangqing, function(data) {
+          if(data && data.length > 0){
+//            var tiMuDetail = [];
+            var distByTxid = Lazy(data).groupBy('TIXING_ID');
+//            var stuHasAnsewer = JSON.parse(localStorage.getItem('stuDaArr'));
+            var tmObj = {daTi: '', tiMu: '', letterArr: ziMu};
+            Lazy(distByTxid).each(function(v, k, l){
+              if(k == 1){
+                tmObj.daTi = '单选题';
+              }
+              if(k == 2){
+                tmObj.daTi = '多选题';
+              }
+              if(k == 4){
+                tmObj.daTi = '判断题';
+              }
+              var hasInArr = Lazy(stuHasAnsewer).map(function(hItem){return hItem.TIMU_ID;}).toArray();
+              var newInArr = Lazy(v).map(function(nItem){return nItem.TIMU_ID;}).toArray();
+              var sameArr = Lazy(hasInArr).intersection(newInArr);
+              Lazy(sameArr).each(function(inTm){
+                var hIndex = Lazy(hasInArr).indexOf(inTm);
+                var nIndex = Lazy(newInArr).indexOf(inTm);
+                v[nIndex].ksKsDa = stuHasAnsewer[hIndex].stuDa;
+              });
+              Lazy(v).each(function(tm){
+                var hIndex = Lazy(distTiMuIdArr).indexOf(tm.TIMU_ID);
+                var nIndex = Lazy(newInArr).indexOf(tm.TIMU_ID);
+                v[nIndex].TIMU_XUHAO = distTiMuId[hIndex].TIMU_XUHAO + 1;
+              });
+              tmObj.tiMu = v;
+//              tiMuDetail.push(tmObj);
+            });
+//            var lxtObj = {
+//              lxItems: tiMuDetail
+//            };
+//            console.log(tmObj);
+            var html = template('danXuanTpl', tmObj);
+            $('#lianXiCont').html(html);
+          }
+          else{
+            alert(data.error);
+          }
+        });
+      };
+      /**
+       * 改变每页题目数量
+       */
+      var changeNumPerPage = function(num){
+        var lastPageNum;
+        var tiMuLen;
+        tiMuPage = [];
+        lastTmPageNum = '';
+        if(tiMuIdData && tiMuIdData.length){
+          tiMuLen = tiMuIdData.length;
+          lastPageNum = Math.ceil(tiMuLen/numPerPage);
+          if(lastPageNum){
+            lastTmPageNum = lastPageNum;
+            for(var i = 1; i <= lastPageNum; i++){
+              tiMuPage.push(i);
+            }
+            getTiMuDetail(1);
+          }
+        }
+      };
+      /**
+       * 得到联系题
+       */
+      var getLianXiTi = function(){
+        var lianxiKaiShiUrl = baseKwUrl + 'lianxi_kaishi'; //联系开始的抽题的url
+        var lxShiChang = $('input[name="lxTime"]:checked').val();
+        var shujuObj = {
+          token: token,
+          shuju: {
+            UID: uId,
+            JIGOU_ID: 1,
+            LINGYU_ID: 2,
+            TIXING_ID: $('input[name="itemType"]:checked').val(),
+            COUNT: $('input[name="itemNum"]:checked').val(),
+            ZHISHIDIAN: $('#zyList').val(),
+            shichang: lxShiChang
+          }
+        };
+        var errArr = [];
+        Lazy(shujuObj.shuju).each(function(v, k, l){
+          if(!v){
+            switch (k){
+              case 'UID':
+                errArr.push('UID');
+                break;
+              case 'JIGOU_ID':
+                errArr.push('机构ID');
+                break;
+              case 'LINGYU_ID':
+                errArr.push('领域ID');
+                break;
+              case 'COUNT':
+                errArr.push('题目数量');
+                break;
+              case 'TIXING_ID':
+                errArr.push('题目类型');
+                break;
+              case 'ZHISHIDIAN':
+                errArr.push('专业');
+                break;
+              case 'shichang':
+                errArr.push('练习时长');
+                break;
+            }
+          }
+        });
+        if(errArr.length > 0){
+          var errInfo = '"' + errArr.join() + '"' + '不能为空！';
+          alert(errInfo);
+        }
+        else{
+          $.get(lianxiKaiShiUrl, shujuObj, function(data) {
+            if(data.result){
+              lianXiData = data;
+              tiMuIdData = data.TIMU;
+              Lazy(data.TIMU).each(function(tm, idx, lst){
+                tm.TIMU_XUHAO = idx;
+              });
+//              console.log(tiMuIdData);
+              changeNumPerPage(numPerPage);
+              if(lxShiChang != 999999){
+                kaoshiTime = parseInt(lxShiChang) * 60;
+                timer = setInterval(countDown, 1000);
+              }
+            }
+            else{
+              lianXiData = '';
+              tiMuIdData = '';
+            }
+          });
+        }
+      };
+
+      /**
+       * 得到练习分数
+       */
+      $('.getLianXiTi').click(function(){
+        getLianXiTi();
+      });
+    </script>
+  </body>
+</html>

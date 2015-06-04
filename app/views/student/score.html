@@ -1,12 +1,20 @@
 <div class="row">
-  <div class="col-md-6">
+  <div class="col-md-12">
     <h4 class="bdb p10">考试成绩</h4>
-    <ul class="list-unstyled plr10">
-      <li class="ptb5 bdbd" ng-repeat="ks in kssDistData">
-        <span ng-bind="ks.KAOSHI_MINGCHENG"></span>
-        <span class="pull-right" ng-bind="ks.ZUIHOU_PINGFEN.toFixed(0) + '分'"></span>
-      </li>
-    </ul>
+    <table class="table table-bordered">
+      <tr>
+        <th>考试名称</th>
+        <th>姓名</th>
+        <th>日期</th>
+        <th>成绩</th>
+      </tr>
+      <tr ng-repeat="ks in kssDistData">
+        <td ng-bind="ks.KAOSHI_MINGCHENG"></td>
+        <td ng-bind="session.userInfo.XINGMING"></td>
+        <td ng-bind="ks.KAISHISHIJIAN | myLocalDate | date: 'yyyy-MM-dd HH:mm:ss'"></td>
+        <td ng-bind="ks.ZUIHOU_PINGFEN.toFixed(0) + '分'"></td>
+      </tr>
+    </table>
     <div class="paging text-right" ng-if="kssPages.length>0">
       <ul class="pagination pagination-sm">
         <li ng-class="{disabled: currentKssPageVal == 1}">
@@ -29,40 +37,6 @@
         </li>
         <li ng-class="{disabled: currentKssPageVal == lastKssPageNum}">
           <a href ng-click="kssPgDist(lastKssPageNum)">尾页</a>
-        </li>
-      </ul>
-    </div>
-  </div>
-  <div class="col-md-6">
-    <h4 class="bdb p10">练习成绩</h4>
-    <ul class="list-unstyled plr10" ng-repeat="lx in lxDistData">
-      <li class="ptb5 bdbd">
-        <span ng-bind="lx.name">测试考试组</span>
-        <span class="pull-right">答对：{{lx.DDTS}}  |  答错：{{lx.DCTS}}</span>
-      </li>
-    </ul>
-    <div class="paging text-right" ng-if="lxPages.length>0">
-      <ul class="pagination pagination-sm">
-        <li ng-class="{disabled: currentLxPageVal == 1}">
-          <a href ng-click="lxPgDist(1)">首页</a>
-        </li>
-        <li ng-class="{disabled: currentLxPageVal == 1}">
-          <a href
-             ng-click="lxPgDist(prevPg = currentLxPageVal > 1 ? currentLxPageVal - 1 : 1)">
-            上一页
-          </a>
-        </li>
-        <li ng-repeat="pg in lxPages" ng-class="{active: currentLxPageVal == pg}">
-          <a href ng-click="lxPgDist(pg)">{{pg}}</a>
-        </li>
-        <li ng-class="{disabled: currentLxPageVal == lastLxPageNum}">
-          <a href
-             ng-click="lxPgDist(nextPg = currentLxPageVal < lastLxPageNum ? currentLxPageVal + 1 : lastLxPageNum)">
-            下一页
-          </a>
-        </li>
-        <li ng-class="{disabled: currentLxPageVal == lastLxPageNum}">
-          <a href ng-click="lxPgDist(lastLxPageNum)">尾页</a>
         </li>
       </ul>
     </div>

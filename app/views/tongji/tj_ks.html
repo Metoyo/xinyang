@@ -18,7 +18,6 @@
     <tr>
       <th>考试名称</th>
       <th>试卷名称</th>
-      <th width="120px" class="text-center">考试人数</th>
       <th width="120px" class="text-center">考试时间</th>
     </tr>
     <tr ng-repeat="ks in tjKaoShiList" ng-click="tjShowKaoShiChart(ks)">
@@ -28,7 +27,6 @@
       <td>
         <span ng-repeat="kssj in ks.SHIJUAN" ng-bind="kssj.SHIJUAN_MINGCHENG"></span>
       </td>
-      <td class="text-center" ng-bind="ks.KSRS"></td>
       <td class="text-center" ng-bind="ks.KAISHISHIJIAN | myLocalDate | date : 'yyyy-MM-dd'"></td>
     </tr>
   </table>
