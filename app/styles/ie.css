@@ -26,6 +26,9 @@ body{
 .fz24{
   font-size: 24px;
 }
+.cBlue{
+  color: #357ebd;
+}
 .btn{
   padding: 3px 10px;
   font-size: 18px;
@@ -34,6 +37,10 @@ body{
 .btn-blue{
   background-color: #428bca;
   border-color: #357ebd;
+}
+.btn-red{
+  background-color: #d9534f;
+  border-color: #d43f3a;
 }
 .tableBd{
   width: 100%;
@@ -68,4 +75,10 @@ h1, h2, h3, h4, h5, h6, p{
 .ar-tz .positionAb{
   top: 50%;
   margin-top: -11px;
+}
+.tiShiBox{
+  cursor: pointer;
+}
+#endLianXiBtn, #xuanTiConditon{
+  display: none;
 }

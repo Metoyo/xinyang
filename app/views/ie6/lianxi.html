@@ -43,12 +43,15 @@
       <ul>
         {{each tiMu as tigan i}}
           <li>
-            <h4 class="ar-tiGan">{{tigan.TIMU_XUHAO}}、{{tigan.TIGAN.tiGan}}</h4>
-              <div>
+            <h4 class="ar-tiGan">
+              <span>{{tigan.TIMU_XUHAO}}、{{tigan.TIGAN.tiGan}}</span>
+              <span id="{{'tiShi' + tigan.TIMU_ID}}" class="tiShiBox cBlue" onclick="showDaAn('{{tigan.DAAN}}', '{{tigan.TIXING_ID}}', '{{tigan.TIMU_ID}}')">提示</span>
+            </h4>
+              <div id="{{}}">
                 {{if daTi=='单选题'}}
                   {{each tigan.TIGAN.tiZhiNeiRong as tznr j}}
                     <div class="ar-tz">
-                      <input type="radio" name="{{'radio' + tigan.TIMU_ID}}" value="{{j}}" id="{{'radio' + tigan.TIMU_ID + '_' + j}}"/>
+                      <input type="radio" name="{{'radio' + tigan.TIMU_ID}}" value="{{j}}" id="{{'radio' + tigan.TIMU_ID + '_' + j}}" onclick="lianXiDaTi('{{tigan.TIMU_ID}}', '{{j}}', '{{tigan.TIXING_ID}}')"/>
                       <label for="{{'radio' + tigan.TIMU_ID + '_' + j}}"> ({{letterArr[j]}}) {{tznr}} </label>
                     </div>
                   {{/each}}
@@ -56,18 +59,20 @@
                 {{if daTi=='多选题'}}
                   {{each tigan.TIGAN.tiZhiNeiRong as tznr j}}
                     <div class="ar-tz">
-                      <input type="checkbox" name="{{'checkbox' + tigan.TIMU_ID}}" value="{{j}}" id="{{'checkbox' + tigan.TIMU_ID + '_' + j}}"/>
+                      <input type="checkbox" name="{{'checkbox' + tigan.TIMU_ID}}" value="{{j}}" id="{{'checkbox' + tigan.TIMU_ID + '_' + j}}"
+                             class="{{'checkbox' + tigan.TIMU_ID}}"
+                             onclick="lianXiDaTi('{{tigan.TIMU_ID}}', '{{j}}', '{{tigan.TIXING_ID}}')"/>
                       <label for="{{'checkbox' + tigan.TIMU_ID + '_' + j}}"> ({{letterArr[j]}}) {{tznr}} </label>
                     </div>
                   {{/each}}
                 {{/if}}
                 {{if daTi=='判断题'}}
                   <div class="ar-tz">
-                    <input type="radio" name="{{'pdRadio' + tigan.TIMU_ID}}" value="1" id="{{'pdRadio' + tigan.TIMU_ID + '_' + 1}}"/>
+                    <input type="radio" name="{{'pdRadio' + tigan.TIMU_ID}}" value="1" id="{{'pdRadio' + tigan.TIMU_ID + '_' + 1}}" onclick="lianXiDaTi('{{tigan.TIMU_ID}}', 1, '{{tigan.TIXING_ID}}')"/>
                     <label for="{{'pdRadio' + tigan.TIMU_ID + '_' + 1}}"> 对 </label>
                   </div>
-                  <div class="ar-tz">
-                    <input type="radio" name="{{'pdRadio' + tigan.TIMU_ID}}" value="1" id="{{'pdRadio' + tigan.TIMU_ID + '_' + 0}}"/>
+                  <div class="ar-tz" onclick="lianXiDaTi('{{tigan.TIMU_ID}}', 0)">
+                    <input type="radio" name="{{'pdRadio' + tigan.TIMU_ID}}" value="1" id="{{'pdRadio' + tigan.TIMU_ID + '_' + 0}}" onclick="lianXiDaTi('{{tigan.TIMU_ID}}', 0, '{{tigan.TIXING_ID}}')"/>
                     <label for="{{'pdRadio' + tigan.TIMU_ID + '_' + 0}}"> 错 </label>
                   </div>
                 {{/if}}
@@ -76,10 +81,6 @@
         {{/each}}
       </ul>
     </script>
-    <!--多选题模板-->
-
-    <!--判断题模板-->
-
     <!--题目分页模板-->
     <script id="pagingTpl" type="text/html">
       <ul class="pagination pagination-sm">
@@ -105,10 +106,11 @@
     <div class="container">
       <div>
         <span class="">余尚学</span>
-        <span class="">修改密码</span>
+        <!--<span class="">修改密码</span>-->
         <span id="timer"></span>
+        <input type="button" value="结束练习" id="endLianXiBtn" class="btn btn-red" onclick="endLianXi()"/>
       </div>
-      <div>
+      <div id="xuanTiConditon">
         <div id="zyCont" class="mt15"></div>
         <div class="mt15">
           <label for="itemType1">
@@ -156,11 +158,9 @@
           <input type="button" value="确定" class="btn btn-blue getLianXiTi"/>
         </div>
       </div>
-      <div id="lxScoreCont">
-      </div>
-      <div id="lianXiCont"></div>
-      <div id="paging" class="paging">
-      </div>
+      <div id="lxScoreCont" class="mt15"></div>
+      <div id="lianXiCont" class="mt15"></div>
+      <div id="paging" class="paging mt15"></div>
     </div>
     <!--<script type="text/javascript" src="/scripts/ie6/ie6.js"></script>-->
     <script type="text/javascript">
@@ -178,9 +178,11 @@
       var tiMuDistPage = []; //存放分页的数组
       var paginationLength = 11; //显示多少个页码
       var numPerPage = 200000; //每页20道题
-      var stuHasAnsewer = []; //考生已答题
+//      var stuHasAnsewer = []; //考生已答题
       var ziMu =  ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P',
         'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']; //英文字母序号数组
+      var daTiData = []; //存放已答题目数组
+      $('#xuanTiConditon').show();
       /**
        * 获得大纲数据
        */
@@ -226,6 +228,7 @@
           }
         });
       };
+      getLianXiScore();
       /**
        * timer计时器
        */
@@ -273,9 +276,7 @@
           '&jigouid=1' + '&lingyuid=2' + '&timu_id=' + distTiMuIdArr;
         $.get(qrytimuxiangqing, function(data) {
           if(data && data.length > 0){
-//            var tiMuDetail = [];
             var distByTxid = Lazy(data).groupBy('TIXING_ID');
-//            var stuHasAnsewer = JSON.parse(localStorage.getItem('stuDaArr'));
             var tmObj = {daTi: '', tiMu: '', letterArr: ziMu};
             Lazy(distByTxid).each(function(v, k, l){
               if(k == 1){
@@ -287,13 +288,13 @@
               if(k == 4){
                 tmObj.daTi = '判断题';
               }
-              var hasInArr = Lazy(stuHasAnsewer).map(function(hItem){return hItem.TIMU_ID;}).toArray();
+              var hasInArr = Lazy(daTiData).map(function(hItem){return hItem.TIMU_ID;}).toArray();
               var newInArr = Lazy(v).map(function(nItem){return nItem.TIMU_ID;}).toArray();
               var sameArr = Lazy(hasInArr).intersection(newInArr);
               Lazy(sameArr).each(function(inTm){
                 var hIndex = Lazy(hasInArr).indexOf(inTm);
                 var nIndex = Lazy(newInArr).indexOf(inTm);
-                v[nIndex].ksKsDa = stuHasAnsewer[hIndex].stuDa;
+                v[nIndex].ksKsDa = daTiData[hIndex].stuDa;
               });
               Lazy(v).each(function(tm){
                 var hIndex = Lazy(distTiMuIdArr).indexOf(tm.TIMU_ID);
@@ -301,14 +302,11 @@
                 v[nIndex].TIMU_XUHAO = distTiMuId[hIndex].TIMU_XUHAO + 1;
               });
               tmObj.tiMu = v;
-//              tiMuDetail.push(tmObj);
             });
-//            var lxtObj = {
-//              lxItems: tiMuDetail
-//            };
-//            console.log(tmObj);
             var html = template('danXuanTpl', tmObj);
             $('#lianXiCont').html(html);
+            $('#endLianXiBtn').show();
+            $('#xuanTiConditon').hide();
           }
           else{
             alert(data.error);
@@ -393,7 +391,8 @@
               Lazy(data.TIMU).each(function(tm, idx, lst){
                 tm.TIMU_XUHAO = idx;
               });
-//              console.log(tiMuIdData);
+              var html = template('lxScoreTpl', '');
+              $('#lxScoreCont').html(html);
               changeNumPerPage(numPerPage);
               if(lxShiChang != 999999){
                 kaoshiTime = parseInt(lxShiChang) * 60;
@@ -407,7 +406,155 @@
           });
         }
       };
-
+      /**
+       * 练习答题 Returns: JSON, {result: true, defen: 1} daTiData
+       */
+      function lianXiDaTi(xtm, idxDa, txId){
+        var lianXiDaTiUrl = baseKwUrl + 'lianxi_dati'; // 练习答题
+        var dtObj = {
+          token: token,
+          shuju: {
+            timuid: xtm,
+            ksda: ''
+          }
+        };
+        if(txId == 1){
+          dtObj.shuju.ksda = idxDa;
+        }
+        if(txId == 2){
+          var tarItem = '.checkbox' + xtm;
+          var cbArr = $(tarItem);
+          var len = cbArr.length;
+          var daArr = [];
+          for(var i=0; i<len; i++){
+            if($(tarItem).eq(i).attr('checked')){
+              daArr.push($(tarItem).eq(i).val());
+            }
+          }
+          dtObj.shuju.ksda = daArr.join(',');
+        }
+        if(txId == 4){
+          dtObj.shuju.ksda = idxDa;
+        }
+        if(dtObj.shuju.ksda >= 0 || dtObj.shuju.ksda){
+          $.post(lianXiDaTiUrl, dtObj, function(data){
+            if(!data.error){
+              //存已答题的数据，存放到本地存储
+              var hasIn = true; //不在已答数组里面
+              Lazy(daTiData).each(function(kstm, idx, lst){
+                if(kstm.TIMU_ID == xtm){
+                  kstm.stuDa = dtObj.shuju.ksda;
+                  if(data.result){
+                    kstm.score = 'right';
+                  }
+                  else{
+                    kstm.score = 'wrong';
+                  }
+                  hasIn = false;
+                }
+              });
+              if(hasIn){
+                var daTiObj = {
+                  TIMU_ID: xtm,
+                  stuDa: dtObj.shuju.ksda,
+                  score: data.result
+                };
+                if(data.result){
+                  daTiObj.score = 'right';
+                }
+                else{
+                  daTiObj.score = 'wrong';
+                }
+                daTiData.push(daTiObj);
+              }
+              if (window.localStorage){
+                localStorage.setItem('stuDaArr', JSON.stringify(daTiData));
+              }
+            }
+            else{
+              alert(data.error);
+            }
+          });
+        }
+      }
+      /**
+       * 结束联系
+       */
+      function endLianXi(){
+        var lianJeShuTiUrl = baseKwUrl + 'lianxi_jiaojuan'; // 练习交卷
+        var endObj = {
+          token: token,
+          shuju: {
+            LIANXI_ID: lianXiData.LIANXI_ID,
+            DDTS: '', //答对题数
+            DCTS: '', //答错题数
+            DEFEN: ''// 得分(可能不需要)
+          }
+        };
+        var disArr = Lazy(daTiData).groupBy(function(lx){
+          return lx.score;
+        }).toObject();
+        if(disArr.right && disArr.right.length){
+          endObj.shuju.DDTS = disArr.right.length;
+        }
+        else{
+          endObj.shuju.DDTS = 0;
+        }
+        if(disArr.wrong && disArr.wrong.length){
+          endObj.shuju.DCTS = disArr.wrong.length;
+        }
+        else{
+          endObj.shuju.DCTS = 0;
+        }
+        $.post(lianJeShuTiUrl, endObj, function(data){
+          if(data.result){
+            lianXiData = '';
+            tiMuIdData = '';
+            daTiData = [];
+            getLianXiScore();
+            $('input[name="lxTime"]').attr('checked', false);
+            $('input[name="itemType"]').attr('checked', false);
+            $('input[name="itemNum"]').attr('checked', false);
+            var html = template('danXuanTpl', '');
+            $('#lianXiCont').html(html);
+            $('#timer').html('');
+            $('#endLianXiBtn').hide();
+            $('#xuanTiConditon').show();
+            clearInterval(timer);
+          }
+          else{
+            alert(data.error);
+          }
+        });
+      }
+      /**
+       * 显示提示答案
+       */
+      function showDaAn(da, tx, tsId){
+        var rightAs = '';
+        var tarId = '#tiShi' + tsId;
+        if(tx == 1){
+          rightAs = ziMu[da];
+        }
+        if(tx == 2){
+          var asArr = da.split(',');
+          var newAsArr = [];
+          Lazy(asArr).each(function(as){
+            newAsArr.push(ziMu[as]);
+          });
+          rightAs = newAsArr.join();
+        }
+        if(tx == 4){
+          if(da == 0){
+            rightAs = '错';
+          }
+          if(da == 1){
+            rightAs = '对';
+          }
+        }
+        rightAs = '正确答案：' + rightAs;
+        $(tarId).html(rightAs);
+      }
       /**
        * 得到练习分数
        */
