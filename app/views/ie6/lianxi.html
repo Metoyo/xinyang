@@ -21,8 +21,8 @@
         {{each lxScore}}
           <tr>
             <td>{{$value.KAISHISHIJIAN}}</td>
-            <td>余尚学</td>
-            <td>20</td>
+            <td>{{name}}</td>
+            <td>{{$value.shichang}}</td>
             <td>{{$value.DDTS}}</td>
           </tr>
         {{/each}}
@@ -101,72 +101,91 @@
         </li>
       </ul>
     </script>
+    <!--登陆人员的姓名-->
+    <script id="loggedUserTpl" type="text/html">
+      {{xingming}}
+    </script>
   </head>
   <body>
     <div class="container">
-      <div>
-        <span class="">余尚学</span>
-        <!--<span class="">修改密码</span>-->
-        <span id="timer"></span>
-        <input type="button" value="结束练习" id="endLianXiBtn" class="btn btn-red" onclick="endLianXi()"/>
+      <div id="loginBox">
+        <p>
+          <lable for="zhengJianHao">身份证:</lable>
+          <input type="text" name="zhengJianHao" id="zhengJianHao" class="loginInput"/>
+        </p>
+        <p>
+          <lable for="miMa">密&nbsp;&nbsp;&nbsp;码:</lable>
+          <input type="password" name="miMa" id="miMa" class="loginInput"/>
+        </p>
+        <p><input type="button" class="btn btn-blue" value="登陆" onclick="login()"/></p>
       </div>
-      <div id="xuanTiConditon">
-        <div id="zyCont" class="mt15"></div>
-        <div class="mt15">
-          <label for="itemType1">
-            <input type="radio" name="itemType" value="1" id="itemType1"/> 单选题
-          </label>
-          <label for="itemType2">
-            <input type="radio" name="itemType" value="2" id="itemType2"/> 多选题
-          </label>
-          <label for="itemType3">
-            <input type="radio" name="itemType" value="4" id="itemType3"/> 判断题
-          </label>
+      <div id="contBox">
+        <div class="titleCont">
+          <span id="loggedUserCont"></span>
+          <!--<span class="">修改密码</span>-->
+          <span id="timer"></span>
+          <input type="button" value="结束练习" id="endLianXiBtn" class="btn btn-red" onclick="endLianXi()"/>
         </div>
-        <div class="mt15">
-          <label for="itemNum1">
-            <input type="radio" name="itemNum" value="30" id="itemNum1"/> 30题
-          </label>
-          <label for="itemNum2">
-            <input type="radio" name="itemNum" value="60" id="itemNum2"/> 60题
-          </label>
-          <label for="itemNum3">
-            <input type="radio" name="itemNum" value="100" id="itemNum3"/> 100题
-          </label>
-          <label for="itemNum4">
-            <input type="radio" name="itemNum" value="150" id="itemNum4"/> 150题
-          </label>
-          <label for="itemNum5">
-            <input type="radio" name="itemNum" value="99999" id="itemNum5"/> 所有试题
-          </label>
+        <div id="xuanTiConditon">
+          <div id="zyCont" class="mt15"></div>
+          <div class="mt15">
+            <label for="itemType1">
+              <input type="radio" name="itemType" value="1" id="itemType1"/> 单选题
+            </label>
+            <label for="itemType2">
+              <input type="radio" name="itemType" value="2" id="itemType2"/> 多选题
+            </label>
+            <label for="itemType3">
+              <input type="radio" name="itemType" value="4" id="itemType3"/> 判断题
+            </label>
+          </div>
+          <div class="mt15">
+            <label for="itemNum1">
+              <input type="radio" name="itemNum" value="30" id="itemNum1"/> 30题
+            </label>
+            <label for="itemNum2">
+              <input type="radio" name="itemNum" value="60" id="itemNum2"/> 60题
+            </label>
+            <label for="itemNum3">
+              <input type="radio" name="itemNum" value="100" id="itemNum3"/> 100题
+            </label>
+            <label for="itemNum4">
+              <input type="radio" name="itemNum" value="150" id="itemNum4"/> 150题
+            </label>
+            <label for="itemNum5">
+              <input type="radio" name="itemNum" value="99999" id="itemNum5"/> 所有试题
+            </label>
+          </div>
+          <div class="mt15">
+            <label for="lxTime1">
+              <input type="radio" name="lxTime" value="20" id="lxTime1"/> 20分钟
+            </label>
+            <label for="lxTime2">
+              <input type="radio" name="lxTime" value="40" id="lxTime2"/> 40分钟
+            </label>
+            <label for="lxTime3">
+              <input type="radio" name="lxTime" value="60" id="lxTime3"/> 60分钟
+            </label>
+            <label for="lxTime4">
+              <input type="radio" name="lxTime" value="999999" id="lxTime4"/> 不限时
+            </label>
+          </div>
+          <div class="mt15">
+            <input type="button" value="确定" class="btn btn-blue getLianXiTi"/>
+          </div>
         </div>
-        <div class="mt15">
-          <label for="lxTime1">
-            <input type="radio" name="lxTime" value="20" id="lxTime1"/> 20分钟
-          </label>
-          <label for="lxTime2">
-            <input type="radio" name="lxTime" value="40" id="lxTime2"/> 40分钟
-          </label>
-          <label for="lxTime3">
-            <input type="radio" name="lxTime" value="60" id="lxTime3"/> 60分钟
-          </label>
-          <label for="lxTime4">
-            <input type="radio" name="lxTime" value="999999" id="lxTime4"/> 不限时
-          </label>
-        </div>
-        <div class="mt15">
-          <input type="button" value="确定" class="btn btn-blue getLianXiTi"/>
-        </div>
+        <div id="lxScoreCont" class="mt15"></div>
+        <div id="lianXiCont" class="mt15"></div>
+        <div id="paging" class="paging mt15"></div>
       </div>
-      <div id="lxScoreCont" class="mt15"></div>
-      <div id="lianXiCont" class="mt15"></div>
-      <div id="paging" class="paging mt15"></div>
     </div>
     <!--<script type="text/javascript" src="/scripts/ie6/ie6.js"></script>-->
     <script type="text/javascript">
       var baseKwUrl = 'http://192.168.1.10:4100/api/'; //考务的url
       var baseMtUrl = 'http://192.168.1.10:4000/api/'; //命题的url
-      var uId = '1023';
+      var baseRzUrl = 'http://192.168.1.10:3000/api/'; //认证的url
+      var uId = '';
+      var xingMing = '';
       var token = '12345';
       var timer; //计时器
       var kaoshiTime; //计时器的时间
@@ -178,11 +197,43 @@
       var tiMuDistPage = []; //存放分页的数组
       var paginationLength = 11; //显示多少个页码
       var numPerPage = 200000; //每页20道题
-//      var stuHasAnsewer = []; //考生已答题
       var ziMu =  ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P',
         'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']; //英文字母序号数组
       var daTiData = []; //存放已答题目数组
       $('#xuanTiConditon').show();
+      /**
+       * 登陆
+       */
+      function login(){
+        var userName = $('input[name="zhengJianHao"]').val();
+        var password = $('input[name="miMa"]').val();
+        var loginApiUrl =  baseRzUrl + 'denglu';
+        if(userName && password) {
+          var loginPostParams = {
+            token : token,
+            yonghuming : userName,
+            mima : password
+          };
+          $.post(loginApiUrl, loginPostParams, function(data){
+            if(data && data.length > 0){
+              uId = data[0].UID;
+              xingMing = data[0].XINGMING;
+              var urObj = {
+                xingming: xingMing
+              };
+              var html = template('loggedUserTpl', urObj);
+              $('#loggedUserCont').html(html);
+              $('#loginBox').hide();
+              $('#contBox').show();
+              getDaGangData();
+              getLianXiScore();
+            }
+            else{
+              alert(data.error);
+            }
+          })
+        }
+      }
       /**
        * 获得大纲数据
        */
@@ -207,7 +258,6 @@
           }
         });
       };
-      getDaGangData();
       /**
        * 得到练习分数的函数
        */
@@ -215,20 +265,23 @@
         var scoreUrl = baseKwUrl + 'chaxun_lianxichengji';
         $.get(scoreUrl, {token: token, uid: uId}, function(data) {
           if(data && data.length > 0){
+            console.log(data);
             Lazy(data).each(function(lxs){
               var joinDate = moment.utc(lxs.KAISHISHIJIAN).format('YYYY-MM-DD HH:mm');
               lxs.KAISHISHIJIAN = joinDate;
+              var sjc = (moment.utc(lxs.JIESHUSHIJIAN).valueOf() - moment.utc(lxs.KAISHISHIJIAN).valueOf())/ 1000 / 60;
+              lxs.shichang = sjc.toFixed(0);
             });
+            var fData = Lazy(data).reverse().toArray();
             var lianXiObj = {
-              name: '余尚学',
-              lxScore: data
+              name: xingMing,
+              lxScore: fData
             };
             var html = template('lxScoreTpl', lianXiObj);
             $('#lxScoreCont').html(html);
           }
         });
       };
-      getLianXiScore();
       /**
        * timer计时器
        */
@@ -511,7 +564,6 @@
             lianXiData = '';
             tiMuIdData = '';
             daTiData = [];
-            getLianXiScore();
             $('input[name="lxTime"]').attr('checked', false);
             $('input[name="itemType"]').attr('checked', false);
             $('input[name="itemNum"]').attr('checked', false);
@@ -521,6 +573,7 @@
             $('#endLianXiBtn').hide();
             $('#xuanTiConditon').show();
             clearInterval(timer);
+            getLianXiScore();
           }
           else{
             alert(data.error);

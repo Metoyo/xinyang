@@ -23,11 +23,13 @@ define(['angular',
     'filters/mylocaldatewithweek',
     'filters/outtigan',
     'services/dataservice',
-    'services/urlredirect', 'controllers/guanli']/*deps*/,
+    'services/urlredirect', 'controllers/guanli',
+    'jquery', 'underscore']/*deps*/,
   function (angular, config, DagangCtrl, KaowuCtrl, LingyuCtrl, MingtiCtrl, NavCtrl, RegisterCtrl, RenzhengCtrl, StudentCtrl,
             TongjiCtrl, UserCtrl, ZujuanCtrl, BnSlideShowDirective, FileUploadDirective, HoverSlideDirective,
             NanDuStarDirective, PasswordVerifyDirective, RepeatDoneDirective, ExamStatusFilter,
-            MyLocalDateFilter, MyLocalDateWithWeekFilter, OutTiGanFilter, DataServiceService, UrlRedirectService, GuanLiCtrl)/*invoke*/ {
+            MyLocalDateFilter, MyLocalDateWithWeekFilter, OutTiGanFilter, DataServiceService, UrlRedirectService, GuanLiCtrl,
+            $, _)/*invoke*/ {
   'use strict';
 
   /**

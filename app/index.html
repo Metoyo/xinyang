@@ -1,5 +1,5 @@
 <!doctype html>
-<html class="no-js" ng-app>
+<html class="no-js" ng-app="xinyangApp">
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -13,10 +13,10 @@
     <!-- endbower -->
     <!-- endbuild -->
     <!-- build:css(.tmp) styles/main.css -->
-    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="../styles/main.css">
     <!-- endbuild -->
   </head>
-  <body ng-app="xinyangApp">
+  <body>
     <!-- Add your site or application content here -->
     <div class="dashboard" ng-class="{dashboard_shown_show: !isRenZheng}" ng-include="'views/partials/nav.html'"></div>
     <!-- Add your site or application content here -->
@@ -27,10 +27,29 @@
     <!--[if lt IE 9]>
     <script src="/bower_components/es5-shim/es5-shim.min.js"></script>
     <script src="/bower_components/es5-shim/html5shiv.js"></script>
-    <script src="/bower_components/json3/lib/json3.min.js"></script>
     <![endif]-->
     <!-- endbuild -->
-
     <script src="/bower_components/requirejs/require.js" data-main="scripts/main.js"></script>
   </body>
 </html>
+<!--[if lt IE 9]>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+  "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>国家电网河南信阳电力公司</title>
+    <style>
+      .lianXiEnter{
+        float: left;
+        margin: 200px 0 0 45%;
+        font-size: 30px;
+        font-weight: bold;
+      }
+    </style>
+  </head>
+  <body>
+    <a href="/views/ie6/lianxi.html" class="lianXiEnter">练习</a>
+  </body>
+</html>
+<![endif]-->
