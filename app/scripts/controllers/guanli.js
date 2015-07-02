@@ -20,6 +20,7 @@ define(['angular', 'config', 'jquery', 'underscore', 'lazy'], function (angular,
          */
         var userInfo = $rootScope.session.userInfo;
         var baseRzAPIUrl = config.apiurl_rz; //renzheng的api;
+        var baseMtAPIUrl = config.apiurl_mt; //mingti的api
         var token = config.token;
         var caozuoyuan = userInfo.UID;//登录的用户的UID
         var jigouid = userInfo.JIGOU[0].JIGOU_ID;
@@ -35,6 +36,10 @@ define(['angular', 'config', 'jquery', 'underscore', 'lazy'], function (angular,
         var paginationLength = 7; //分页部分，页码的长度，目前设定为11
         var totalWkPage; //符合条件的员工数据一共有多少页
         var addMingTiRen = baseRzAPIUrl + 'chuangjian_mingti_jiaoshi'; //增加命题人员
+        var qryMoRenDgUrl = baseMtAPIUrl + 'chaxun_zhishidagang?token=' + token + '&caozuoyuan=' + caozuoyuan + '&jigouid=1'
+          + '&lingyuid=2' + '&chaxunzilingyu=true' + '&moren=1'; //查询默认知识大纲的url
+        var qryKnowledgeBaseUrl = baseMtAPIUrl + 'chaxun_zhishidagang_zhishidian?token=' + token + '&caozuoyuan=' +
+          caozuoyuan + '&jigouid=1' + '&lingyuid=2' + '&zhishidagangid='; //查询专业基础url
 
         $scope.guanliParams = { //学生controller参数
           tabActive: '',
@@ -51,7 +56,10 @@ define(['angular', 'config', 'jquery', 'underscore', 'lazy'], function (angular,
           shenFenZheng: '',  //人员管理的身份证号
           mingTiWorkName: '',  //命题人员的姓名
           mingTiWorkUserName: '',  //命题人员的用户名
-          mingTiWorkPw: ''  //命题人员的密码
+          mingTiWorkPw: '',  //命题人员的密码
+          zsdId: '',  //专业ID
+          tkTiXingId: '',  //题型ID
+          naDuId: ''  //难度ID
         };
         $scope.showKeXuHaoManage = false;
         $scope.kxhInputShow = false;
@@ -126,6 +134,40 @@ define(['angular', 'config', 'jquery', 'underscore', 'lazy'], function (angular,
         };
 
         /**
+         * 获得大纲数据
+         */
+        var getDaGangData = function(){
+          var zsdgZsdArr = [];
+          //得到知识大纲专业的递归函数
+          function _do(item) {
+            zsdgZsdArr.push(item.ZHISHIDIAN_ID);
+            if(item.ZIJIEDIAN && item.ZIJIEDIAN.length > 0){
+              _.each(item.ZIJIEDIAN, _do);
+            }
+          }
+          $http.get(qryMoRenDgUrl).success(function(mrDg){
+            if(mrDg && mrDg.length > 0){
+              $scope.dgList = mrDg;
+              //获取大纲专业
+              var qryKnowledge = qryKnowledgeBaseUrl + mrDg[0].ZHISHIDAGANG_ID;
+              $http.get(qryKnowledge).success(function(zsddata){
+                if(zsddata.length){
+                  $scope.kowledgeList = zsddata[0].ZIJIEDIAN;
+                  //得到知识大纲专业id的函数
+                  _.each(zsddata, _do);
+                }
+                else{
+                  DataService.alertInfFun('err', zsddata.error); // '查询大纲失败！错误信息为：' + data.error
+                }
+              });
+            }
+            else{
+              DataService.alertInfFun('err', mrDg.error);
+            }
+          });
+        };
+
+        /**
          * 得到分页的部门数据
          */
         $scope.getThisBuMenPageDate = function(pg){
@@ -165,8 +207,15 @@ define(['angular', 'config', 'jquery', 'underscore', 'lazy'], function (angular,
             $scope.guanLiTpl = 'views/guanli/bumen.html';
             getJgList();
           }
+          if(tab == 'tiku'){
+            getDaGangData();
+            $scope.guanliParams.zsdId = '';
+            $scope.guanliParams.tkTiXingId = '';
+            $scope.guanliParams.naDuId = '';
+            $scope.guanLiTpl = 'views/guanli/tiku.html';
+          }
         };
-        $scope.guanLiTabSlide('people');
+        $scope.guanLiTabSlide('tiku');
 
         /**
          * 通过身份证查询员工
@@ -1099,6 +1148,27 @@ define(['angular', 'config', 'jquery', 'underscore', 'lazy'], function (angular,
         };
 
         /**
+         * 下载题库
+         */
+        $scope.downloadTiKu = function(){
+          var msg = [];
+          if(!$scope.guanliParams.zsdId){
+            msg.push('专业');
+          }
+          if(!$scope.guanliParams.tkTiXingId){
+            msg.push('题型');
+          }
+          if(!$scope.guanliParams.naDuId){
+            msg.push('难度');
+          }
+          if(msg.length > 0){
+            DataService.alertInfFun('pmt', msg.join() + ',不能为空！');
+            return;
+          }
+
+        };
+
+        /**
          * 文件上传
          */
           //存放上传文件的数组
@@ -1113,10 +1183,6 @@ define(['angular', 'config', 'jquery', 'underscore', 'lazy'], function (angular,
         //保存上传文件
         $scope.uploadXlsFile = function() {
           var file = $scope.uploadFiles;
-          //var fields = [{"name": "token", "data": token}];
-          //var kaoShengNewArr = [];
-          //var trimBlankReg = /\s/g;
-          //var delBlank = '';
           var worksData = {
             token: token,
             jigouid: 1
@@ -1141,50 +1207,6 @@ define(['angular', 'config', 'jquery', 'underscore', 'lazy'], function (angular,
               DataService.alertInfFun('err', data.error);
             }
           });
-          //DataService.uploadFileAndFieldsToUrl(file, fields, importUser).then(function(result){
-          //  $scope.uploadFileUrl = result.data;
-          //  $scope.uploadFiles = [];
-          //  if(result.data.json){
-          //    _.each(result.data.json, function(v, k, l){
-          //      _.each(v, function(wk, idx, lst){
-          //        var ksObj = {XINGMING: '', ZHENGJIANHAO:''};
-          //        _.each(wk, function(v1, k1, l1){
-          //          delBlank = k1.replace(trimBlankReg, "");
-          //          switch (delBlank){
-          //            case '姓名' :
-          //              ksObj.XINGMING = v1;
-          //              break;
-          //            case '身份证':
-          //              ksObj.ZHENGJIANHAO = v1;
-          //              break;
-          //          }
-          //        });
-          //        kaoShengNewArr.push(ksObj);
-          //      });
-          //    });
-          //    var worksData = {
-          //      token: token,
-          //      jigouid: 1,
-          //      users: ''
-          //    };
-          //    if(kaoShengNewArr && kaoShengNewArr.length > 0){
-          //      worksData.users = kaoShengNewArr;
-          //      $http.post(importUser, worksData).success(function(data){
-          //        if(data && data.length > 0){
-          //          $scope.loadingImgShow = false;
-          //          DataService.alertInfFun('suc', '上传成功！');
-          //        }
-          //        else{
-          //          DataService.alertInfFun('err', data.error);
-          //        }
-          //      });
-          //    }
-          //  }
-          //  else{
-          //    $scope.loadingImgShow = false;
-          //    DataService.alertInfFun('err', result.error);
-          //  }
-          //});
         };
 
       }]);

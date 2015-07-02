@@ -5,8 +5,8 @@
 <div class="tab-content ks-chart-page">
   <div class="bg">
   </div>
-  <div class="row">
-    <table class="table table-bordered bgcFFF wp48 pull-left">
+  <div class="row wp90" style="margin-left: 5%">
+    <table class="table table-bordered bgcFFF">
       <tr>
         <th colspan="2" class="info">
           <span>已选考试</span>
@@ -17,36 +17,10 @@
         <!--<td width="20%">考试名称</td>-->
         <td>
           <div ng-bind="tjKaoShiPublicData.ksname" class="wordBreak pull-left"></div>
-          <!--<a href="javascript:void(0)" class="pull-right" ng-click="showMoreKaoShi=true">-->
-            <!--<span class="glyphicon glyphicon-plus-sign"></span>-->
-          <!--</a>-->
         </td>
       </tr>
-      <!--<tr class="success">-->
-        <!--<td>平均分数</td>-->
-        <!--<td ng-bind="tjKaoShiPublicData.ksAvgScore"></td>-->
-      <!--</tr>-->
-      <!--<tr>-->
-        <!--<td>考试人数</td>-->
-        <!--<td ng-bind="tjKaoShiPublicData.ksRenShu"></td>-->
-      <!--<tr>-->
-      <!--<tr class="warning">-->
-        <!--<td>考试时间</td>-->
-        <!--<td ng-show="tjKaoShiPublicData.kaikaodate" ng-bind="tjKaoShiPublicData.kaikaodate | myLocalDateWithWeek"></td>-->
-      <!--</tr>-->
-      <!--<tr>-->
-        <!--<td>使用试卷</td>-->
-        <!--<td ng-init="showMoreShiJuan=false">-->
-          <!--<span ng-if="tjKaoShiPublicData.leixing == 1">此处考试为随机试卷</span>-->
-          <!--<span ng-if="tjKaoShiPublicData.leixing == 0" ng-bind="tjKaoShiPublicData.shijuan[0].SHIJUAN_MINGCHENG"></span>-->
-          <!--<a href="javascript:void(0)" class="pull-right" ng-show="tjKaoShiPublicData.sjNum > 1"-->
-             <!--ng-click="showMoreShiJuan=true">-->
-            <!--<span class="glyphicon glyphicon-plus-sign"></span>-->
-          <!--</a>-->
-        <!--</td>-->
-      <!--</tr>-->
     </table>
-    <div class="tj-ks-box wp48 ml15">
+    <div class="wp100 tj-ks-box mt15">
       <h4 class="title">
         <span>考生名单</span>
         <button class="btn btn-primary pull-right mt5 mr5" ng-show="studentData.length"
@@ -59,20 +33,23 @@
             <tr>
               <th ng-click="ksSortDataFun('stuId')">身份证</th>
               <th ng-click="ksSortDataFun('name')">姓名</th>
-              <th ng-click="ksSortDataFun('class')">部门</th>
               <th ng-click="ksSortDataFun('score')">成绩</th>
+              <th>考试时间</th>
+              <th>试卷名称</th>
+              <th ng-click="ksSortDataFun('class')">部门</th>
+              <th>班组</th>
               <th>操作</th>
             </tr>
             <tr ng-repeat="ksd in studentData">
-              <td ng-bind="ksd.ZHENGJIANHAO">
-              </td>
+              <td ng-bind="ksd.ZHENGJIANHAO"></td>
               <td>
                 <a href="javascript:void(0)" ng-bind="ksd.XINGMING"></a>
               </td>
-              <td ng-bind="ksd.JIGOUMINGCHENG">
-              </td>
-              <td ng-bind="ksd.ZUIHOU_PINGFEN.toFixed(0)">
-              </td>
+              <td ng-bind="ksd.ZUIHOU_PINGFEN"></td>
+              <td ng-bind="ksd.KAISHISHIJIAN"></td>
+              <td ng-bind="ksd.SHIJUAN_MINGCHENG"></td>
+              <td ng-bind="ksd.BUMEN_MINGCHENG"></td>
+              <td ng-bind="ksd.BANZU_MINGCHENG"></td>
               <td>
                 <a href="javascript:void(0)" ng-click="changKaoShengScore(ksd)">更多</a>
               </td>
@@ -99,7 +76,7 @@
           <th>考试名称</th>
           <th>试卷名称</th>
           <!--<th width="120px" class="text-center">考试人数</th>-->
-          <th width="120px" class="text-center">考试时间</th>
+          <th width="160px" class="text-center">考试时间</th>
         </tr>
         <tr ng-repeat="ks in tjKaoShiList">
           <td>
@@ -109,7 +86,7 @@
             <p class="m0" ng-repeat="kssj in ks.SHIJUAN" ng-bind="kssj.SHIJUAN_MINGCHENG"></p>
           </td>
           <!--<td class="text-center" ng-bind="ks.KSRS"></td>-->
-          <td class="text-center" ng-bind="ks.KAISHISHIJIAN | myLocalDate | date : 'yyyy-MM-dd'"></td>
+          <td class="text-center" ng-bind="ks.KAISHISHIJIAN | myLocalDate | date : 'yyyy-MM-dd hh:mm'"></td>
         </tr>
       </table>
     </div>

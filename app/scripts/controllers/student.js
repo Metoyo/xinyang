@@ -54,6 +54,7 @@ define(['angular', 'config', 'jquery', 'underscore', 'lazy', 'moment'], function
         var totalKssPage; //考试成绩分页
         var totalLxPage; //练习成绩分页
         var isInPracticeOrExam = false; //判读是否在考试或练习中
+        var stuDaArr = 'stuDaArr' + caozuoyuan; //存放考生答题数据
 
         $scope.stuParams = { //学生controller参数
           stuTabActive: '',
@@ -252,6 +253,21 @@ define(['angular', 'config', 'jquery', 'underscore', 'lazy', 'moment'], function
         };
 
         /**
+         * 删除不是本UID的答题数据
+         */
+        var deleteLocalStorage = function(){
+          if(window.localStorage){
+            var len = localStorage.length;
+            for (var i=0; i < len; i++){
+              var key = localStorage.key(i);
+              if(key != stuDaArr){
+                localStorage.removeItem(key);
+              }
+            }
+          }
+        };
+
+        /**
          * 考试成绩分页
          */
         $scope.kssPgDist = function(pg){
@@ -363,6 +379,10 @@ define(['angular', 'config', 'jquery', 'underscore', 'lazy', 'moment'], function
               KAOSHI_ID: ks.KAOSHI_ID
             }
           };
+          //先清空计时器
+          $interval.cancel(timer);
+          $('#timer').html('');
+          deleteLocalStorage(); //清空不是本UID的loacalStorage数据
           $scope.tiMuIdData = '';
           $scope.tiMuPage = [];
           if(ks.KAOSHI_ID){
@@ -404,7 +424,7 @@ define(['angular', 'config', 'jquery', 'underscore', 'lazy', 'moment'], function
                     $scope.tiMuIdData = '';
                     $scope.ifClickStartExam = false;
                     $interval.cancel(timer);
-                    localStorage.removeItem('stuDaArr');
+                    localStorage.removeItem(stuDaArr);
                   }
                   $scope.loadingImgShow = false;
                   $scope.ifClickStartExam = false;
@@ -466,6 +486,7 @@ define(['angular', 'config', 'jquery', 'underscore', 'lazy', 'moment'], function
           var startPage = (pg-1) * numPerPage;
           var endPage = pg * numPerPage;
           var lastPageNum = $scope.lastTmPageNum;
+          $scope.tiMuDetail = []; //清空上一页的数据
           $scope.currentTmPageVal = pg;
           //得到分页数组的代码
           var currentPageNum = pg ? pg : 1;
@@ -491,9 +512,8 @@ define(['angular', 'config', 'jquery', 'underscore', 'lazy', 'moment'], function
           var qrytimuxiangqing = qrytimuxiangqingBase + distTiMuIdArr;
           $http.get(qrytimuxiangqing).success(function(data){
             if(data && data.length > 0){
-              $scope.tiMuDetail = [];
               var distByTxid = Lazy(data).groupBy('TIXING_ID');
-              var stuHasAnsewer = JSON.parse(localStorage.getItem('stuDaArr'));
+              var stuHasAnsewer = JSON.parse(localStorage.getItem(stuDaArr));
               Lazy(distByTxid).each(function(v, k, l){
                 var tmObj = {daTi: '', tiMu: ''};
                 if(k == 1){
@@ -590,7 +610,7 @@ define(['angular', 'config', 'jquery', 'underscore', 'lazy', 'moment'], function
                   $scope.daTiData.push(daTiObj);
                 }
                 if (window.localStorage){
-                  localStorage.setItem('stuDaArr', JSON.stringify($scope.daTiData));
+                  localStorage.setItem(stuDaArr, JSON.stringify($scope.daTiData));
                 }
               }
               else{
@@ -619,7 +639,8 @@ define(['angular', 'config', 'jquery', 'underscore', 'lazy', 'moment'], function
               $('#timer').html('');
               kaoshiTime = '';
               timer = '';
-              localStorage.removeItem('stuDaArr');
+              localStorage.removeItem(stuDaArr);
+              deleteLocalStorage();
               $scope.isInPracticeOrExam = false;
               $scope.ifClickStartExam = false;
               $scope.stuParams.kaoShiDeFen = data.defen;
@@ -652,6 +673,7 @@ define(['angular', 'config', 'jquery', 'underscore', 'lazy', 'moment'], function
           var errArr = [];
           $scope.tiMuIdData = '';
           $scope.tiMuPage = [];
+          deleteLocalStorage();
           Lazy(shujuObj.shuju).each(function(v, k, l){
             if(!v){
               switch (k){
@@ -786,7 +808,7 @@ define(['angular', 'config', 'jquery', 'underscore', 'lazy', 'moment'], function
                   $scope.daTiData.push(daTiObj);
                 }
                 if (window.localStorage){
-                  localStorage.setItem('stuDaArr', JSON.stringify($scope.daTiData));
+                  localStorage.setItem(stuDaArr, JSON.stringify($scope.daTiData));
                 }
               }
               else{
@@ -809,7 +831,7 @@ define(['angular', 'config', 'jquery', 'underscore', 'lazy', 'moment'], function
               DEFEN: ''// 得分(可能不需要)
             }
           };
-          var defnArr = JSON.parse(localStorage.getItem('stuDaArr'));
+          var defnArr = JSON.parse(localStorage.getItem(stuDaArr));
           var disArr = Lazy(defnArr).groupBy(function(lx){
             return lx.score;
           }).toObject();
@@ -837,7 +859,8 @@ define(['angular', 'config', 'jquery', 'underscore', 'lazy', 'moment'], function
               $('#timer').html('');
               kaoshiTime = '';
               timer = '';
-              localStorage.removeItem('stuDaArr');
+              localStorage.removeItem(stuDaArr);
+              deleteLocalStorage();
               $scope.isInPracticeOrExam = false;
               chaXunLianXiScore();
               DataService.alertInfFun('suc', '提交成功！');

@@ -1,0 +1,34 @@
+<div class="row col-md-6">
+  <div class="col-md-12">
+    <select class="form-control select24" ng-model="guanliParams.zsdId"
+            ng-options="zsd.ZHISHIDIAN_ID as zsd.ZHISHIDIANMINGCHENG for zsd in kowledgeList">
+      <option value="">请选择专业</option>
+    </select>
+  </div>
+  <div class="col-md-12 mt15">
+    <label class="radio-inline">
+      <input type="radio" name="tiXingId" value="1" ng-model="guanliParams.tkTiXingId"> 单选题
+    </label>
+    <label class="radio-inline">
+      <input type="radio" name="tiXingId" value="2" ng-model="guanliParams.tkTiXingId"> 多选题
+    </label>
+    <label class="radio-inline">
+      <input type="radio" name="tiXingId" value="4" ng-model="guanliParams.tkTiXingId"> 判读题
+    </label>
+  </div>
+  <div class="col-md-12 mt15">
+    <label class="radio-inline">
+      <input type="radio" name="practiceTime" value="1" ng-model="guanliParams.naDuId"> 难度1
+    </label>
+    <label class="radio-inline">
+      <input type="radio" name="practiceTime" value="2" ng-model="guanliParams.naDuId"> 难度2
+    </label>
+    <label class="radio-inline">
+      <input type="radio" name="practiceTime" value="3" ng-model="guanliParams.naDuId"> 难度3
+    </label>
+  </div>
+  <div class="col-md-12 mt15">
+    <button type="button" class="btn btn-primary" ng-click="downloadTiKu()">题库下载</button>
+  </div>
+</div>
+

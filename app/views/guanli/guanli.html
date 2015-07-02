@@ -14,6 +14,9 @@
       <li ng-class="{active: guanliParams.tabActive == 'bumen'}">
         <a href="javascript:void(0)" ng-click="guanLiTabSlide('bumen')">部门管理</a>
       </li>
+      <li ng-class="{active: guanliParams.tabActive == 'tiku'}">
+        <a href="javascript:void(0)" ng-click="guanLiTabSlide('tiku')">题库下载</a>
+      </li>
     </ul>
   </div>
   <div class="tab-content" ng-include="guanLiTpl">

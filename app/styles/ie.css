@@ -87,9 +87,29 @@ h1, h2, h3, h4, h5, h6, p{
 }
 #loginBox{
   width: 100%;
+  margin-top: 100px;
   text-align: center;
 }
 #loginBox .loginInput{
   width: 300px;
   height: 24px;
+}
+#loginBox img{
+  width: 300px;
+}
+.loading-box {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  margin: -32px 0 0 -150px;
+  z-index: 10000;
+  display: none;
+  text-align: center;
+}
+.loading-box img{
+  width: 64px;
+  height: 64px;
+}
+.loading-box p{
+  color: red;
 }

@@ -110,12 +110,18 @@
     <div class="container">
       <div id="loginBox">
         <p>
+          <img src="/images/logo_ie.jpg" alt=""/>
+        </p>
+        <p>
           <lable for="zhengJianHao">身份证:</lable>
           <input type="text" name="zhengJianHao" id="zhengJianHao" class="loginInput"/>
         </p>
         <p>
           <lable for="miMa">密&nbsp;&nbsp;&nbsp;码:</lable>
           <input type="password" name="miMa" id="miMa" class="loginInput"/>
+        </p>
+        <p>
+          默认密码123456
         </p>
         <p><input type="button" class="btn btn-blue" value="登陆" onclick="login()"/></p>
       </div>
@@ -171,19 +177,23 @@
             </label>
           </div>
           <div class="mt15">
-            <input type="button" value="确定" class="btn btn-blue getLianXiTi"/>
+            <!--<input type="button" value="确定" class="btn btn-blue getLianXiTi"/>-->
           </div>
         </div>
         <div id="lxScoreCont" class="mt15"></div>
         <div id="lianXiCont" class="mt15"></div>
         <div id="paging" class="paging mt15"></div>
       </div>
+      <div class="loading-box">
+        <img src="/images/loading.gif" alt="" width="64" height="64"/>
+        <p>数据加载中，请耐心等待……</p>
+      </div>
     </div>
     <!--<script type="text/javascript" src="/scripts/ie6/ie6.js"></script>-->
     <script type="text/javascript">
-      var baseKwUrl = 'http://192.168.1.10:4100/api/'; //考务的url
-      var baseMtUrl = 'http://192.168.1.10:4000/api/'; //命题的url
-      var baseRzUrl = 'http://192.168.1.10:3000/api/'; //认证的url
+      var baseKwUrl = 'http://10.230.112.96:4100/api/'; //考务的url
+      var baseMtUrl = 'http://10.230.112.96:4000/api/'; //命题的url
+      var baseRzUrl = 'http://10.230.112.96:3000/api/'; //认证的url
       var uId = '';
       var xingMing = '';
       var token = '12345';
@@ -265,12 +275,11 @@
         var scoreUrl = baseKwUrl + 'chaxun_lianxichengji';
         $.get(scoreUrl, {token: token, uid: uId}, function(data) {
           if(data && data.length > 0){
-            console.log(data);
             Lazy(data).each(function(lxs){
               var joinDate = moment.utc(lxs.KAISHISHIJIAN).format('YYYY-MM-DD HH:mm');
               lxs.KAISHISHIJIAN = joinDate;
               var sjc = (moment.utc(lxs.JIESHUSHIJIAN).valueOf() - moment.utc(lxs.KAISHISHIJIAN).valueOf())/ 1000 / 60;
-              lxs.shichang = sjc.toFixed(0);
+              lxs.shichang = sjc > 1 ? sjc.toFixed(0) : 1;
             });
             var fData = Lazy(data).reverse().toArray();
             var lianXiObj = {
@@ -294,6 +303,7 @@
           -- kaoshiTime;
         }
         else{
+          endLianXi();
           clearInterval(timer);
         }
       };
@@ -356,10 +366,12 @@
               });
               tmObj.tiMu = v;
             });
+            template.config('escape', true);
             var html = template('danXuanTpl', tmObj);
             $('#lianXiCont').html(html);
             $('#endLianXiBtn').show();
             $('#xuanTiConditon').hide();
+            $('.loading-box').hide();
           }
           else{
             alert(data.error);
@@ -392,6 +404,7 @@
       var getLianXiTi = function(){
         var lianxiKaiShiUrl = baseKwUrl + 'lianxi_kaishi'; //联系开始的抽题的url
         var lxShiChang = $('input[name="lxTime"]:checked').val();
+        $('.loading-box').show();
         var shujuObj = {
           token: token,
           shuju: {
@@ -434,6 +447,7 @@
         });
         if(errArr.length > 0){
           var errInfo = '"' + errArr.join() + '"' + '不能为空！';
+          $('.loading-box').hide();
           alert(errInfo);
         }
         else{
@@ -444,7 +458,11 @@
               Lazy(data.TIMU).each(function(tm, idx, lst){
                 tm.TIMU_XUHAO = idx;
               });
-              var html = template('lxScoreTpl', '');
+              var lianXiObj = {
+                name: '',
+                lxScore: ''
+              };
+              var html = template('lxScoreTpl', lianXiObj);
               $('#lxScoreCont').html(html);
               changeNumPerPage(numPerPage);
               if(lxShiChang != 999999){
@@ -567,13 +585,14 @@
             $('input[name="lxTime"]').attr('checked', false);
             $('input[name="itemType"]').attr('checked', false);
             $('input[name="itemNum"]').attr('checked', false);
-            var html = template('danXuanTpl', '');
+            var tmObj = {daTi: '', tiMu: '', letterArr: ''};
+            var html = template('danXuanTpl', tmObj);
             $('#lianXiCont').html(html);
             $('#timer').html('');
             $('#endLianXiBtn').hide();
             $('#xuanTiConditon').show();
             clearInterval(timer);
-            getLianXiScore();
+            setTimeout('getLianXiScore()', 1000);
           }
           else{
             alert(data.error);

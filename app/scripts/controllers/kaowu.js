@@ -338,7 +338,6 @@ define(['angular', 'config', 'intimidatetime', 'jquery', 'underscore', 'lazy'],
                 kaoshi_data.shuju.LEIXING = ks.LEIXING;
                 kaoshi_data.shuju.XUZHI = ks.XUZHI;
                 $scope.kwParams.selectShiJuan = ks.SHIJUAN;
-                kaoshi_data.shuju.KAOCHANG = ks.KAODIANKAOCHANG;
                 kaoshi_data.shuju.ZHUANGTAI = ks.ZHUANGTAI;
                 $scope.kaoshiData = kaoshi_data;
                 $scope.txTpl = 'views/kaowu/editKaoShi.html';
