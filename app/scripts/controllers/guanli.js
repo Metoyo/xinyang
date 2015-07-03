@@ -9,8 +9,8 @@ define(['angular', 'config', 'jquery', 'underscore', 'lazy'], function (angular,
    * Controller of the xinyangApp
    */
   angular.module('xinyangApp.controllers.GuanLiCtrl', [])
-    .controller('GuanLiCtrl', ['$rootScope', '$scope', 'DataService', '$http',
-      function ($rootScope, $scope, DataService, $http) {
+    .controller('GuanLiCtrl', ['$rootScope', '$scope', 'DataService', '$http', '$location',
+      function ($rootScope, $scope, DataService, $http, $location) {
         /**
          * 定义变量
          */
@@ -40,6 +40,7 @@ define(['angular', 'config', 'jquery', 'underscore', 'lazy'], function (angular,
           + '&lingyuid=2' + '&chaxunzilingyu=true' + '&moren=1'; //查询默认知识大纲的url
         var qryKnowledgeBaseUrl = baseMtAPIUrl + 'chaxun_zhishidagang_zhishidian?token=' + token + '&caozuoyuan=' +
           caozuoyuan + '&jigouid=1' + '&lingyuid=2' + '&zhishidagangid='; //查询专业基础url
+        var downloadTiKuBase = baseMtAPIUrl + 'download_tiku'; //下载题库的url
 
         $scope.guanliParams = { //学生controller参数
           tabActive: '',
@@ -1165,7 +1166,29 @@ define(['angular', 'config', 'jquery', 'underscore', 'lazy'], function (angular,
             DataService.alertInfFun('pmt', msg.join() + ',不能为空！');
             return;
           }
-
+          var dataObj = {
+            token: token,
+            caozuoyuan: caozuoyuan,
+            zhishidianid: $scope.guanliParams.zsdId,
+            tixingid: $scope.guanliParams.tkTiXingId,
+            nanduid: $scope.guanliParams.naDuId
+          };
+          $scope.loadingImgShow = true;
+          $http.post(downloadTiKuBase, dataObj).success(function(data){
+            if(data.result){
+              $scope.loadingImgShow = false;
+              var downloadTempFile = $location.$$protocol + '://' +$location.$$host + data.filename,
+                aLink = document.createElement('a'),
+                evt = document.createEvent("HTMLEvents");
+              evt.initEvent("click", false, false);//initEvent 不加后两个参数在FF下会报错, 感谢 Barret Lee 的反馈
+              aLink.href = downloadTempFile; //url
+              aLink.dispatchEvent(evt);
+            }
+            else{
+              $scope.loadingImgShow = false;
+              DataService.alertInfFun('err', data.error)
+            }
+          });
         };
 
         /**

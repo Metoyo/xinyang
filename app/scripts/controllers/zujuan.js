@@ -166,6 +166,7 @@ define(['angular', 'config', 'jquery', 'underscore'],
         var qryMoRenDgUrl = baseMtAPIUrl + 'chaxun_zhishidagang?token=' + token + '&caozuoyuan=' + caozuoyuan + '&jigouid='
             + jigouid + '&lingyuid=' + lingyuid + '&chaxunzilingyu=' + chaxunzilingyu + '&moren=1'; //查询默认知识大纲的url
         var randomZuJuanUrl = baseMtAPIUrl + 'xiugai_shijuan'; //随机组卷url
+        var downloadTiKuBase = baseMtAPIUrl + 'download_tiku'; //下载题库的url
 
         /**
          * 初始化是DOM元素的隐藏和显示
@@ -2526,25 +2527,73 @@ define(['angular', 'config', 'jquery', 'underscore'],
             dati.TIMUARR.splice(index, 1);
             dati.TIMUARR.splice(toIndex, 0, item);
           }
-          //var reloadFun = function(){
-          //  MathJax.Hub.Queue(["Typeset", MathJax.Hub, "testList"]);
-          //};
-          //$timeout(reloadFun, 500);
         };
 
-        ///**
-        // * 重新加载 mathjax
-        // */
-        //$scope.$on('onRepeatLast', function(scope, element, attrs){
-        //  MathJax.Hub.Config({
-        //    tex2jax: {inlineMath: [["#$", "$#"]], displayMath: [['#$$','$$#']]},
-        //    messageStyle: "none",
-        //    showMathMenu: false,
-        //    processEscapes: true
-        //  });
-        //  MathJax.Hub.Queue(["Typeset", MathJax.Hub, "daGangList"]);
-        //  MathJax.Hub.Queue(["Typeset", MathJax.Hub, "testList"]);
-        //});
+        /**
+         * 下载试卷
+         */
+        $scope.downloadShiJuan = function(){
+          var dataObj = {
+            token: token,
+            caozuoyuan: caozuoyuan,
+            shijuan: ''
+          };
+          var shiJuanStr = shijuanData.shuju.SHIJUANMINGCHENG + '\r\n';
+          shiJuanStr += shijuanData.shuju.FUBIAOTI || '' + '\r\n';
+          _.each(mubanData.shuju.MUBANDATI, function(mbdt, idx, lst){
+            shiJuanStr += $scope.cnNumArr[idx] + '、' + mbdt.DATIMINGCHENG + '\r\n';
+            _.each(mbdt.TIMUARR, function(tm, subIdx, subLst){
+              var tigan = tm.TIGAN;
+              var daan = tm.DAAN;
+              var tznr, tznrLen, i;
+              shiJuanStr += (subIdx + 1) + '、' + tigan.tiGan + '\r\n'; //题干;
+              if(tm.TIXING_ID == 1){ //单选题
+                tznr = tigan.tiZhiNeiRong;
+                tznrLen = tznr.length;
+                for(i = 0; i < tznrLen; i++){
+                  shiJuanStr += '(' + $scope.letterArr[i] + ')' + tznr[i] + '\r\n'; //题支内容
+                }
+                shiJuanStr += '正确答案：' + $scope.letterArr[parseInt(daan)] + '\r\n';
+              }
+              if(tm.TIXING_ID == 2){ //多选题
+                tznr = tigan.tiZhiNeiRong;
+                tznrLen = tznr.length;
+                var daanArr = daan.split(',');
+                var daanLen = daanArr.length;
+                var answer = [];
+                for(i = 0; i < tznrLen; i++){ //题支内容
+                  shiJuanStr += '(' + $scope.letterArr[i] + ')' + tznr[i] + '\r\n'; //题支内容
+                }
+                for(var j = 0; j < daanLen; j++){ //正确答案
+                  answer.push($scope.letterArr[j]);
+                }
+                shiJuanStr += '正确答案：' + answer.join() + '\r\n';
+              }
+              if(tm.TIXING_ID == 4){ //判断题
+                var rOrR = daan == 0 ? '错' : '对';
+                shiJuanStr += '对' + '        ' + '错' + '\r\n';
+                shiJuanStr += '正确答案：' + rOrR + '\r\n';
+              }
+            });
+          });
+          dataObj.shijuan = shiJuanStr;
+          $scope.loadingImgShow = true;
+          $http.post(downloadTiKuBase, dataObj).success(function(data){
+            if(data.result){
+              $scope.loadingImgShow = false;
+              var downloadTempFile = $location.$$protocol + '://' +$location.$$host + data.filename,
+                aLink = document.createElement('a'),
+                evt = document.createEvent("HTMLEvents");
+              evt.initEvent("click", false, false);//initEvent 不加后两个参数在FF下会报错, 感谢 Barret Lee 的反馈
+              aLink.href = downloadTempFile; //url
+              aLink.dispatchEvent(evt);
+            }
+            else{
+              $scope.loadingImgShow = false;
+              DataService.alertInfFun('err', data.error)
+            }
+          });
+        };
 
         /**
          * 当离开本页的时候触发事件，删除无用的临时模板
