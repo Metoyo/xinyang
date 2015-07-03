@@ -1177,7 +1177,7 @@ define(['angular', 'config', 'jquery', 'underscore', 'lazy'], function (angular,
           $http.post(downloadTiKuBase, dataObj).success(function(data){
             if(data.result){
               $scope.loadingImgShow = false;
-              var downloadTempFile = $location.$$protocol + '://' +$location.$$host + data.filename,
+              var downloadTempFile = '/temp/tiku',
                 aLink = document.createElement('a'),
                 evt = document.createEvent("HTMLEvents");
               evt.initEvent("click", false, false);//initEvent 不加后两个参数在FF下会报错, 感谢 Barret Lee 的反馈
