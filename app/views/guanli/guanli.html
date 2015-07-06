@@ -17,6 +17,9 @@
       <li ng-class="{active: guanliParams.tabActive == 'tiku'}">
         <a href="javascript:void(0)" ng-click="guanLiTabSlide('tiku')">题库下载</a>
       </li>
+      <li ng-class="{active: guanliParams.tabActive == 'lxswitch'}">
+        <a href="javascript:void(0)" ng-click="guanLiTabSlide('lxswitch')">练习开关</a>
+      </li>
     </ul>
   </div>
   <div class="tab-content" ng-include="guanLiTpl">

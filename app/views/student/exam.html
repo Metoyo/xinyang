@@ -7,7 +7,7 @@
       <!--<th>时长(分)</th>-->
       <th>操作</th>
     </tr>
-    <tr ng-repeat="ks in kaoShiList">
+    <tr ng-repeat="ks in kaoShiList" ng-show="ks.thisKaoShow">
       <td ng-bind="ks.KAISHISHIJIAN | myLocalDateWithWeek"></td>
       <td ng-bind="ks.KAOSHI_MINGCHENG"></td>
       <!--<td ng-bind="ks.SHICHANG"></td>-->

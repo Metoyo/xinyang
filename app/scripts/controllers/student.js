@@ -55,6 +55,7 @@ define(['angular', 'config', 'jquery', 'underscore', 'lazy', 'moment'], function
         var totalLxPage; //练习成绩分页
         var isInPracticeOrExam = false; //判读是否在考试或练习中
         var stuDaArr = 'stuDaArr' + caozuoyuan; //存放考生答题数据
+        var lianXiSwitch = baseKwAPIUrl + 'lianxi_kaiguan'; //关闭练习的开关
 
         $scope.stuParams = { //学生controller参数
           stuTabActive: '',
@@ -71,7 +72,8 @@ define(['angular', 'config', 'jquery', 'underscore', 'lazy', 'moment'], function
           letterArr: config.letterArr, //题支的序号
           addBgColor: false, //加背景颜色
           kaoShiDeFen: '', //考试最后得分
-          tuiChuKaoShi: false
+          tuiChuKaoShi: false,
+          lianXiKaiQi: false //练习是否开启
         };
         $scope.tiMuIdData = ''; //存放题目id的数据
         $scope.tiMuPage = []; //存放题目分页的数据
@@ -140,11 +142,22 @@ define(['angular', 'config', 'jquery', 'underscore', 'lazy', 'moment'], function
             if(data && data.length > 0){
               var ksNowMs = moment().add(moment().utcOffset(), 'm'); //错了8个时区
               Lazy(data).each(function(ks){
+                var d = new Date();
+                var kssj = Date.parse(ks.KAISHISHIJIAN)-28800000;
+                var nowt = Date.parse(d);
+                var diffAft = nowt - kssj; //开考半个小时候后
+                var diffBef = kssj - nowt; //距离开考时间大于10分钟
                 if(ks.ZHUANGTAI < 3){
                   var ksJssjMs = moment(ks.JIESHUSHIJIAN); //考试结束时间毫秒数
                   if(ksNowMs > ksJssjMs){
                     ks.ZHUANGTAI = 10;
                   }
+                }
+                if((diffAft > 1800000) || (diffBef > 600000)){
+                  ks.thisKaoShow = false;
+                }
+                else{
+                  ks.thisKaoShow = true;
                 }
               });
               $scope.kaoShiList = data;
@@ -268,6 +281,22 @@ define(['angular', 'config', 'jquery', 'underscore', 'lazy', 'moment'], function
         };
 
         /**
+         * 查询练习状态
+         */
+        var checkLianXiState = function(){
+          var getLxSwitch = lianXiSwitch + '?token=' + token;
+          $http.get(getLxSwitch).success(function(data){
+            if(data.result){
+              $scope.stuParams.lianXiKaiQi = true;
+            }
+            else{
+              $scope.stuParams.lianXiKaiQi = false;
+              DataService.alertInfFun('err', data.error);
+            }
+          });
+        };
+
+        /**
          * 考试成绩分页
          */
         $scope.kssPgDist = function(pg){
@@ -328,6 +357,7 @@ define(['angular', 'config', 'jquery', 'underscore', 'lazy', 'moment'], function
           $scope.stuParams.stuTabActive = '';
           if(!$scope.isInPracticeOrExam){
             if(tab == 'practice'){
+              checkLianXiState();
               getDaGangData();
               $scope.tiMuDetail = [];
               $scope.tiMuDistPage = [];

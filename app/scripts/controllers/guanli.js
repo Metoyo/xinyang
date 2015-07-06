@@ -21,6 +21,7 @@ define(['angular', 'config', 'jquery', 'underscore', 'lazy'], function (angular,
         var userInfo = $rootScope.session.userInfo;
         var baseRzAPIUrl = config.apiurl_rz; //renzheng的api;
         var baseMtAPIUrl = config.apiurl_mt; //mingti的api
+        var baseKwAPIUrl = config.apiurl_kw; //考务的api
         var token = config.token;
         var caozuoyuan = userInfo.UID;//登录的用户的UID
         var jigouid = userInfo.JIGOU[0].JIGOU_ID;
@@ -41,6 +42,7 @@ define(['angular', 'config', 'jquery', 'underscore', 'lazy'], function (angular,
         var qryKnowledgeBaseUrl = baseMtAPIUrl + 'chaxun_zhishidagang_zhishidian?token=' + token + '&caozuoyuan=' +
           caozuoyuan + '&jigouid=1' + '&lingyuid=2' + '&zhishidagangid='; //查询专业基础url
         var downloadTiKuBase = baseMtAPIUrl + 'download_tiku'; //下载题库的url
+        var lianXiSwitch = baseKwAPIUrl + 'lianxi_kaiguan'; //关闭练习的开关
 
         $scope.guanliParams = { //学生controller参数
           tabActive: '',
@@ -60,7 +62,8 @@ define(['angular', 'config', 'jquery', 'underscore', 'lazy'], function (angular,
           mingTiWorkPw: '',  //命题人员的密码
           zsdId: '',  //专业ID
           tkTiXingId: '',  //题型ID
-          naDuId: ''  //难度ID
+          naDuId: '',  //难度ID
+          lxSwitch: '' //练习的关闭和开启
         };
         $scope.showKeXuHaoManage = false;
         $scope.kxhInputShow = false;
@@ -169,6 +172,22 @@ define(['angular', 'config', 'jquery', 'underscore', 'lazy'], function (angular,
         };
 
         /**
+         * 查询练习状态
+         */
+        var checkLianXiState = function(){
+          var getLxSwitch = lianXiSwitch + '?token=' + token;
+          $http.get(getLxSwitch).success(function(data){
+            if(data.result){
+              $scope.guanliParams.lxSwitch = true;
+            }
+            else{
+              $scope.guanliParams.lxSwitch = false;
+              DataService.alertInfFun('err', data.error);
+            }
+          });
+        };
+
+        /**
          * 得到分页的部门数据
          */
         $scope.getThisBuMenPageDate = function(pg){
@@ -213,10 +232,17 @@ define(['angular', 'config', 'jquery', 'underscore', 'lazy'], function (angular,
             $scope.guanliParams.zsdId = '';
             $scope.guanliParams.tkTiXingId = '';
             $scope.guanliParams.naDuId = '';
+            $scope.guanliParams.tabActive = 'tiku';
             $scope.guanLiTpl = 'views/guanli/tiku.html';
           }
+          if(tab == 'lxswitch'){
+            $scope.guanliParams.lxSwitch = '';
+            checkLianXiState();
+            $scope.guanliParams.tabActive = 'lxswitch';
+            $scope.guanLiTpl = 'views/guanli/switch.html';
+          }
         };
-        $scope.guanLiTabSlide('tiku');
+        $scope.guanLiTabSlide('people');
 
         /**
          * 通过身份证查询员工
@@ -1227,6 +1253,24 @@ define(['angular', 'config', 'jquery', 'underscore', 'lazy'], function (angular,
             }
             else{
               $scope.loadingImgShow = false;
+              DataService.alertInfFun('err', data.error);
+            }
+          });
+        };
+
+        /**
+         * 关闭练习
+         */
+        $scope.closeLianXi = function(){
+          var swObj = {
+            token: token,
+            on: $scope.guanliParams.lxSwitch
+          };
+          $http.post(lianXiSwitch, swObj).success(function(data){
+            if(data.result){
+              DataService.alertInfFun('suc', '修改成功！');
+            }
+            else{
               DataService.alertInfFun('err', data.error);
             }
           });
