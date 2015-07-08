@@ -11,7 +11,7 @@
           <span class="pull-right buMenBtn">
             <a href="javascript:void(0)" class="mr10 banZu" bn-slide-show slid-show-tapon="banZu" ng-show="bm.CHILDREN.length>0"
                slide-show-target="more-info" slide-show-text="班组" slide-show-idx="{{$index}}">班组</a>
-            <a href="javascript:void(0)" class="mr10" ng-click="showKeXuHaoPop('addBuMen', bm)">新增班组</a>
+            <a href="javascript:void(0)" class="mr10" ng-click="showKeXuHaoPop('addBuMen', bm, 'banzu')">新增班组</a>
             <a href="javascript:void(0)" class="mr10" ng-click="showKeXuHaoPop('modifyBm', bm)">修改</a>
             <a href="javascript:void(0)" ng-click="deleteBuMen(bm.JIGOU_ID)">删除</a>
           </span>
@@ -103,7 +103,7 @@
 <div class="popup-wrap" ng-if="showKeXuHaoManage == true">
   <div class="popup-wrap-inner">
     <div class="pwi-header plr10 text-center">
-      <span class="title" ng-if="glEditBoxShow=='addBuMen'">新增部门</span>
+      <span class="title" ng-if="glEditBoxShow=='addBuMen'">新增{{guanliParams.addNewBmTitle}}</span>
       <span class="title" ng-if="glEditBoxShow=='modifyBm'">修改部门</span>
       <span class="title" ng-if="glEditBoxShow=='addSingleWork'">新增员工</span>
       <span class="title" ng-if="glEditBoxShow=='addBatchWorks'">批量新增员工</span>
@@ -112,10 +112,10 @@
       <!--添加新部门-->
       <div class="row mt15" ng-if="glEditBoxShow=='addBuMen'">
         <div class="col-md-2 text-right">
-          <span class="mt5 dpb">部门</span>
+          <span class="mt5 dpb" ng-bind="guanliParams.addNewBmTitle"></span>
         </div>
         <div class="col-md-8">
-          <input type="text" class="form-control" placeholder="部门" ng-model="guanliParams.addNewBm"/>
+          <input type="text" class="form-control" placeholder="{{guanliParams.addNewBmTitle}}" ng-model="guanliParams.addNewBm"/>
         </div>
       </div>
       <!--修改课部门-->

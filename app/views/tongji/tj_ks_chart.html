@@ -34,7 +34,7 @@
               <th ng-click="ksSortDataFun('stuId')">身份证</th>
               <th ng-click="ksSortDataFun('name')">姓名</th>
               <th ng-click="ksSortDataFun('score')">成绩</th>
-              <th>考试时间</th>
+              <th ng-click="ksSortDataFun('ksTime')">考试时间</th>
               <th>试卷名称</th>
               <th ng-click="ksSortDataFun('class')">部门</th>
               <th>班组</th>
@@ -73,7 +73,9 @@
     <div class="pwi-body plr10">
       <table class="tj-table">
         <tr>
-          <th>考试名称</th>
+          <th>
+            <a href="javascript:void(0)" ng-click="tjCheckPageKs()">勾选本页</a> 考试名称
+          </th>
           <th>试卷名称</th>
           <!--<th width="120px" class="text-center">考试人数</th>-->
           <th width="160px" class="text-center">考试时间</th>
@@ -86,7 +88,7 @@
             <p class="m0" ng-repeat="kssj in ks.SHIJUAN" ng-bind="kssj.SHIJUAN_MINGCHENG"></p>
           </td>
           <!--<td class="text-center" ng-bind="ks.KSRS"></td>-->
-          <td class="text-center" ng-bind="ks.KAISHISHIJIAN | myLocalDate | date : 'yyyy-MM-dd hh:mm'"></td>
+          <td class="text-center" ng-bind="ks.KAISHISHIJIAN | myLocalDate | date : 'yyyy-MM-dd HH:mm'"></td>
         </tr>
       </table>
     </div>

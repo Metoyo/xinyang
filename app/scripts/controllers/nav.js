@@ -15,22 +15,20 @@ define(['angular', 'config','jquery', 'underscore'],
         /**
          * 定义变量
          */
-        var baseRzAPIUrl = config.apiurl_rz, //renzheng的api
-          token = config.token,
-          currentPath = $location.$$path,
-          alterYongHu = baseRzAPIUrl + 'xiugai_yonghu',
-          apiUrlLy = baseRzAPIUrl + 'lingYu?token=' + config.token + '&jigouid=', //lingYu 学科领域的api
-          apiLyKm = baseRzAPIUrl + 'lingYu?token=' + config.token + '&parentid=', //由lingYu id 的具体的学科
-          apiUrlJueSe = baseRzAPIUrl + 'jueSe?token=' + config.token, //jueSe 查询科目权限的数据的api
-          xgyhUrl = baseRzAPIUrl + 'xiugai_yonghu', //修改用户的url
-          objAndRightList = [], //已经选择的科目和单位
-          userInfo;
+        var userInfo = $rootScope.session.userInfo;
+        var caozuoyuan = userInfo.UID;//登录的用户的UID
+        var baseRzAPIUrl = config.apiurl_rz; //renzheng的api
+        var token = config.token;
+        var operateJgUrl = baseRzAPIUrl + 'jigou'; //操作机构基础url
+        var modifyJgYh = baseRzAPIUrl + 'jigou_yonghu'; //修改用户的机构
 
         $scope.userInfoLayer = false;
         $scope.navData = {
           newPsd: '',
           select_ly: '',
-          jiGouId: ''
+          jiGouId: '',
+          selected_bm: '', //选择的部门
+          selected_bz: '' //选择的班组
         };
 
         /**
@@ -45,54 +43,57 @@ define(['angular', 'config','jquery', 'underscore'],
          * 显示个人详情
          */
         $rootScope.showUserInfo = function(){
-          var user = {},
-            jueseDist,
-            yhxxxxApiUrl = baseRzAPIUrl + 'yonghu_xiangxi_xinxi?token=' + token + '&yonghuid=' +
-              $rootScope.session.info.UID; //通过UID查询用户详细的url
-          userInfo = $rootScope.session.userInfo;
-          $http.get(yhxxxxApiUrl).success(function(data){
-            if(data.JIGOU.length){
-              $scope.navData.jiGouId = data.JIGOU[0].JIGOU_ID;
-              user.LINGYU = [];
-              jueseDist = _.groupBy(data.JUESE, function(js){ return js.LINGYUMINGCHENG; });
-              _.each(data.LINGYU, function(ly){
-                var jsName = _.map(jueseDist[ly.LINGYUMINGCHENG], function(js){ return js.JUESEMINGCHENG; }),
-                  lyObj = {
-                    LINGYUMINGCHENG: '',
-                    LINGYU_ID: '',
-                    jueseStr: ''
-                  };
-                lyObj.LINGYUMINGCHENG = ly.LINGYUMINGCHENG;
-                lyObj.LINGYU_ID = ly.LINGYU_ID;
-                lyObj.jueseStr = jsName.join();
-                user.LINGYU.push(lyObj);
-              });
-              //基本信息
-              user.YONGHUMING = data.YONGHUMING;
-              user.XINGMING = data.XINGMING;
-              user.YOUXIANG = data.YOUXIANG;
-              user.SHOUJI = data.SHOUJI;
-              user.JIGOUMINGCHENG = data.JIGOU[0].JIGOUMINGCHENG;
-              user.SHOUJI = data.SHOUJI;
-              $('.modifuMiMaInfo').html('');
-              //查询领域，去取已有领域;查询父领域的代码
-              $http.get(apiUrlLy + data.JIGOU[0].JIGOU_ID).success(function(jgData) {
-                if(jgData && jgData.length){
-                  $scope.lingYuList = jgData;
-                }
-                else{
-                  $scope.lingYuList = '';
-                  DataService.alertInfFun('err', '没有相关领域！');
-                }
-              });
-              //查询角色的代码
-              $http.get(apiUrlJueSe).success(function(jsData) {
-                if(jsData && jsData.length > 0){
-                  $scope.juese_list = jsData;
-                }
-              });
-              $scope.usr = user;
+          $scope.originBuMenData = '';
+          var qryJiGouUrl = operateJgUrl + '?token=' + token; //查询机构
+          $http.get(qryJiGouUrl).success(function(data){
+            if(data && data.length > 0){
+              $scope.originBuMenData = data[0].CHILDREN[0];
               $scope.userInfoLayer = true;
+            }
+            else{
+              DataService.alertInfFun('err', data.error);
+            }
+          })
+        };
+
+        /**
+         * 由所选机构得到下面的班组
+         */
+        $scope.getBanZuByBm = function(bmId){
+          $scope.banZuData = '';
+          if(bmId){
+            var banzu = _.find($scope.originBuMenData.CHILDREN, function(bm){ return bm.JIGOU_ID == bmId; });
+            $scope.banZuData = banzu.CHILDREN;
+          }
+        };
+
+        /**
+         * 保存机构信息
+         */
+        $scope.saveStudentJg = function(){
+          var singleWordData = {
+            token: token,
+            jigouid: '',
+            users: [{uid: caozuoyuan , zhuangtai: 1}]
+          };
+          if($scope.navData.selected_bm){
+            if($scope.navData.selected_bz){
+              singleWordData.jigouid = $scope.navData.selected_bz;
+            }
+            else{
+              singleWordData.jigouid = $scope.navData.selected_bm;
+            }
+          }
+          $http.post(modifyJgYh, singleWordData).success(function(data){
+            if(data.result){
+              $scope.navData.selected_bz = '';
+              $scope.navData.selected_bm = '';
+              $scope.userInfoLayer = false;
+              DataService.logout();
+              DataService.alertInfFun('suc', '修改成功！');
+            }
+            else{
+              DataService.alertInfFun('err', data.error);
             }
           });
         };
@@ -100,122 +101,89 @@ define(['angular', 'config','jquery', 'underscore'],
         /**
          /重新选择时，删除已选择的科目和角色
          */
-        var deleteAllSelectedKmAndJs = function(){
-          objAndRightList = [];
-          $scope.objAndRight = objAndRightList;
-        };
+        //var deleteAllSelectedKmAndJs = function(){
+        //  objAndRightList = [];
+        //  $scope.objAndRight = objAndRightList;
+        //};
 
         /**
          * 有父领域查询子领域领域（即科目）
          */
-        $scope.getKemuList = function(lyId){
-          if(lyId){
-            $http.get(apiLyKm + lyId).success(function(data) {
-              if(data.length){
-                _.each($scope.usr.LINGYU, function(hasLy, idx, lst){
-                  data = _.reject(data, function(ly){ return ly.LINGYU_ID  == hasLy.LINGYU_ID; });
-                });
-                $scope.kemu_list = data;
-                deleteAllSelectedKmAndJs();
-              }
-              else{
-                $scope.kemu_list = '';
-                DataService.alertInfFun('err', '没有对应的科目！');
-              }
-            });
-          }
-          else{
-            $scope.kemu_list = '';
-          }
-        };
+        //$scope.getKemuList = function(lyId){
+        //  if(lyId){
+        //    $http.get(apiLyKm + lyId).success(function(data) {
+        //      if(data.length){
+        //        _.each($scope.usr.LINGYU, function(hasLy, idx, lst){
+        //          data = _.reject(data, function(ly){ return ly.LINGYU_ID  == hasLy.LINGYU_ID; });
+        //        });
+        //        $scope.kemu_list = data;
+        //        deleteAllSelectedKmAndJs();
+        //      }
+        //      else{
+        //        $scope.kemu_list = '';
+        //        DataService.alertInfFun('err', '没有对应的科目！');
+        //      }
+        //    });
+        //  }
+        //  else{
+        //    $scope.kemu_list = '';
+        //  }
+        //};
 
         /**
          * 添加科目和权限
          */
-        $scope.getObjectAndRight = function(){
-          var objAndRightObj = {
-            lingyu:'',
-            juese:{
-              jueseId: '',
-              jueseName: ''
-            }
-          };
-          objAndRightObj.lingyu = $scope.kemu_list.splice(selectedLingYuIndex, 1);
-          objAndRightObj.juese.jueseId = selectJueseIdArr;
-          objAndRightObj.juese.jueseName = selectJueseNameArr;
-          objAndRightList.push(objAndRightObj);
-          $scope.objAndRight = objAndRightList;
-          $('input[name=rightName]:checked').prop('checked', false);
-          $scope.jueseValue = false;
-          $scope.linyuValue = false;
-        };
+        //$scope.getObjectAndRight = function(){
+        //  var objAndRightObj = {
+        //    lingyu:'',
+        //    juese:{
+        //      jueseId: '',
+        //      jueseName: ''
+        //    }
+        //  };
+        //  objAndRightObj.lingyu = $scope.kemu_list.splice(selectedLingYuIndex, 1);
+        //  objAndRightObj.juese.jueseId = selectJueseIdArr;
+        //  objAndRightObj.juese.jueseName = selectJueseNameArr;
+        //  objAndRightList.push(objAndRightObj);
+        //  $scope.objAndRight = objAndRightList;
+        //  $('input[name=rightName]:checked').prop('checked', false);
+        //  $scope.jueseValue = false;
+        //  $scope.linyuValue = false;
+        //};
 
         /**
          * 获得领域lingyu（选择科目）的值
          */
-        var selectedLingYuIndex;
-        $scope.getLingYuVal = function(idx){
-          selectedLingYuIndex = '';
-          selectedLingYuIndex = idx;
-          $scope.linyuValue = idx >=0 ? true : false;
-        };
+        //var selectedLingYuIndex;
+        //$scope.getLingYuVal = function(idx){
+        //  selectedLingYuIndex = '';
+        //  selectedLingYuIndex = idx;
+        //  $scope.linyuValue = idx >=0 ? true : false;
+        //};
 
         /**
          * 获得角色juese（科目权限）的代码
          */
-        var selectJueseIdArr = [],
-          selectJueseNameArr = [];
-        $scope.getJueSeArr = function(){
-          selectJueseIdArr = [];
-          selectJueseNameArr = [];
-          var jueseItem = $('input[name=rightName]:checked');
-          _.each(jueseItem,function(js, idx, lst){
-            selectJueseIdArr.push(js.value);
-            selectJueseNameArr.push(js.nextElementSibling.textContent);
-          });
-          $scope.jueseValue = selectJueseIdArr.length;
-        };
+        //var selectJueseIdArr = [],
+        //  selectJueseNameArr = [];
+        //$scope.getJueSeArr = function(){
+        //  selectJueseIdArr = [];
+        //  selectJueseNameArr = [];
+        //  var jueseItem = $('input[name=rightName]:checked');
+        //  _.each(jueseItem,function(js, idx, lst){
+        //    selectJueseIdArr.push(js.value);
+        //    selectJueseNameArr.push(js.nextElementSibling.textContent);
+        //  });
+        //  $scope.jueseValue = selectJueseIdArr.length;
+        //};
 
         /**
          *  删除一条已选科目
          */
-        $scope.delSelectedObject = function(idx){
-          var deleteObjectAndRight = $scope.objAndRight.splice(idx, 1);
-          $scope.kemu_list.push(deleteObjectAndRight[0].lingyu[0]);
-        };
-
-        /**
-         * 保存新增加的领域
-         */
-        $scope.saveNewLingYu = function(){
-          var select_juese = [],
-            newLingYuDate = {
-              token: token,
-              UID: userInfo.UID,
-              JUESE: ''
-            };
-          _.each(objAndRightList, function(oar, indx, lst){
-            _.each(oar.juese.jueseId, function(jsid, idx, lst){
-              var jueseObg = {
-                jigou: $scope.navData.jiGouId,
-                lingyu: '',
-                juese: ''
-              };
-              jueseObg.lingyu = oar.lingyu[0].LINGYU_ID;
-              jueseObg.juese = jsid;
-              select_juese.push(jueseObg);
-            });
-          });
-          newLingYuDate.JUESE = select_juese;
-          $http.post(alterYongHu, newLingYuDate).success(function(data){
-            if(data.result){
-              DataService.alertInfFun('suc', '成功添加新领域添加！');
-            }
-            else{
-              DataService.alertInfFun('err', '修改失败！错误信息为：' + data.error);
-            }
-          });
-        };
+        //$scope.delSelectedObject = function(idx){
+        //  var deleteObjectAndRight = $scope.objAndRight.splice(idx, 1);
+        //  $scope.kemu_list.push(deleteObjectAndRight[0].lingyu[0]);
+        //};
 
         /**
          * 关闭个人详情页
@@ -224,27 +192,27 @@ define(['angular', 'config','jquery', 'underscore'],
           $scope.userInfoLayer = false;
         };
 
-        /**
-         * 修改密码
-         */
-        $scope.modifyPassWord = function(){
-          var newPsdData = {
-            token: token,
-            UID: '',
-            MIMA: ''
-          };
-          newPsdData.UID = userInfo.UID;
-          newPsdData.MIMA = $scope.navData.newPsd;
-          $('.modifuMiMaInfo').html('');
-          $http.post(alterYongHu, newPsdData).success(function(data){
-            if(data.result){
-              DataService.alertInfFun('suc', '密码修改成功！');
-            }
-            else{
-              DataService.alertInfFun('err', data.error);
-            }
-          });
-        };
+        ///**
+        // * 修改密码
+        // */
+        //$scope.modifyPassWord = function(){
+        //  var newPsdData = {
+        //    token: token,
+        //    UID: '',
+        //    MIMA: ''
+        //  };
+        //  newPsdData.UID = userInfo.UID;
+        //  newPsdData.MIMA = $scope.navData.newPsd;
+        //  $('.modifuMiMaInfo').html('');
+        //  $http.post(alterYongHu, newPsdData).success(function(data){
+        //    if(data.result){
+        //      DataService.alertInfFun('suc', '密码修改成功！');
+        //    }
+        //    else{
+        //      DataService.alertInfFun('err', data.error);
+        //    }
+        //  });
+        //};
 
         /**
          * 退出程序

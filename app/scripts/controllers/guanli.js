@@ -43,6 +43,7 @@ define(['angular', 'config', 'jquery', 'underscore', 'lazy'], function (angular,
           caozuoyuan + '&jigouid=1' + '&lingyuid=2' + '&zhishidagangid='; //查询专业基础url
         var downloadTiKuBase = baseMtAPIUrl + 'download_tiku'; //下载题库的url
         var lianXiSwitch = baseKwAPIUrl + 'lianxi_kaiguan'; //关闭练习的开关
+        var clearLianXiCj = baseKwAPIUrl + 'clear_lianxichengji?token=' + token; //清楚练习的成绩
 
         $scope.guanliParams = { //学生controller参数
           tabActive: '',
@@ -63,7 +64,8 @@ define(['angular', 'config', 'jquery', 'underscore', 'lazy'], function (angular,
           zsdId: '',  //专业ID
           tkTiXingId: '',  //题型ID
           naDuId: '',  //难度ID
-          lxSwitch: '' //练习的关闭和开启
+          lxSwitch: true, //练习的关闭和开启
+          addNewBmTitle: '部门' //新增部门的标题
         };
         $scope.showKeXuHaoManage = false;
         $scope.kxhInputShow = false;
@@ -182,6 +184,8 @@ define(['angular', 'config', 'jquery', 'underscore', 'lazy'], function (angular,
             }
             else{
               $scope.guanliParams.lxSwitch = false;
+            }
+            if(data.error){
               DataService.alertInfFun('err', data.error);
             }
           });
@@ -236,7 +240,6 @@ define(['angular', 'config', 'jquery', 'underscore', 'lazy'], function (angular,
             $scope.guanLiTpl = 'views/guanli/tiku.html';
           }
           if(tab == 'lxswitch'){
-            $scope.guanliParams.lxSwitch = '';
             checkLianXiState();
             $scope.guanliParams.tabActive = 'lxswitch';
             $scope.guanLiTpl = 'views/guanli/switch.html';
@@ -421,26 +424,6 @@ define(['angular', 'config', 'jquery', 'underscore', 'lazy'], function (angular,
                 $scope.guanliParams.selected_bm = '';
                 $scope.chaXunYuanGong($scope.guanliParams.shenFenZheng);
                 DataService.alertInfFun('suc', '修改机构或专业成功！');
-                //if($scope.glSelectData){
-                //  var originWordData = {
-                //    token: token,
-                //    jigouid: $scope.glSelectData.JIGOU_ID,
-                //    users: [{uid: $scope.glSelectData.UID, zhuangtai: 1}]
-                //  };
-                //  $http.post(modifyJgYh, originWordData).success(function(del){
-                //    if(del.result){
-                //      DataService.alertInfFun('suc', '修改机构或专业成功！');
-                //      $scope.renYuanAddType = '';
-                //      $scope.glSelectData = '';
-                //      $scope.guanliParams.selected_bz = '';
-                //      $scope.guanliParams.selected_bm = '';
-                //      $scope.chaXunYuanGong($scope.guanliParams.shenFenZheng);
-                //    }
-                //    else{
-                //      DataService.alertInfFun('err', del.error);
-                //    }
-                //  });
-                //}
               }
               else{
                 DataService.alertInfFun('err', data.error);
@@ -589,10 +572,18 @@ define(['angular', 'config', 'jquery', 'underscore', 'lazy'], function (angular,
         /**
          * 显示弹出层
          */
-        $scope.showKeXuHaoPop = function(item, data){
+        $scope.showKeXuHaoPop = function(item, data, subItem){
           $scope.glSelectData = '';
           $scope.showKeXuHaoManage = true;
           $scope.glEditBoxShow = item;
+          if(item == 'addBuMen'){
+            if(subItem == 'banzu'){
+              $scope.guanliParams.addNewBmTitle = '班组';
+            }
+            else{
+              $scope.guanliParams.addNewBmTitle = '部门';
+            }
+          }
           if(item == 'modifyKeXuHao'){
             $scope.guanliParams.modifyKxh = data.KEXUHAO_MINGCHENG;
           }
@@ -1274,6 +1265,22 @@ define(['angular', 'config', 'jquery', 'underscore', 'lazy'], function (angular,
               DataService.alertInfFun('err', data.error);
             }
           });
+        };
+
+        /**
+         * 清除练习成绩
+         */
+        $scope.clearLianXiScore = function(){
+          if(confirm('确定要清除练习数据吗？')){
+            $http.get(clearLianXiCj).success(function(data){
+              if(data.result){
+                DataService.alertInfFun('suc', '清除练习成绩成功！');
+              }
+              else{
+                DataService.alertInfFun('err', data.error);
+              }
+            });
+          }
         };
 
       }]);

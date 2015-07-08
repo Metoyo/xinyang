@@ -394,6 +394,16 @@ a.add-btn:hover span {
   .popup-wrap .changePsw th {
     border-top: 1px solid #dddddd; }
 
+.popup-wrap-350 .popup-wrap-inner {
+  height: 350px;
+  margin-top: -175px; }
+  .popup-wrap-350 .popup-wrap-inner .pwi-footer {
+    height: 50px; }
+    .popup-wrap-350 .popup-wrap-inner .pwi-footer .btn {
+      font-size: 18px; }
+.popup-wrap-350 .no-header .pwi-body {
+  height: 290px; }
+
 .saveStuSelectInfo .popup-wrap-inner {
   height: 300px; }
   .saveStuSelectInfo .popup-wrap-inner .pwi-body {
@@ -2288,12 +2298,15 @@ label.checkbox {
   .studentWrapper .nav-tabs {
     border-bottom: 1px solid #000; }
   .studentWrapper .tab_content_color {
-    background-color: #EDEFEC; }
+    background-color: #CBE9CF; }
   .studentWrapper .kaoShiDeFen {
     font-size: 40px;
     margin-top: 200px; }
   .studentWrapper .pagination li a {
     font-size: 24px; }
+  .studentWrapper .suoShuBuMen {
+    margin: 10px 0 0 50px;
+    display: block; }
 
 .guanLiWrapper .fixed-top {
   left: 80px; }

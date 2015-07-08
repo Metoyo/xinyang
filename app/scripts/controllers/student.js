@@ -73,7 +73,8 @@ define(['angular', 'config', 'jquery', 'underscore', 'lazy', 'moment'], function
           addBgColor: false, //加背景颜色
           kaoShiDeFen: '', //考试最后得分
           tuiChuKaoShi: false,
-          lianXiKaiQi: false //练习是否开启
+          lianXiKaiQi: false, //练习是否开启
+          stuBuMen: '' //学生部门
         };
         $scope.tiMuIdData = ''; //存放题目id的数据
         $scope.tiMuPage = []; //存放题目分页的数据
@@ -291,6 +292,23 @@ define(['angular', 'config', 'jquery', 'underscore', 'lazy', 'moment'], function
             }
             else{
               $scope.stuParams.lianXiKaiQi = false;
+              DataService.alertInfFun('err', data.error);
+            }
+          });
+        };
+
+        /**
+         * 显示个人详情
+         */
+        var showUserInfo = function(){
+          var yhxxxxApiUrl = baseRzAPIUrl + 'yonghu_xiangxi_xinxi?token=' + token + '&yonghuid=' +
+              $rootScope.session.info.UID; //通过UID查询用户详细的url
+          $http.get(yhxxxxApiUrl).success(function(data){
+            if(data.JIGOU.length){
+              $scope.stuParams.stuBuMen = data.JIGOU[0].JIGOUMINGCHENG;
+            }
+            else{
+              $scope.stuParams.stuBuMen = '';
               DataService.alertInfFun('err', data.error);
             }
           });
@@ -974,7 +992,9 @@ define(['angular', 'config', 'jquery', 'underscore', 'lazy', 'moment'], function
          */
         $scope.kaoShiJieShuConfirm = function(){
           DataService.logout();
-        }
+        };
+
+        showUserInfo();
 
     }]);
 });

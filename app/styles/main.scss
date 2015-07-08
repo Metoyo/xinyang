@@ -442,6 +442,23 @@ a.add-btn:hover span {
     }
   }
 }
+.popup-wrap-350{
+  .popup-wrap-inner{
+    height: 350px;
+    margin-top: -175px;
+    .pwi-footer{
+      height: 50px;
+      .btn{
+        font-size: 18px;
+      }
+    }
+  }
+  .no-header{
+    .pwi-body{
+      height: 290px;
+    }
+  }
+}
 .saveStuSelectInfo{
   .popup-wrap-inner{
     height: 300px;
@@ -2959,7 +2976,7 @@ label.checkbox{
     border-bottom: 1px solid #000;
   }
   .tab_content_color{
-    background-color: #EDEFEC;
+    background-color: #CBE9CF;
   }
   .kaoShiDeFen{
     font-size: 40px;
@@ -2971,6 +2988,10 @@ label.checkbox{
         font-size: 24px;
       }
     }
+  }
+  .suoShuBuMen{
+    margin: 10px 0 0 50px;
+    display: block;
   }
 }
 //管理界面
