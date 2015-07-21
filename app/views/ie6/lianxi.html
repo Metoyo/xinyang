@@ -51,7 +51,8 @@
                 {{if daTi=='单选题'}}
                   {{each tigan.TIGAN.tiZhiNeiRong as tznr j}}
                     <div class="ar-tz">
-                      <input type="radio" name="{{'radio' + tigan.TIMU_ID}}" value="{{j}}" id="{{'radio' + tigan.TIMU_ID + '_' + j}}" onclick="lianXiDaTi('{{tigan.TIMU_ID}}', '{{j}}', '{{tigan.TIXING_ID}}')"/>
+                      <input type="radio" name="{{'radio' + tigan.TIMU_ID}}" value="{{j}}" id="{{'radio' + tigan.TIMU_ID + '_' + j}}"
+                             onclick="lianXiDaTi('{{tigan.TIMU_ID}}', '{{j}}', '{{tigan.TIXING_ID}}')"/>
                       <label for="{{'radio' + tigan.TIMU_ID + '_' + j}}"> ({{letterArr[j]}}) {{tznr}} </label>
                     </div>
                   {{/each}}
@@ -68,11 +69,13 @@
                 {{/if}}
                 {{if daTi=='判断题'}}
                   <div class="ar-tz">
-                    <input type="radio" name="{{'pdRadio' + tigan.TIMU_ID}}" value="1" id="{{'pdRadio' + tigan.TIMU_ID + '_' + 1}}" onclick="lianXiDaTi('{{tigan.TIMU_ID}}', 1, '{{tigan.TIXING_ID}}')"/>
+                    <input type="radio" name="{{'pdRadio' + tigan.TIMU_ID}}" value="1" id="{{'pdRadio' + tigan.TIMU_ID + '_' + 1}}"
+                           onclick="lianXiDaTi('{{tigan.TIMU_ID}}', 1, '{{tigan.TIXING_ID}}')"/>
                     <label for="{{'pdRadio' + tigan.TIMU_ID + '_' + 1}}"> 对 </label>
                   </div>
                   <div class="ar-tz" onclick="lianXiDaTi('{{tigan.TIMU_ID}}', 0)">
-                    <input type="radio" name="{{'pdRadio' + tigan.TIMU_ID}}" value="1" id="{{'pdRadio' + tigan.TIMU_ID + '_' + 0}}" onclick="lianXiDaTi('{{tigan.TIMU_ID}}', 0, '{{tigan.TIXING_ID}}')"/>
+                    <input type="radio" name="{{'pdRadio' + tigan.TIMU_ID}}" value="1" id="{{'pdRadio' + tigan.TIMU_ID + '_' + 0}}"
+                           onclick="lianXiDaTi('{{tigan.TIMU_ID}}', 0, '{{tigan.TIXING_ID}}')"/>
                     <label for="{{'pdRadio' + tigan.TIMU_ID + '_' + 0}}"> 错 </label>
                   </div>
                 {{/if}}
@@ -104,6 +107,17 @@
     <!--登陆人员的姓名-->
     <script id="loggedUserTpl" type="text/html">
       {{xingming}}
+    </script>
+    <!--本次练习的成绩-->
+    <script id="zuoDaChongXianTpl" type="text/html">
+      <h4>
+        <span class="mr10">答对数：{{dds}}</span>
+        <span>答错数：{{dcs}}</span>
+      </h4>
+      <h4 class="text-left">
+        <input type="button" class="btn btn-blue" value="显示练习成绩" onclick="showLianXiChengJi()"/>
+        <input type="button" class="btn btn-blue" value="错题重现" onclick="showWrongItem()"/>
+      </h4>
     </script>
   </head>
   <body>
@@ -181,8 +195,8 @@
           </div>
         </div>
         <div id="lxScoreCont" class="mt15"></div>
+        <div id="zuoDaChongXian" class="mt15"></div>
         <div id="lianXiCont" class="mt15"></div>
-        <div id="paging" class="paging mt15"></div>
       </div>
       <div class="loading-box">
         <img src="/images/loading.gif" alt="" width="64" height="64"/>
@@ -191,9 +205,12 @@
     </div>
     <!--<script type="text/javascript" src="/scripts/ie6/ie6.js"></script>-->
     <script type="text/javascript">
-      var baseKwUrl = 'http://10.230.112.96:4100/api/'; //考务的url
-      var baseMtUrl = 'http://10.230.112.96:4000/api/'; //命题的url
-      var baseRzUrl = 'http://10.230.112.96:3000/api/'; //认证的url
+//      var baseKwUrl = 'http://10.230.112.96:4100/api/'; //考务的url
+//      var baseMtUrl = 'http://10.230.112.96:4000/api/'; //命题的url
+//      var baseRzUrl = 'http://10.230.112.96:3000/api/'; //认证的url
+      var baseKwUrl = 'http://192.168.1.10:4100/api/'; //考务的url
+      var baseMtUrl = 'http://192.168.1.10:4000/api/'; //命题的url
+      var baseRzUrl = 'http://192.168.1.10:3000/api/'; //认证的url
       var uId = '';
       var xingMing = '';
       var token = '12345';
@@ -211,6 +228,10 @@
         'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']; //英文字母序号数组
       var daTiData = []; //存放已答题目数组
       var lianXiSwitch = baseKwUrl + 'lianxi_kaiguan?token=' + token; //关闭练习的开关
+      var lianXiResult = {dds: '', dcs: ''};
+      var wrongTiMu = []; //错误题目
+      var selectTxId = '';
+      var originTmData = ''; //存放原始数据
       $('#xuanTiConditon').show();
       /**
        * 查询练习状态
@@ -380,6 +401,7 @@
                 v[nIndex].TIMU_XUHAO = distTiMuId[hIndex].TIMU_XUHAO + 1;
               });
               tmObj.tiMu = v;
+              originTmData = v;
             });
             template.config('escape', true);
             var html = template('danXuanTpl', tmObj);
@@ -414,11 +436,12 @@
         }
       };
       /**
-       * 得到联系题
+       * 得到练习题
        */
       var getLianXiTi = function(){
         var lianxiKaiShiUrl = baseKwUrl + 'lianxi_kaishi'; //联系开始的抽题的url
         var lxShiChang = $('input[name="lxTime"]:checked').val();
+        selectTxId = $('input[name="itemType"]:checked').val();
         $('.loading-box').show();
         var shujuObj = {
           token: token,
@@ -426,7 +449,7 @@
             UID: uId,
             JIGOU_ID: 1,
             LINGYU_ID: 2,
-            TIXING_ID: $('input[name="itemType"]:checked').val(),
+            TIXING_ID: selectTxId,
             COUNT: $('input[name="itemNum"]:checked').val(),
             ZHISHIDIAN: $('#zyList').val(),
             shichang: lxShiChang
@@ -470,6 +493,7 @@
             if(data.result){
               lianXiData = data;
               tiMuIdData = data.TIMU;
+              daTiData = []; //
               Lazy(data.TIMU).each(function(tm, idx, lst){
                 tm.TIMU_XUHAO = idx;
               });
@@ -543,7 +567,8 @@
                 var daTiObj = {
                   TIMU_ID: xtm,
                   stuDa: dtObj.shuju.ksda,
-                  score: data.result
+                  score: data.result,
+                  tiMuDetail: ''
                 };
                 if(data.result){
                   daTiObj.score = 'right';
@@ -551,6 +576,9 @@
                 else{
                   daTiObj.score = 'wrong';
                 }
+                daTiObj.tiMuDetail = Lazy(tiMuIdData).find(function(tm){
+                  return tm.TIMU_ID == xtm;
+                });
                 daTiData.push(daTiObj);
               }
               if (window.localStorage){
@@ -566,6 +594,7 @@
       /**
        * 结束联系
        */
+      var wrongTmObj = {daTi: '', tiMu: '', letterArr: ''};
       function endLianXi(){
         var lianJeShuTiUrl = baseKwUrl + 'lianxi_jiaojuan'; // 练习交卷
         var endObj = {
@@ -594,8 +623,34 @@
         }
         $.post(lianJeShuTiUrl, endObj, function(data){
           if(data.result){
+            //错误题目放到数组中
+            lianXiResult.dds = endObj.shuju.DDTS;
+            lianXiResult.dcs = endObj.shuju.DCTS;
+            if(selectTxId == 1){
+              wrongTmObj.daTi = '单选题';
+            }
+            if(selectTxId == 2){
+              wrongTmObj.daTi = '多选题';
+            }
+            if(selectTxId == 4){
+              wrongTmObj.daTi = '判断题';
+            }
+            wrongTmObj.letterArr = ziMu;
+            wrongTmObj.tiMu = [];
+            Lazy(daTiData).each(function(tm){
+              if(tm.score == 'wrong'){
+                var findTm = Lazy(originTmData).find(function(otm){
+                  return otm.TIMU_ID == tm.TIMU_ID;
+                });
+                findTm.xsDa = tm.stuDa;
+                wrongTmObj.tiMu.push(findTm);
+              }
+            });
+            var zdHtml = template('zuoDaChongXianTpl', lianXiResult);
+            $('#zuoDaChongXian').html(zdHtml).show();
             lianXiData = '';
             tiMuIdData = '';
+            originTmData = '';
             daTiData = [];
             $('input[name="lxTime"]').attr('checked', false);
             $('input[name="itemType"]').attr('checked', false);
@@ -605,14 +660,56 @@
             $('#lianXiCont').html(html);
             $('#timer').html('');
             $('#endLianXiBtn').hide();
-            $('#xuanTiConditon').show();
             clearInterval(timer);
-            setTimeout('getLianXiScore()', 1000);
           }
           else{
             alert(data.error);
           }
         });
+      }
+      /**
+       * 显示错误题目
+       */
+      function showWrongItem(){
+        var html = template('danXuanTpl', wrongTmObj);
+        $('#lianXiCont').html(html);
+        var idLx = '';
+        if(wrongTmObj.daTi == '单选题'){
+          idLx = 'radio';
+        }
+        if(wrongTmObj.daTi == '多选题'){
+          idLx = 'checkbox';
+        }
+        if(wrongTmObj.daTi == '判断题'){
+          idLx = 'pdRadio';
+        }
+        Lazy(wrongTmObj.tiMu).each(function(tm){
+          var idPar = '#' + idLx + tm.TIMU_ID + '_';
+          if(idLx == 'radio' || idLx == 'pdRadio'){
+            idPar += tm.xsDa;
+            $(idPar).attr('checked', true);
+          }
+          if(idLx == 'checkbox'){
+            var daArr = tm.xsDa.split(',');
+            Lazy(daArr).each(function(da){
+              idPar = '#' + idLx + tm.TIMU_ID + '_' + da;
+              $(idPar).attr('checked', true);
+            });
+          }
+        });
+      }
+      /**
+       * 显示练习成绩
+       */
+      function showLianXiChengJi(){
+        $('#xuanTiConditon').show();
+        var tmObj = {daTi: '', tiMu: '', letterArr: ''};
+        var html = template('danXuanTpl', tmObj);
+        $('#lianXiCont').html(html);
+        lianXiResult = {dds: '', dcs: ''};
+        var zdHtml = template('zuoDaChongXianTpl', lianXiResult);
+        $('#zuoDaChongXian').html(zdHtml).hide();
+        getLianXiScore();
       }
       /**
        * 显示提示答案

@@ -208,6 +208,7 @@ define(['angular', 'config', 'underscore'],
                     };
                     urlArr.push(urlObj);
                     $rootScope.urlArrs = urlArr;
+                    session.userInfo = data;
                     //cookies代码
                     userCookie = {
                       UID: $rootScope.session.info.UID,
