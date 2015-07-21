@@ -2191,7 +2191,7 @@ label.checkbox {
     .tongjiWrapper .tj-ks-box .title input[type='radio'] {
       margin-top: 10px; }
   .tongjiWrapper .tj-ks-box .chart {
-    height: 320px;
+    height: 420px;
     padding: 10px;
     overflow-y: auto; }
   .tongjiWrapper .tj-ks-box .zsd-list-chart {
@@ -2203,7 +2203,7 @@ label.checkbox {
   .tongjiWrapper .tj-ks-box .tj-table {
     margin-top: 0; }
   .tongjiWrapper .tj-ks-box .student-list {
-    height: 300px;
+    height: 400px;
     overflow-y: auto; }
 .tongjiWrapper .banJiList {
   width: 120px;

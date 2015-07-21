@@ -74,7 +74,9 @@ define(['angular', 'config', 'jquery', 'underscore', 'lazy', 'moment'], function
           kaoShiDeFen: '', //考试最后得分
           tuiChuKaoShi: false,
           lianXiKaiQi: false, //练习是否开启
-          stuBuMen: '' //学生部门
+          stuBuMen: '', //学生部门
+          lianXiResultShow: false, //练习程序显示
+          lxWrongItemShow: false //错题重现
         };
         $scope.tiMuIdData = ''; //存放题目id的数据
         $scope.tiMuPage = []; //存放题目分页的数据
@@ -374,32 +376,27 @@ define(['angular', 'config', 'jquery', 'underscore', 'lazy', 'moment'], function
         $scope.stuTabSlide = function(tab){
           $scope.stuParams.stuTabActive = '';
           if(!$scope.isInPracticeOrExam){
+            $scope.tiMuDetail = [];
+            $scope.tiMuDistPage = [];
+            $scope.daTiData = [];
+            $scope.stuParams.startKaoShiState = false;
+            $scope.stuParams.startLianXiState = false;
+            $scope.stuParams.lxWrongItemShow = false;
+            $scope.stuParams.lianXiResultShow = false;
+            $scope.stuParams.addBgColor = false;
+            $scope.stuParams.kaoShiName = '';
+            $scope.stuParams.lxTiMuId = '';
+            $scope.stuParams.lxItemNum = '';
+            $scope.stuParams.zsdId = '';
             if(tab == 'practice'){
               checkLianXiState();
               getDaGangData();
-              $scope.tiMuDetail = [];
-              $scope.tiMuDistPage = [];
-              $scope.daTiData = [];
-              $scope.stuParams.startKaoShiState = false;
-              $scope.stuParams.startLianXiState = false;
-              $scope.stuParams.addBgColor = false;
-              $scope.stuParams.kaoShiName = '';
-              $scope.stuParams.lxTiMuId = '';
-              $scope.stuParams.lxItemNum = '';
-              $scope.stuParams.zsdId = '';
               chaXunLianXiScore();
               $scope.stuParams.stuTabActive = 'practice';
               $scope.stuTpl = 'views/student/practice.html'
             }
             if(tab == 'exam'){
               chaXunKaoShi('exam');
-              $scope.daTiData = [];
-              $scope.tiMuDetail = [];
-              $scope.tiMuDistPage = [];
-              $scope.stuParams.startKaoShiState = false;
-              $scope.stuParams.startLianXiState = false;
-              $scope.stuParams.addBgColor = false;
-              $scope.stuParams.kaoShiName = '';
               $scope.ifClickStartExam = false; //判读是否点击了考试
               $scope.stuParams.stuTabActive = 'exam';
               $scope.stuTpl = 'views/student/exam.html'
@@ -721,6 +718,8 @@ define(['angular', 'config', 'jquery', 'underscore', 'lazy', 'moment'], function
           var errArr = [];
           $scope.tiMuIdData = '';
           $scope.tiMuPage = [];
+          $scope.daTiData = [];
+          $scope.lianXiResult = {dds: 0, dcs: 0}; //练习的正确数和错误数
           deleteLocalStorage();
           Lazy(shujuObj.shuju).each(function(v, k, l){
             if(!v){
@@ -761,6 +760,8 @@ define(['angular', 'config', 'jquery', 'underscore', 'lazy', 'moment'], function
                 $scope.stuParams.zsdId = '';
                 $scope.stuParams.lxItemNum = '';
                 $scope.stuParams.startLianXiState = true;
+                $scope.stuParams.lxWrongItemShow = true;
+                $scope.stuParams.lianXiResultShow = false;
                 $scope.stuParams.addBgColor = true;
                 if($scope.stuParams.lxTime != 999999){
                   kaoshiTime = parseInt($scope.stuParams.lxTime) * 60;
@@ -775,6 +776,7 @@ define(['angular', 'config', 'jquery', 'underscore', 'lazy', 'moment'], function
                 $scope.lianXiData = '';
                 $scope.tiMuIdData = '';
                 $scope.stuParams.startLianXiState = false;
+                $scope.stuParams.lxWrongItemShow = false;
                 $scope.stuParams.addBgColor = false;
                 DataService.alertInfFun('err', data.error);
               }
@@ -804,7 +806,6 @@ define(['angular', 'config', 'jquery', 'underscore', 'lazy', 'moment'], function
                 }
                 else{
                   lastDxDa = Lazy(lastDxDa).reject(function(da){return da == idxDa;}).toArray();
-                  console.log(lastDxDa);
                 }
               }
               else{
@@ -845,7 +846,8 @@ define(['angular', 'config', 'jquery', 'underscore', 'lazy', 'moment'], function
                   var daTiObj = {
                     TIMU_ID: xtm.TIMU_ID,
                     stuDa: dtObj.shuju.ksda,
-                    score: data.result
+                    score: data.result,
+                    tiMuDetail: xtm
                   };
                   if(data.result){
                     daTiObj.score = 'right';
@@ -897,8 +899,36 @@ define(['angular', 'config', 'jquery', 'underscore', 'lazy', 'moment'], function
           }
           $http.post(lianJeShuTiUrl, endObj).success(function(data){
             if(data.result){
-              $scope.stuParams.startLianXiState = false;
-              $scope.stuParams.addBgColor = false;
+              console.log($scope.daTiData);
+              $scope.tiMuDetail = [];
+              //统计本次练习的答对数、答错数和答错题目
+              var tmObj = {daTi: '', tiMu: []};
+              if($scope.stuParams.lxTiMuId == 1){
+                tmObj.daTi = '单选题';
+              }
+              if($scope.stuParams.lxTiMuId == 2){
+                tmObj.daTi = '多选题';
+              }
+              if($scope.stuParams.lxTiMuId == 4){
+                tmObj.daTi = '判断题';
+              }
+              var stuHasAnsewer = JSON.parse(localStorage.getItem(stuDaArr));
+              Lazy(stuHasAnsewer).each(function(wtm){
+                if(wtm.score == "wrong"){
+                  if($scope.stuParams.lxTiMuId == 2){
+                    wtm.tiMuDetail.ksKsDa = wtm.stuDa;
+                  }
+                  $scope.lianXiResult.dcs ++;
+                  tmObj.tiMu.push(wtm.tiMuDetail);
+                }
+                else{
+                  $scope.lianXiResult.dds ++;
+                }
+              });
+              $scope.tiMuDetail.push(tmObj);
+              $scope.tiMuPage = []; //将分页设置为空
+              $scope.stuParams.lxWrongItemShow = false;
+              $scope.stuParams.lianXiResultShow = true;
               $scope.stuParams.lxTiMuId = '';
               $scope.stuParams.lxTime = '';
               $scope.stuParams.lxItemNum = '';
@@ -907,16 +937,32 @@ define(['angular', 'config', 'jquery', 'underscore', 'lazy', 'moment'], function
               $('#timer').html('');
               kaoshiTime = '';
               timer = '';
-              localStorage.removeItem(stuDaArr);
-              deleteLocalStorage();
               $scope.isInPracticeOrExam = false;
-              chaXunLianXiScore();
               DataService.alertInfFun('suc', '提交成功！');
             }
             else{
               DataService.alertInfFun('err', data.error);
             }
           });
+        };
+
+        /**
+         * 显示错题
+         */
+        $scope.showWrongItem = function(){
+          $scope.currentTmPageVal = 1;
+          $scope.stuParams.lxWrongItemShow = true;
+        };
+
+        /**
+         * 显示练习成绩
+         */
+        $scope.showLianXiChengJi = function(){
+          $scope.stuParams.startLianXiState = false;
+          $scope.stuParams.addBgColor = false;
+          localStorage.removeItem(stuDaArr);
+          deleteLocalStorage();
+          chaXunLianXiScore();
         };
 
         /**

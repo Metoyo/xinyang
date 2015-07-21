@@ -102,23 +102,18 @@
 </div>
 <!--具体的题目-->
 <div class="row" ng-show="stuParams.startLianXiState">
-  <!--<div class="numPerPage">-->
-  <!--<span>每页题目数量：</span>-->
-  <!--<label class="radio-inline">-->
-  <!--<input type="radio" name="tiMuNum" value="10" ng-model="stuParams.tmNumPerPage" ng-click="changeNumPerPage(10)"> 10-->
-  <!--</label>-->
-  <!--<label class="radio-inline">-->
-  <!--<input type="radio" name="tiMuNum" value="20" ng-model="stuParams.tmNumPerPage" ng-click="changeNumPerPage(20)"> 20-->
-  <!--</label>-->
-  <!--<label class="radio-inline">-->
-  <!--<input type="radio" name="tiMuNum" value="50" ng-model="stuParams.tmNumPerPage" ng-click="changeNumPerPage(50)"> 50-->
-  <!--</label>-->
-  <!--<label class="radio-inline">-->
-  <!--<input type="radio" name="tiMuNum" value="100" ng-model="stuParams.tmNumPerPage" ng-click="changeNumPerPage(100)"> 100-->
-  <!--</label>-->
-  <!--</div>-->
+  <div class="lianXiChengJi" ng-show="stuParams.lianXiResultShow">
+    <h4>
+      <span class="mr10">答对数：{{lianXiResult.dds}}</span>
+      <span>答错数：{{lianXiResult.dcs}}</span>
+    </h4>
+    <h4 class="text-left">
+      <button type="button" class="btn btn-default" ng-click="showLianXiChengJi()">显示练习成绩</button>
+      <button type="button" class="btn btn-default" ng-click="showWrongItem()">错题重现</button>
+    </h4>
+  </div>
   <!--题目容器-->
-  <div class="answerReappearWrap">
+  <div class="answerReappearWrap" ng-show="stuParams.lxWrongItemShow">
     <h2 class="text-center">
       <span ng-bind="stuParams.kaoShiName"></span>
     </h2>

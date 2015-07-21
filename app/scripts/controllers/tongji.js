@@ -1,5 +1,5 @@
-define(['angular', 'config', 'charts','jquery', 'underscore', 'lazy', 'moment'],
-  function (angular, config, charts, $, _, lazy, moment) {
+define(['angular', 'config', 'charts','jquery', 'underscore', 'lazy', 'saveas'],
+  function (angular, config, charts, $, _, lazy, saveas) {
   'use strict';
 
   /**
@@ -10,8 +10,8 @@ define(['angular', 'config', 'charts','jquery', 'underscore', 'lazy', 'moment'],
    * Controller of the xinyangApp
    */
   angular.module('xinyangApp.controllers.TongjiCtrl', [])
-    .controller('TongjiCtrl', ['$rootScope', '$scope', '$http', '$timeout', 'DataService',
-      function ($rootScope, $scope, $http, $timeout, DataService) {
+    .controller('TongjiCtrl', ['$rootScope', '$scope', '$http', '$timeout', 'DataService', '$window',
+      function ($rootScope, $scope, $http, $timeout, DataService, $window) {
         /**
          * 操作title
          */
@@ -59,7 +59,8 @@ define(['angular', 'config', 'charts','jquery', 'underscore', 'lazy', 'moment'],
           lineDataBanJi: ''
         }; //存放统计参数的Object
         var tjBarData = []; //柱状图数据
-        var exportStuInfoUrl = baseTjAPIUrl + 'export_to_excel'; //导出excel名单
+        //var exportStuInfoUrl = baseTjAPIUrl + 'export_to_excel'; //导出excel名单
+        var exportStuInfoUrl = baseGGAPIUrl + 'json2excel'; //导出excel名单
         var downloadTempFileBase = config.apiurl_tj_ori + 'download_temp_file/';
         var answerReappearBaseUrl = baseTjAPIUrl + 'answer_reappear?token=' + token; //作答重现的url
         var tjKaoShiIds = []; //查询考试数据用到的存放考试ID的数组
@@ -388,11 +389,13 @@ define(['angular', 'config', 'charts','jquery', 'underscore', 'lazy', 'moment'],
          * 导出学生,需要的数据为考生列表
          */
         $scope.exportKsInfo = function(stuData){
+          //var ksData = {
+          //  //sheetName: '',
+          //  json: {}
+          //};
           var ksData = {
-              token: token,
-              sheetName: '',
-              data: ''
-            };
+
+          };
           var ksArr = [];
           var mydateNew = new Date();
           var year = mydateNew.getFullYear(); //根据世界时从 Date 对象返回四位数的年份
@@ -412,36 +415,9 @@ define(['angular', 'config', 'charts','jquery', 'underscore', 'lazy', 'moment'],
           if(minute < 10){
             minute = '0' + minute;
           }
-          ksData.sheetName = year + month + day + hour + minute;
-          //ksArr.push({col1: '身份证', col2: '姓名', col3: '成绩', col4: '考试时间',
-          //  col5: '正确数', col6: '错误数',col7: '试卷名称', col8: '部门', col9: '班组'});
-          //_.each(stuData, function(ks){
-          //  var ksObj = {
-          //    ZHENGJIANHAO: '',
-          //    XINGMING: '',
-          //    ZUIHOU_PINGFEN: '',
-          //    KAISHISHIJIAN: '',
-          //    ZQS: '',
-          //    CWS: '',
-          //    SHIJUAN_MINGCHENG: '',
-          //    BUMEN_MINGCHENG: '',
-          //    BANZU_MINGCHENG: ''
-          //  };
-          //  ksObj.ZHENGJIANHAO = ks.ZHENGJIANHAO;
-          //  ksObj.XINGMING = ks.XINGMING;
-          //  ksObj.ZUIHOU_PINGFEN = ks.ZUIHOU_PINGFEN;
-          //  ksObj.KAISHISHIJIAN = ks.KAISHISHIJIAN;
-          //  ksObj.ZQS = ks.ZQS;
-          //  ksObj.CWS = ks.CWS;
-          //  ksObj.SHIJUAN_MINGCHENG = ks.SHIJUAN_MINGCHENG;
-          //  ksObj.BUMEN_MINGCHENG = ks.BUMEN_MINGCHENG;
-          //  ksObj.BANZU_MINGCHENG = ks.BANZU_MINGCHENG;
-          //  ksArr.push(ksObj);
-          //});
-          //ksData.data = JSON.stringify(ksArr);
-
+          var myData = year + month + day + hour + minute;
+          //ksData.sheetName = myData;
           //新代码
-          var newData = {};
           _.each(stuData, function(ks){
             var ksObj = {
               '身份证': '',
@@ -465,32 +441,202 @@ define(['angular', 'config', 'charts','jquery', 'underscore', 'lazy', 'moment'],
             ksObj['班组'] = ks.BANZU_MINGCHENG;
             ksArr.push(ksObj);
           });
-          newData[ksData.sheetName] = ksArr;
+          ksData[myData] = ksArr;
+
+          //ksData.json[myData] = ksArr;
+
+          var ksArr2 = [
+            {
+              "UID":"3",
+              "姓名":"董泉",
+              "身份证":"413023197110280011",
+              "密码":"123456",
+              "部门":"变电运维工区",
+              "班组":"",
+              "专业":""
+            },
+            {
+              "UID":"4",
+              "姓名":"李秋霞 ",
+              "身份证":"413001197010150588",
+              "密码":"123456",
+              "部门":"检修试验工区",
+              "班组":"保护二班",
+              "专业":""
+            },
+            {
+              "UID":"5",
+              "姓名":"孙春雷 ",
+              "身份证":"413001196707124895",
+              "密码":"123456",
+              "部门":"检修试验工区",
+              "班组":"管理人员",
+              "专业":""
+            },
+            {
+              "UID":"6",
+              "姓名":"解东波 ",
+              "身份证":"413001197004300535",
+              "密码":"123456",
+              "部门":"检修试验工区",
+              "班组":"管理人员",
+              "专业":"变电检修"
+            },
+            {
+              "UID":"7",
+              "姓名":"李清恩 ",
+              "身份证":"413001196405150078",
+              "密码":"123456",
+              "部门":"检修试验工区",
+              "班组":"管理人员",
+              "专业":""
+            },
+            {
+              "UID":"8",
+              "姓名":"蔡胜群 ",
+              "身份证":"413001196112230015",
+              "密码":"123456",
+              "部门":"检修试验工区",
+              "班组":"管理人员",
+              "专业":""
+            },
+            {
+              "UID":"9",
+              "姓名":"余信生 ",
+              "身份证":"413023195707160056",
+              "密码":"26267099",
+              "部门":"检修试验工区",
+              "班组":"检修一班",
+              "专业":"变电检修"
+            },
+            {
+              "UID":"10",
+              "姓名":"潘长明 ",
+              "身份证":"413001196310140037",
+              "密码":"123456",
+              "部门":"检修试验工区",
+              "班组":"检修一班",
+              "专业":""
+            }
+          ];
+
+          var bodyData = {};
+          bodyData[myData] = ksArr2;
+          var bodyStr = JSON.stringify(bodyData);
+
+          //var newUrl = 'http://192.168.1.10:5000/json2excel?json=';
+          //newUrl += bodyStr;
+
           var newUrl = 'http://192.168.1.10:5000/json2excel';
-          console.log(newData);
-          $http({
-            method: 'POST',
-            url: newUrl,
-            data: $.param(newData),
-            dataType: 'json',
-            headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-          }).success(function(data){
-            console.log(data);
-            var downloadTempFile = downloadTempFileBase + data.filename,
-              aLink = document.createElement('a'),
-              evt = document.createEvent("HTMLEvents");
-            evt.initEvent("click", false, false);//initEvent 不加后两个参数在FF下会报错, 感谢 Barret Lee 的反馈
-            aLink.href = downloadTempFile; //url
-            aLink.dispatchEvent(evt);
-          });
-          //$http.post(newUrl, newData).success(function(data){
+
+
+          //$http.get(newUrl).success(function(data){
+          //  //window.open(newUrl);
           //  console.log(data);
-          //  var downloadTempFile = downloadTempFileBase + data.filename,
-          //    aLink = document.createElement('a'),
-          //    evt = document.createEvent("HTMLEvents");
-          //  evt.initEvent("click", false, false);//initEvent 不加后两个参数在FF下会报错, 感谢 Barret Lee 的反馈
-          //  aLink.href = downloadTempFile; //url
-          //  aLink.dispatchEvent(evt);
+          //  //var blob = new Blob(
+          //  //  [data],
+          //  //  {type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"}
+          //  //);
+          //  //saveAs(blob, myData + '.xlsx');
+          //});
+          //console.log(ksData);
+          //$.get(newUrl, function(data){
+          //  console.log(data);
+          //});
+
+          //$.ajax({
+          //  url: newUrl,
+          //  type: "POST",
+          //  data: {json: bodyStr},
+          //  header:{
+          //    'Content-type': 'application/json',
+          //    'Accept': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+          //  },
+          //  responseType: 'arraybuffer',
+          //  beforeSend: function(XMLHttpRequest){
+          //  },
+          //  success: function(data, textStatus, jqXHR){
+          //    console.log(jqXHR);
+          //    console.log(data);
+          //    console.log(textStatus);
+          //  },
+          //  complete: function(data){ // XMLHttpRequest.responseText
+          //    console.log(data);
+          //    var blob = new Blob(
+          //      [data.responseText]
+          //      //{type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"}
+          //    );
+          //    saveAs(blob, myData + '.xlsx');
+          //  },
+          //  error: function(XMLHttpRequest){
+          //    DataService.alertInfFun('err', XMLHttpRequest.error);
+          //  }
+          //});
+
+          //$http({
+          //  method: "POST",
+          //  url: newUrl,
+          //  data: {json: bodyStr},
+          //  headers: {
+          //    'Content-Type': undefined
+          //    //'Accept': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+          //  },
+          //  responseType: 'arraybuffer'
+          //}).success(function(data, status, headers){
+          //  $("body").append("<iframe src='" + data + "' style='display: block;' ></iframe>");
+          //  //var arrayBuffer = data;
+          //  //var byteArray = new Uint8Array(arrayBuffer);
+          //  //console.log(data[0]);
+          //  //console.log(typeof data);
+          //  //
+          //  //console.log(status);
+          //  //console.log(headers);
+          //  //var blob = new Blob(
+          //  //  [data],
+          //  //  {type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'}
+          //  //);
+          //  //saveAs(blob);
+          //  //window.open(newUrl);
+          //});
+
+          //post的备份
+          $http({
+            method: "POST",
+            url: newUrl,
+            data: {json: bodyStr},
+            headers: {
+              'Content-Type': 'application/download',
+              'Accept': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+            },
+            responseType: 'arraybuffer'
+          }).success(function(data, status, headers){
+
+            console.log(data);
+            //console.log(typeof(data));
+            var blob = new Blob(
+              [data],
+              {type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"}
+            );
+            saveAs(blob, myData + '.xlsx');
+          });
+
+          ////能够执行，少量数据
+          //$http({
+          //  method: "GET",
+          //  url: newUrl,
+          //  params: {json: bodyStr},
+          //  headers: {
+          //    'Content-type': 'application/json',
+          //    'Accept': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+          //  },
+          //  responseType: 'arraybuffer'
+          //}).success(function(data){
+          //  console.log(data);
+          //  var blob = new Blob(
+          //    [data],
+          //    {type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"}
+          //  );
+          //  saveAs(blob, myData + '.xlsx');
           //});
         };
 
