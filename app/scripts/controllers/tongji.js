@@ -388,6 +388,31 @@ define(['angular', 'config', 'charts','jquery', 'underscore', 'lazy', 'saveas'],
         /**
          * 导出学生,需要的数据为考生列表
          */
+        function submitFORM(path, params, method) {
+          method = method || "post";
+
+          var form = document.createElement("form");
+          form.setAttribute("method", method);
+          form.setAttribute("action", path);
+
+          //Move the submit function to another variable
+          //so that it doesn't get overwritten.
+          form._submit_function_ = form.submit;
+
+          for(var key in params) {
+            if(params.hasOwnProperty(key)) {
+              var hiddenField = document.createElement("input");
+              hiddenField.setAttribute("type", "hidden");
+              hiddenField.setAttribute("name", key);
+              hiddenField.setAttribute("value", params[key]);
+
+              form.appendChild(hiddenField);
+            }
+          }
+
+          document.body.appendChild(form);
+          form._submit_function_();
+        }
         $scope.exportKsInfo = function(stuData){
           //var ksData = {
           //  //sheetName: '',
@@ -521,7 +546,7 @@ define(['angular', 'config', 'charts','jquery', 'underscore', 'lazy', 'saveas'],
           ];
 
           var bodyData = {};
-          bodyData[myData] = ksArr2;
+          bodyData['myData'] = ksArr;
           var bodyStr = JSON.stringify(bodyData);
 
           //var newUrl = 'http://192.168.1.10:5000/json2excel?json=';
@@ -573,17 +598,27 @@ define(['angular', 'config', 'charts','jquery', 'underscore', 'lazy', 'saveas'],
           //  }
           //});
 
+          submitFORM(newUrl, {json: bodyStr}, 'POST');
+
           //$http({
           //  method: "POST",
           //  url: newUrl,
           //  data: {json: bodyStr},
           //  headers: {
-          //    'Content-Type': undefined
-          //    //'Accept': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+          //    'Content-Type': undefined,
+          //    'Accept': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
           //  },
           //  responseType: 'arraybuffer'
           //}).success(function(data, status, headers){
-          //  $("body").append("<iframe src='" + data + "' style='display: block;' ></iframe>");
+          //  //var aLink = document.createElement('a');
+          //  //var blob = new Blob([data]);
+          //  //var evt = document.createEvent("HTMLEvents");
+          //  //evt.initEvent("click", false, false);//initEvent 不加后两个参数在FF下会报错, 感谢 Barret Lee 的反馈
+          //  //aLink.download = 'songtao.xlsx';
+          //  //aLink.href = "data:text/plain," + data;
+          //  //aLink.dispatchEvent(evt);
+          //
+          //  //$("body").append("<iframe src='" + data + "' style='display: block;' ></iframe>");
           //  //var arrayBuffer = data;
           //  //var byteArray = new Uint8Array(arrayBuffer);
           //  //console.log(data[0]);
@@ -591,34 +626,34 @@ define(['angular', 'config', 'charts','jquery', 'underscore', 'lazy', 'saveas'],
           //  //
           //  //console.log(status);
           //  //console.log(headers);
-          //  //var blob = new Blob(
-          //  //  [data],
-          //  //  {type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'}
-          //  //);
-          //  //saveAs(blob);
-          //  //window.open(newUrl);
+          //  var blob = new Blob(
+          //    [data],
+          //    {type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'}
+          //  );
+          //  saveAs(blob);
+          //  //window.open(newUrl + '/' + blob);
           //});
 
-          //post的备份
-          $http({
-            method: "POST",
-            url: newUrl,
-            data: {json: bodyStr},
-            headers: {
-              'Content-Type': 'application/download',
-              'Accept': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
-            },
-            responseType: 'arraybuffer'
-          }).success(function(data, status, headers){
-
-            console.log(data);
-            //console.log(typeof(data));
-            var blob = new Blob(
-              [data],
-              {type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"}
-            );
-            saveAs(blob, myData + '.xlsx');
-          });
+          //post的备份  使用用window.open 方法！！！ bodyData['sontao'] = ksArr2;
+          //$http({
+          //  method: "POST",
+          //  url: newUrl,
+          //  data: {json: bodyStr},
+          //  headers: {
+          //    'Content-Type': undefined,
+          //    'Accept': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+          //  },
+          //  responseType: 'arraybuffer'
+          //}).success(function(data, status, headers){
+          //
+          //  console.log(data);
+          //  //console.log(typeof(data));
+          //  var blob = new Blob(
+          //    [data],
+          //    {type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"}
+          //  );
+          //  saveAs(blob, myData + '.xlsx');
+          //});
 
           ////能够执行，少量数据
           //$http({

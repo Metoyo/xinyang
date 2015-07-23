@@ -24,42 +24,49 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="nav.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/scripts/controllers/nav.js">
+      <file leaf-file-name="student.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/scripts/controllers/student.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-7.7777777" vertical-offset="62" max-vertical-offset="3824">
-              <caret line="17" column="50" selection-start-line="17" selection-start-column="50" selection-end-line="17" selection-end-column="50" />
-              <folding />
+            <state vertical-scroll-proportion="0.0" vertical-offset="6427" max-vertical-offset="9104">
+              <caret line="384" column="54" selection-start-line="384" selection-start-column="54" selection-end-line="384" selection-end-column="54" />
+              <folding>
+                <element signature="e#4312#5357#0" expanded="false" />
+                <element signature="e#5442#6976#0" expanded="false" />
+                <element signature="e#7066#7621#0" expanded="false" />
+                <element signature="e#7711#8260#0" expanded="false" />
+                <element signature="e#8345#9276#0" expanded="false" />
+                <element signature="e#9357#9914#0" expanded="false" />
+                <element signature="e#10009#10307#0" expanded="false" />
+                <element signature="e#10393#10773#0" expanded="false" />
+                <element signature="e#10855#11355#0" expanded="false" />
+                <element signature="e#11439#12403#0" expanded="false" />
+                <element signature="e#12486#13438#0" expanded="false" />
+                <element signature="e#15846#18127#0" expanded="false" />
+                <element signature="e#22437#24605#0" expanded="false" />
+                <element signature="e#24735#25777#0" expanded="false" />
+                <element signature="e#26524#27285#0" expanded="false" />
+                <element signature="e#28939#29071#0" expanded="false" />
+                <element signature="e#29198#29890#0" expanded="false" />
+                <element signature="e#30099#31421#0" expanded="false" />
+                <element signature="e#35631#35682#0" expanded="false" />
+                <element signature="e#35763#36323#0" expanded="false" />
+                <element signature="e#35789#35878#0" expanded="false" />
+                <element signature="e#35915#36313#0" expanded="false" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="renzheng.js" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/app/scripts/controllers/renzheng.js">
+      <file leaf-file-name="tongji.js" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app/scripts/controllers/tongji.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.38411668" vertical-offset="3123" max-vertical-offset="5120">
-              <caret line="210" column="44" selection-start-line="210" selection-start-column="44" selection-end-line="210" selection-end-column="44" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="nav.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/views/partials/nav.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-11.52" vertical-offset="32" max-vertical-offset="1056">
-              <caret line="20" column="63" selection-start-line="20" selection-start-column="50" selection-end-line="20" selection-end-column="63" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="main.scss" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/styles/main.scss">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-8.68" vertical-offset="6887" max-vertical-offset="49168">
-              <caret line="444" column="16" selection-start-line="444" selection-start-column="16" selection-end-line="444" selection-end-column="16" />
-              <folding />
+            <state vertical-scroll-proportion="0.47670808" vertical-offset="7613" max-vertical-offset="22976">
+              <caret line="570" column="0" selection-start-line="570" selection-start-column="0" selection-end-line="570" selection-end-column="0" />
+              <folding>
+                <element signature="e#15750#15764#0" expanded="false" />
+                <element signature="e#17429#19286#0" expanded="false" />
+                <element signature="e#20072#20082#0" expanded="false" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -112,7 +119,6 @@
         <option value="$USER_HOME$/Downloads/package.json" />
         <option value="$PROJECT_DIR$/app/views/tongji/tj_ks_chart.html" />
         <option value="$PROJECT_DIR$/app/scripts/config.js" />
-        <option value="$PROJECT_DIR$/app/scripts/controllers/tongji.js" />
         <option value="$PROJECT_DIR$/app/views/student/student.html" />
         <option value="$PROJECT_DIR$/app/views/student/practice.html" />
         <option value="$PROJECT_DIR$/app/scripts/controllers/student.js" />
@@ -120,6 +126,7 @@
         <option value="$PROJECT_DIR$/app/styles/main.scss" />
         <option value="$PROJECT_DIR$/app/scripts/controllers/nav.js" />
         <option value="$PROJECT_DIR$/app/scripts/controllers/renzheng.js" />
+        <option value="$PROJECT_DIR$/app/scripts/controllers/tongji.js" />
       </list>
     </option>
   </component>
@@ -135,7 +142,7 @@
     <detection-done>true</detection-done>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="28" />
+    <option name="x" value="23" />
     <option name="y" value="23" />
     <option name="width" value="1257" />
     <option name="height" value="777" />
@@ -287,10 +294,14 @@
     </key>
   </component>
   <component name="RunManager">
+    <configuration default="true" type="DartCommandLineRunConfigurationType" factoryName="Dart Command Line Application">
+      <method />
+    </configuration>
     <configuration default="true" type="DartUnitRunConfigurationType" factoryName="DartUnit">
       <method />
     </configuration>
-    <configuration default="true" type="DartCommandLineRunConfigurationType" factoryName="Dart Command Line Application">
+    <configuration default="true" type="JavaScriptTestRunnerKarma" factoryName="Karma" config-file="">
+      <envs />
       <method />
     </configuration>
     <configuration default="true" type="JSTestDriver:ConfigurationType" factoryName="JsTestDriver">
@@ -298,10 +309,6 @@
       <setting name="settingsFile" value="" />
       <setting name="serverType" value="INTERNAL" />
       <setting name="preferredDebugBrowser" value="Chrome" />
-      <method />
-    </configuration>
-    <configuration default="true" type="JavaScriptTestRunnerKarma" factoryName="Karma" config-file="">
-      <envs />
       <method />
     </configuration>
     <configuration default="true" type="JavascriptDebugType" factoryName="JavaScript Debug">
@@ -340,7 +347,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="28" y="23" width="1257" height="777" extended-state="0" />
+    <frame x="23" y="23" width="1257" height="777" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -354,7 +361,7 @@
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24938272" sideWeight="0.49927008" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.22386831" sideWeight="0.66861314" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2271605" sideWeight="0.66861314" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3286119" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -644,7 +651,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="264" max-vertical-offset="28192">
           <caret line="22" column="51" selection-start-line="22" selection-start-column="8" selection-end-line="22" selection-end-column="51" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -739,48 +745,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/scripts/controllers/tongji.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.24844721" vertical-offset="8128" max-vertical-offset="23232">
-          <caret line="518" column="21" selection-start-line="518" selection-start-column="21" selection-end-line="518" selection-end-column="21" />
-          <folding>
-            <element signature="e#19201#19211#0" expanded="false" />
-            <element signature="e#20310#20319#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/scripts/controllers/student.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.38043478" vertical-offset="2283" max-vertical-offset="9104">
-          <caret line="384" column="54" selection-start-line="384" selection-start-column="54" selection-end-line="384" selection-end-column="54" />
-          <folding>
-            <element signature="e#4312#5357#0" expanded="false" />
-            <element signature="e#5442#6976#0" expanded="false" />
-            <element signature="e#7066#7621#0" expanded="false" />
-            <element signature="e#7711#8260#0" expanded="false" />
-            <element signature="e#8345#9276#0" expanded="false" />
-            <element signature="e#9357#9914#0" expanded="false" />
-            <element signature="e#10009#10307#0" expanded="false" />
-            <element signature="e#10393#10773#0" expanded="false" />
-            <element signature="e#10855#11355#0" expanded="false" />
-            <element signature="e#11439#12403#0" expanded="false" />
-            <element signature="e#12486#13438#0" expanded="false" />
-            <element signature="e#15846#18127#0" expanded="false" />
-            <element signature="e#22437#24605#0" expanded="false" />
-            <element signature="e#24735#25777#0" expanded="false" />
-            <element signature="e#26524#27285#0" expanded="false" />
-            <element signature="e#28939#29071#0" expanded="false" />
-            <element signature="e#29198#29890#0" expanded="false" />
-            <element signature="e#30099#31421#0" expanded="false" />
-            <element signature="e#35631#35682#0" expanded="false" />
-            <element signature="e#35763#36323#0" expanded="false" />
-            <element signature="e#35789#35878#0" expanded="false" />
-            <element signature="e#35915#36313#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/views/student/student.html">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.1693038" vertical-offset="197" max-vertical-offset="1104">
@@ -833,7 +797,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/views/partials/nav.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-11.52" vertical-offset="32" max-vertical-offset="1056">
+        <state vertical-scroll-proportion="0.0" vertical-offset="32" max-vertical-offset="1056">
           <caret line="20" column="63" selection-start-line="20" selection-start-column="50" selection-end-line="20" selection-end-column="63" />
           <folding />
         </state>
@@ -841,25 +805,68 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/styles/main.scss">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-8.68" vertical-offset="6887" max-vertical-offset="49168">
+        <state vertical-scroll-proportion="0.0" vertical-offset="6887" max-vertical-offset="49168">
           <caret line="444" column="16" selection-start-line="444" selection-start-column="16" selection-end-line="444" selection-end-column="16" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/scripts/controllers/nav.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-7.7777777" vertical-offset="62" max-vertical-offset="3824">
-          <caret line="17" column="50" selection-start-line="17" selection-start-column="50" selection-end-line="17" selection-end-column="50" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/scripts/controllers/renzheng.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.38411668" vertical-offset="3123" max-vertical-offset="5120">
+        <state vertical-scroll-proportion="-0.07919255" vertical-offset="3411" max-vertical-offset="5120">
           <caret line="210" column="44" selection-start-line="210" selection-start-column="44" selection-end-line="210" selection-end-column="44" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/scripts/controllers/nav.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.3196347" vertical-offset="62" max-vertical-offset="3824">
+          <caret line="17" column="50" selection-start-line="17" selection-start-column="50" selection-end-line="17" selection-end-column="50" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/scripts/controllers/student.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="6427" max-vertical-offset="9104">
+          <caret line="384" column="54" selection-start-line="384" selection-start-column="54" selection-end-line="384" selection-end-column="54" />
+          <folding>
+            <element signature="e#4312#5357#0" expanded="false" />
+            <element signature="e#5442#6976#0" expanded="false" />
+            <element signature="e#7066#7621#0" expanded="false" />
+            <element signature="e#7711#8260#0" expanded="false" />
+            <element signature="e#8345#9276#0" expanded="false" />
+            <element signature="e#9357#9914#0" expanded="false" />
+            <element signature="e#10009#10307#0" expanded="false" />
+            <element signature="e#10393#10773#0" expanded="false" />
+            <element signature="e#10855#11355#0" expanded="false" />
+            <element signature="e#11439#12403#0" expanded="false" />
+            <element signature="e#12486#13438#0" expanded="false" />
+            <element signature="e#15846#18127#0" expanded="false" />
+            <element signature="e#22437#24605#0" expanded="false" />
+            <element signature="e#24735#25777#0" expanded="false" />
+            <element signature="e#26524#27285#0" expanded="false" />
+            <element signature="e#28939#29071#0" expanded="false" />
+            <element signature="e#29198#29890#0" expanded="false" />
+            <element signature="e#30099#31421#0" expanded="false" />
+            <element signature="e#35631#35682#0" expanded="false" />
+            <element signature="e#35763#36323#0" expanded="false" />
+            <element signature="e#35789#35878#0" expanded="false" />
+            <element signature="e#35915#36313#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/scripts/controllers/tongji.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.47670808" vertical-offset="7613" max-vertical-offset="22976">
+          <caret line="570" column="0" selection-start-line="570" selection-start-column="0" selection-end-line="570" selection-end-column="0" />
+          <folding>
+            <element signature="e#15750#15764#0" expanded="false" />
+            <element signature="e#17429#19286#0" expanded="false" />
+            <element signature="e#20072#20082#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
