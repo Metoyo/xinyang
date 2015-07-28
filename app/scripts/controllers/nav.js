@@ -15,12 +15,17 @@ define(['angular', 'config','jquery', 'underscore'],
         /**
          * 定义变量
          */
-        var userInfo = $rootScope.session.userInfo;
-        var caozuoyuan = userInfo.UID;//登录的用户的UID
+        var userInfo;
+        var caozuoyuan;//登录的用户的UID
         var baseRzAPIUrl = config.apiurl_rz; //renzheng的api
         var token = config.token;
         var operateJgUrl = baseRzAPIUrl + 'jigou'; //操作机构基础url
         var modifyJgYh = baseRzAPIUrl + 'jigou_yonghu'; //修改用户的机构
+
+        if($rootScope.session){
+          userInfo = $rootScope.session.userInfo;
+          caozuoyuan = userInfo.UID;//登录的用户的UID
+        }
 
         $scope.userInfoLayer = false;
         $scope.navData = {

@@ -443,25 +443,30 @@ define(['angular', 'config', 'jquery', 'underscore', 'lazy'], function (angular,
               singleWordData.kexuhaoid = $scope.guanliParams.selected_zy;
               $http.post(modifyKxhYh, singleWordData).success(function(data){
                 if(data.result){
-                  if($scope.glSelectData){
-                    var originKxh = {
-                      token: token,
-                      kexuhaoid: $scope.glSelectData.KEXUHAO_ID,
-                      users: [{uid: $scope.glSelectData.UID, zhuangtai: -1}]
-                    };
-                    $http.post(modifyKxhYh, originKxh).success(function(delKxh){
-                      if(delKxh.result){
-                        DataService.alertInfFun('suc', '修改机构或专业成功！');
-                        $scope.renYuanAddType = '';
-                        $scope.glSelectData = '';
-                        $scope.guanliParams.selected_zy = '';
-                        $scope.chaXunYuanGong($scope.guanliParams.shenFenZheng);
-                      }
-                      else{
-                        DataService.alertInfFun('err', delKxh.error);
-                      }
-                    });
-                  }
+                  DataService.alertInfFun('suc', '修改机构或专业成功！');
+                  $scope.renYuanAddType = '';
+                  $scope.glSelectData = '';
+                  $scope.guanliParams.selected_zy = '';
+                  $scope.chaXunYuanGong($scope.guanliParams.shenFenZheng);
+                  //if($scope.glSelectData){
+                  //  var originKxh = {
+                  //    token: token,
+                  //    kexuhaoid: $scope.glSelectData.KEXUHAO_ID,
+                  //    users: [{uid: $scope.glSelectData.UID, zhuangtai: -1}]
+                  //  };
+                  //  $http.post(modifyKxhYh, originKxh).success(function(delKxh){
+                  //    if(delKxh.result){
+                  //      DataService.alertInfFun('suc', '修改机构或专业成功！');
+                  //      $scope.renYuanAddType = '';
+                  //      $scope.glSelectData = '';
+                  //      $scope.guanliParams.selected_zy = '';
+                  //      $scope.chaXunYuanGong($scope.guanliParams.shenFenZheng);
+                  //    }
+                  //    else{
+                  //      DataService.alertInfFun('err', delKxh.error);
+                  //    }
+                  //  });
+                  //}
 
                 }
                 else{

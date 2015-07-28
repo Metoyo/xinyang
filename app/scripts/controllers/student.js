@@ -260,7 +260,7 @@ define(['angular', 'config', 'jquery', 'underscore', 'lazy', 'moment'], function
           }
           else{
             var addActiveFun = function() {
-              $scope.endKaoShi();
+              $scope.endKaoShi('autoEnd');
             };
             DataService.alertInfFun('pmt', '考试结束，试卷即将自动提交！');
             $timeout(addActiveFun, 2000);
@@ -668,35 +668,52 @@ define(['angular', 'config', 'jquery', 'underscore', 'lazy', 'moment'], function
         /**
          * 结束考试{result: true, defen: 85, zhengque: 85, cuowu: 15}
          */
-        $scope.endKaoShi = function(){
+        $scope.endKaoShi = function(ksPar){
           var endObj = {
             token: token,
             shuju: {
               ZHUCE_ID: $scope.kaoShiData.ZHUCE_ID
             }
           };
-          $http.post(endKaoShiUrl, endObj).success(function(data){
-            if(data.result){
-              $scope.stuParams.startKaoShiState = false;
-              $scope.stuParams.addBgColor = false;
-              $scope.stuParams.kaoShiName = '';
-              $interval.cancel(timer);
-              $('#timer').html('');
-              kaoshiTime = '';
-              timer = '';
-              localStorage.removeItem(stuDaArr);
-              deleteLocalStorage();
-              $scope.isInPracticeOrExam = false;
-              $scope.ifClickStartExam = false;
-              $scope.stuParams.kaoShiDeFen = data.defen;
-              $scope.stuParams.tuiChuKaoShi = true;
-              //chaXunKaoShi();
-              //DataService.alertInfFun('suc', '提交成功！');
-            }
-            else{
-              DataService.alertInfFun('err', data.error);
-            }
-          });
+          var allTiMu = $scope.tiMuIdData.length; //题目总长度
+          var defnArr = JSON.parse(localStorage.getItem(stuDaArr)); //已答题目
+          var defnArrLen;
+          var shengYuTiMu;
+          var confirmInfo;
+          if(defnArr && defnArr.length > 0){
+            defnArrLen = defnArr.length;
+            shengYuTiMu = allTiMu - defnArrLen;
+          }
+          if(ksPar && ksPar == 'autoEnd'){
+            confirmInfo = true;
+          }
+          else{
+            confirmInfo = confirm('你还有' + shengYuTiMu + '未做！');
+          }
+          if(confirmInfo){
+            $http.post(endKaoShiUrl, endObj).success(function(data){
+              if(data.result){
+                $scope.stuParams.startKaoShiState = false;
+                $scope.stuParams.addBgColor = false;
+                $scope.stuParams.kaoShiName = '';
+                $interval.cancel(timer);
+                $('#timer').html('');
+                kaoshiTime = '';
+                timer = '';
+                localStorage.removeItem(stuDaArr);
+                deleteLocalStorage();
+                $scope.isInPracticeOrExam = false;
+                $scope.ifClickStartExam = false;
+                $scope.stuParams.kaoShiDeFen = data.defen;
+                $scope.stuParams.tuiChuKaoShi = true;
+                //chaXunKaoShi();
+                //DataService.alertInfFun('suc', '提交成功！');
+              }
+              else{
+                DataService.alertInfFun('err', data.error);
+              }
+            });
+          }
         };
 
         /**

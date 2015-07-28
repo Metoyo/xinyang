@@ -272,10 +272,10 @@ define(['angular','config', 'jquery', 'underscore'], function (angular, config, 
           $http.post(xgMoRenDaGangUrl, defaultDg).success(function(result) {
             if(result.result){
               getMoRenDaGangFun();
-              DataService.alertInfFun('suc', '将此大纲设置为默认大纲的操作成功！');
+              DataService.alertInfFun('suc', '保存成功！');
             }
             else{
-              DataService.alertInfFun('suc', '将此大纲设置为默认大纲的操作失败！');
+              DataService.alertInfFun('suc', '保存失败！');
             }
           });
         };

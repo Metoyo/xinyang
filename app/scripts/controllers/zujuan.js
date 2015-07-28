@@ -731,10 +731,11 @@ define(['angular', 'config', 'jquery', 'underscore'],
         };
 
         /**
-         * 点击添加新试卷，显示组卷列表
+         * 点击添加新试卷，显示组卷列表//
          */
         $scope.showZuJuanPage = function(){
           $scope.showBackToPaperListBtn = true;
+          $scope.zuJuanGuiZeSummary = '';
           $scope.txTpl = 'views/zujuan/paper_preview.html';
         };
 
