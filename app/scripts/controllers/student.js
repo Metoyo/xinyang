@@ -688,7 +688,8 @@ define(['angular', 'config', 'jquery', 'underscore', 'lazy', 'moment'], function
             confirmInfo = true;
           }
           else{
-            confirmInfo = confirm('你还有' + shengYuTiMu + '未做！');
+            //confirmInfo = confirm('你还有' + shengYuTiMu + '未做！');
+            confirmInfo = true;
           }
           if(confirmInfo){
             $http.post(endKaoShiUrl, endObj).success(function(data){

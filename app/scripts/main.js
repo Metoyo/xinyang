@@ -12,8 +12,7 @@ require.config({
     charts: '../bower_components/echarts/echarts-plain',
     intimidatetime: '../bower_components/intimidatetime/intimidatetime',
     lazy: '../bower_components/lazy/lazy.min',
-    moment: '../bower_components/moment/min/moment.min',
-    saveas: '../bower_components/requirejs/saveas'
+    moment: '../bower_components/moment/min/moment.min'
 
     //angular: '../../bower_components/angular/angular',
     //'angular-cookies': '../../bower_components/angular-cookies/angular-cookies',

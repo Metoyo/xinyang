@@ -180,10 +180,10 @@ define(['angular', 'config', 'intimidatetime', 'jquery', 'underscore', 'lazy'],
               ztArr = [];
               break;
             case 'ing':
-              ztArr = [0, 1, 2, 3, 4];
+              ztArr = [0, 1, 2];
               break;
             case 'done':
-              ztArr = [5, 6];
+              ztArr = [3, 4, 5, 6];
               break;
           }
           $scope.kwParams.ksListZt = zt;

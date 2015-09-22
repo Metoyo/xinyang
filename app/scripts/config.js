@@ -4,21 +4,23 @@
 define( "config", [], function () {
   return {
     token: '12345',
-    //apiurl_rz: "http://10.230.112.96:3000/api/",//认证的url
-    //apiurl_mt: "http://10.230.112.96:4000/api/",//命题的url
-    //apiurl_kw: "http://10.230.112.96:4100/api/",//考务的url
-    //apiurl_tj: "http://10.230.112.96:4300/api/",//统计的url
-    //apiurl_tj_ori: "http://10.230.112.96:4300/",//统计的原始url
-    //apiurl_bm: "http://10.230.112.96:4400/api/",//报名的url
-    //apiurl_gg: "http://10.230.112.96:2000/",//公共接口
+    apiurl_rz: "http://10.230.112.96:3000/api/",//认证的url
+    apiurl_mt: "http://10.230.112.96:4000/api/",//命题的url
+    apiurl_kw: "http://10.230.112.96:4100/api/",//考务的url
+    apiurl_tj: "http://10.230.112.96:4300/api/",//统计的url
+    apiurl_tj_ori: "http://10.230.112.96:4300/",//统计的原始url
+    apiurl_bm: "http://10.230.112.96:4400/api/",//报名的url
+    apiurl_gg: "http://10.230.112.96:2000/",//公共接口
+    apiurl_e2j: "http://10.230.112.96:5000/",//excel to json
 
-    apiurl_rz: "http://192.168.1.10:3000/api/",//认证的url
-    apiurl_mt: "http://192.168.1.10:4000/api/",//命题的url
-    apiurl_kw: "http://192.168.1.10:4100/api/",//考务的url
-    apiurl_tj: "http://192.168.1.10:4300/api/",//统计的url
-    apiurl_tj_ori: "http://192.168.1.10:4300/",//统计的原始url
-    apiurl_bm: "http://192.168.1.10:4400/",//报名的url
-    apiurl_gg: "http://192.168.1.10:2000/",//公共接口
+    //apiurl_rz: "http://192.168.1.10:3000/api/",//认证的url
+    //apiurl_mt: "http://192.168.1.10:4000/api/",//命题的url
+    //apiurl_kw: "http://192.168.1.10:4100/api/",//考务的url
+    //apiurl_tj: "http://192.168.1.10:4300/api/",//统计的url
+    //apiurl_tj_ori: "http://192.168.1.10:4300/",//统计的原始url
+    //apiurl_bm: "http://192.168.1.10:4400/",//报名的url
+    //apiurl_gg: "http://192.168.1.10:2000/",//公共接口
+    //apiurl_e2j: "http://192.168.1.10:5000/",//excel to json
 
     secret: '076ee61d63aa10a125ea872411e433b9',
     hostname: 'localhost:3000',
